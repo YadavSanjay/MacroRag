@@ -1,0 +1,3 @@
+# Globs (repo-relative) protected like spec tests: changed only on spec/<id> branches.
+# Golden sets and shared fixtures, e.g.:
+# test/eval/golden/**

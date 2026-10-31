@@ -1,0 +1,47 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-11",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-reserve-distinct/test_srd_c1_new_documents.py::test_taiwan_shape_reserves_new_documents",
+      "test/spec/synth-reserve-distinct/test_srd_c1_new_documents.py::test_multi_chunk_document_takes_one_slot",
+      "test/spec/synth-reserve-distinct/test_srd_c1_new_documents.py::test_reserved_documents_follow_rule"
+    ],
+    "C2": [
+      "test/spec/synth-reserve-distinct/test_srd_c2_no_new_documents.py::test_document_already_in_w0_adds_nothing",
+      "test/spec/synth-reserve-distinct/test_srd_c2_no_new_documents.py::test_slots_do_not_change_winners_when_d_empty"
+    ]
+  },
+  "files": {
+    "test/spec/synth-reserve-distinct/conftest.py": "ea125240e288212ca8a04198b181031bbc2e49e0bdf38c218cd952c5bbef14c8",
+    "test/spec/synth-reserve-distinct/test_srd_c1_new_documents.py": "b41d52a2d44055624a85385eef4aa6d9902bba241ce4a838063ec352216dabf5",
+    "test/spec/synth-reserve-distinct/test_srd_c2_no_new_documents.py": "7cdfce9f3387198966dcaa5926fdbfa343182403cfcabff3a6f80fa4e963203a"
+  },
+  "id": "synth-reserve-distinct",
+  "interface": [],
+  "nodes": [
+    "test/spec/synth-reserve-distinct/test_srd_c1_new_documents.py::test_multi_chunk_document_takes_one_slot",
+    "test/spec/synth-reserve-distinct/test_srd_c1_new_documents.py::test_reserved_documents_follow_rule",
+    "test/spec/synth-reserve-distinct/test_srd_c1_new_documents.py::test_taiwan_shape_reserves_new_documents",
+    "test/spec/synth-reserve-distinct/test_srd_c2_no_new_documents.py::test_document_already_in_w0_adds_nothing",
+    "test/spec/synth-reserve-distinct/test_srd_c2_no_new_documents.py::test_slots_do_not_change_winners_when_d_empty"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-reserve-distinct.md",
+    "sha256": "eaade0ab2c61ed8f2c1a270da7af0be529b8c7f3fea4a33741b7ba31d6b2d998"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

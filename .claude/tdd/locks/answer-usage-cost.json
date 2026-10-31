@@ -1,0 +1,107 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-19",
+  "criteria": {
+    "C1": [
+      "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_priced_aggregate_by_hand",
+      "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_mixed_priced_and_unpriced_by_hand",
+      "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_none_aggregate_is_free_and_complete[False]",
+      "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_none_aggregate_is_free_and_complete[True]",
+      "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_property_block_matches_definitions"
+    ],
+    "C2": [
+      "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_answer_usage_then_cached_hit[False]",
+      "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_answer_usage_then_cached_hit[True]",
+      "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_doubling_token_counts_doubles_cost[False]",
+      "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_doubling_token_counts_doubles_cost[True]",
+      "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_property_answer_usage_matches_the_call_log"
+    ],
+    "C3": [
+      "test/spec/answer-usage-cost/test_auc_c3_synthesize.py::test_synthesize_usage_then_cached_query_step[False]",
+      "test/spec/answer-usage-cost/test_auc_c3_synthesize.py::test_synthesize_usage_then_cached_query_step[True]",
+      "test/spec/answer-usage-cost/test_auc_c3_synthesize.py::test_synthesize_costs_more_than_its_cached_repeat",
+      "test/spec/answer-usage-cost/test_auc_c3_synthesize.py::test_property_synthesize_usage_matches_the_call_log"
+    ],
+    "C4": [
+      "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_all_unpriced_is_free_but_incomplete[answer]",
+      "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_all_unpriced_is_free_but_incomplete[synthesize]",
+      "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_mixed_counts_only_the_priced_calls",
+      "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_pricing_the_unpriced_calls_only_raises_cost",
+      "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_property_cost_is_the_priced_sum_finite_and_nonnegative"
+    ],
+    "C5": [
+      "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_stream_answer_event_usage[False]",
+      "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_stream_answer_event_usage[True]",
+      "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_mcp_tool_usage[macro_query]",
+      "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_mcp_tool_usage[macro_synthesize_shock_vector]",
+      "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_surface_usage_equals_the_matching_query[stream]",
+      "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_surface_usage_equals_the_matching_query[macro_query]",
+      "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_surface_usage_equals_the_matching_query[macro_synthesize_shock_vector]",
+      "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_property_surface_usage_matches_the_call_log"
+    ]
+  },
+  "files": {
+    "test/spec/answer-usage-cost/conftest.py": "d6294a8e1c09f93c636d4fc53b492cfd090716015b44639d6850b7548949b775",
+    "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py": "83bac985b8136d0382a8612d2f50d92848e2b2de5e3a6296fad910874ea83807",
+    "test/spec/answer-usage-cost/test_auc_c2_answer.py": "ac6cd0b4b629443aabe3db7c4015d5ea64e057bb29efbdf4f897a0506b64e7fb",
+    "test/spec/answer-usage-cost/test_auc_c3_synthesize.py": "58672e5a7bef3ce2c24b628d5d30bf9045e3416e3d7f876c880e9186b47a93cf",
+    "test/spec/answer-usage-cost/test_auc_c4_unpriced.py": "e92ba5fe083a4a52ecbb810db0ca09e8028d65793dcae38b49c3e1edfac31465",
+    "test/spec/answer-usage-cost/test_auc_c5_surfaces.py": "bd02a7caf2a3efe4ec5929221947311ba8f283e2f6aac71153ab9b2359bfd98e"
+  },
+  "id": "answer-usage-cost",
+  "interface": [
+    {
+      "file": "src/api/models.py",
+      "module": "api.models",
+      "qualname": "usage_to_dict",
+      "signature": "def usage_to_dict(agg: UsageAggregate | None, *, cached: bool) -> dict[str, Any]"
+    }
+  ],
+  "nodes": [
+    "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_mixed_priced_and_unpriced_by_hand",
+    "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_none_aggregate_is_free_and_complete[False]",
+    "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_none_aggregate_is_free_and_complete[True]",
+    "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_priced_aggregate_by_hand",
+    "test/spec/answer-usage-cost/test_auc_c1_usage_to_dict.py::test_property_block_matches_definitions",
+    "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_answer_usage_then_cached_hit[False]",
+    "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_answer_usage_then_cached_hit[True]",
+    "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_doubling_token_counts_doubles_cost[False]",
+    "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_doubling_token_counts_doubles_cost[True]",
+    "test/spec/answer-usage-cost/test_auc_c2_answer.py::test_property_answer_usage_matches_the_call_log",
+    "test/spec/answer-usage-cost/test_auc_c3_synthesize.py::test_property_synthesize_usage_matches_the_call_log",
+    "test/spec/answer-usage-cost/test_auc_c3_synthesize.py::test_synthesize_costs_more_than_its_cached_repeat",
+    "test/spec/answer-usage-cost/test_auc_c3_synthesize.py::test_synthesize_usage_then_cached_query_step[False]",
+    "test/spec/answer-usage-cost/test_auc_c3_synthesize.py::test_synthesize_usage_then_cached_query_step[True]",
+    "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_all_unpriced_is_free_but_incomplete[answer]",
+    "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_all_unpriced_is_free_but_incomplete[synthesize]",
+    "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_mixed_counts_only_the_priced_calls",
+    "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_pricing_the_unpriced_calls_only_raises_cost",
+    "test/spec/answer-usage-cost/test_auc_c4_unpriced.py::test_property_cost_is_the_priced_sum_finite_and_nonnegative",
+    "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_mcp_tool_usage[macro_query]",
+    "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_mcp_tool_usage[macro_synthesize_shock_vector]",
+    "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_property_surface_usage_matches_the_call_log",
+    "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_stream_answer_event_usage[False]",
+    "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_stream_answer_event_usage[True]",
+    "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_surface_usage_equals_the_matching_query[macro_query]",
+    "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_surface_usage_equals_the_matching_query[macro_synthesize_shock_vector]",
+    "test/spec/answer-usage-cost/test_auc_c5_surfaces.py::test_surface_usage_equals_the_matching_query[stream]"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/answer-usage-cost.md",
+    "sha256": "8d822484b48897f0c0d48018bb896f9b3e2e6d36352c5bc7c479e835765098d1"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

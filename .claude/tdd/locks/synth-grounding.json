@@ -1,0 +1,86 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-11",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-grounding/test_sg_c1_extract_filters.py::test_spec_examples_exact_tag_sets",
+      "test/spec/synth-grounding/test_sg_c1_extract_filters.py::test_cue_inside_longer_word_yields_no_tag_point_cases",
+      "test/spec/synth-grounding/test_sg_c1_extract_filters.py::test_ai_embedded_in_a_word_never_tags",
+      "test/spec/synth-grounding/test_sg_c1_extract_filters.py::test_whole_word_cue_tags_and_embedded_ai_does_not"
+    ],
+    "C2": [
+      "test/spec/synth-grounding/test_sg_c2_scenario_admission.py::test_heuristic_entity_facet_admits_scenario_studies_only",
+      "test/spec/synth-grounding/test_sg_c2_scenario_admission.py::test_other_facets_still_apply_to_scenario_studies",
+      "test/spec/synth-grounding/test_sg_c2_scenario_admission.py::test_caller_entity_tags_stay_a_hard_filter",
+      "test/spec/synth-grounding/test_sg_c2_scenario_admission.py::test_probe_admission_follows_rule"
+    ],
+    "C3": [
+      "test/spec/synth-grounding/test_sg_c3_mcp_diagnostics.py::test_empty_model_vector_reports_llm_empty_over_mcp",
+      "test/spec/synth-grounding/test_sg_c3_mcp_diagnostics.py::test_grounded_field_reports_grounded_over_mcp",
+      "test/spec/synth-grounding/test_sg_c3_mcp_diagnostics.py::test_mcp_body_equals_rest_serialization"
+    ],
+    "C4": [
+      "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_point_cases",
+      "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_none_reads_unavailable_and_plain_text_untouched",
+      "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_boundary_cases_of_the_grammar",
+      "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_matches_grammar_and_is_idempotent",
+      "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_is_identity_without_the_key",
+      "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_synthesize_prose_carries_real_id_rest_and_mcp",
+      "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_synthesize_without_manifest_claims_unavailable"
+    ]
+  },
+  "files": {
+    "test/spec/synth-grounding/conftest.py": "7daa4e434a8a1644e59a4ef254a1e76e2f35578d8fbe6c8327119e26c3310d85",
+    "test/spec/synth-grounding/test_sg_c1_extract_filters.py": "ac00a8cdb606b28272120c8c033f411632584977ae03078a73d2599eff87692a",
+    "test/spec/synth-grounding/test_sg_c2_scenario_admission.py": "857458e58170ab1ca27f7d409a8c14e1a69a34b019313c13095652d9c6c81d45",
+    "test/spec/synth-grounding/test_sg_c3_mcp_diagnostics.py": "fa806cee72de47b51b59a5b94831aace60773962b0ced772a896103343fdd25b",
+    "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py": "9d19390f3cde1841923eb6876f442633c2852c92e7670979b4f27866121e8e45"
+  },
+  "id": "synth-grounding",
+  "interface": [
+    {
+      "file": "src/llm/sanitize.py",
+      "module": "llm.sanitize",
+      "qualname": "scrub_world_view_claims",
+      "signature": "def scrub_world_view_claims(text: str, world_view_id: str | None) -> str"
+    }
+  ],
+  "nodes": [
+    "test/spec/synth-grounding/test_sg_c1_extract_filters.py::test_ai_embedded_in_a_word_never_tags",
+    "test/spec/synth-grounding/test_sg_c1_extract_filters.py::test_cue_inside_longer_word_yields_no_tag_point_cases",
+    "test/spec/synth-grounding/test_sg_c1_extract_filters.py::test_spec_examples_exact_tag_sets",
+    "test/spec/synth-grounding/test_sg_c1_extract_filters.py::test_whole_word_cue_tags_and_embedded_ai_does_not",
+    "test/spec/synth-grounding/test_sg_c2_scenario_admission.py::test_caller_entity_tags_stay_a_hard_filter",
+    "test/spec/synth-grounding/test_sg_c2_scenario_admission.py::test_heuristic_entity_facet_admits_scenario_studies_only",
+    "test/spec/synth-grounding/test_sg_c2_scenario_admission.py::test_other_facets_still_apply_to_scenario_studies",
+    "test/spec/synth-grounding/test_sg_c2_scenario_admission.py::test_probe_admission_follows_rule",
+    "test/spec/synth-grounding/test_sg_c3_mcp_diagnostics.py::test_empty_model_vector_reports_llm_empty_over_mcp",
+    "test/spec/synth-grounding/test_sg_c3_mcp_diagnostics.py::test_grounded_field_reports_grounded_over_mcp",
+    "test/spec/synth-grounding/test_sg_c3_mcp_diagnostics.py::test_mcp_body_equals_rest_serialization",
+    "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_boundary_cases_of_the_grammar",
+    "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_is_identity_without_the_key",
+    "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_matches_grammar_and_is_idempotent",
+    "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_none_reads_unavailable_and_plain_text_untouched",
+    "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_scrub_point_cases",
+    "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_synthesize_prose_carries_real_id_rest_and_mcp",
+    "test/spec/synth-grounding/test_sg_c4_world_view_scrub.py::test_synthesize_without_manifest_claims_unavailable"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-grounding.md",
+    "sha256": "5901f7fb17d977fa2fc60df70d814aa25e99c046099f50def09eb2479d71fa59"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

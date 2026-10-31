@@ -1,0 +1,36 @@
+# Macro RAG — golden retrieval set (small, tied to the real corpus).
+# `match_field` is the chunk-payload key a relevant hit must carry; `expected`
+# is the gold set for that field. `filter` (optional) seeds a MetaFilter.
+
+questions:
+  - question: "What is the 2026 severely adverse unemployment rate path in the Fed supervisory stress test?"
+    match_field: source_id
+    expected: ["dfast"]
+
+  - question: "What did the latest FOMC Summary of Economic Projections show for the federal funds rate?"
+    match_field: source_id
+    expected: ["press_monetary"]
+
+  - question: "What is the FOMC's current target range for the federal funds rate?"
+    match_field: doc_type
+    expected: ["fomc_statement"]
+
+  - question: "What are the recent BIS export controls on advanced semiconductors to China?"
+    match_field: source_id
+    expected: ["federal_register"]
+
+  - question: "How much will data center electricity demand grow according to the energy outlook?"
+    match_field: factor_tags
+    expected: ["data_center_power", "electricity_demand"]
+
+  - question: "What is the house view on AI capex concentration risk?"
+    match_field: factor_tags
+    expected: ["ai_capex", "hyperscaler_concentration"]
+
+  - question: "What does the IMF say about AI and productivity risk to global growth?"
+    match_field: source_id
+    expected: ["imf_reports"]
+
+  - question: "What is the outlook for the term premium and long-end Treasury supply?"
+    match_field: factor_tags
+    expected: ["term_premium"]

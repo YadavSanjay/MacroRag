@@ -1,0 +1,127 @@
+# Macro RAG CI (§L) — active pipeline: lint + unit/integration tests + image build.
+# Tests use fakes (no torch / FlagEmbedding / network), so they run on a plain
+# ubuntu runner with no GPU and no model downloads. Live LLM/regression gates need
+# secrets and run as a scheduled/manual job, not here.
+name: ci
+
+on:
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
+
+permissions:
+  contents: read
+
+# Actions are pinned to commit SHAs (version in the trailing comment) and Python packages to exact
+# versions in requirements-dev.txt; upgrade deliberately.
+jobs:
+  # Blocking: critical bugs only (F, E9), as before. The full standards tier is reported by the
+  # advisory `standards` job below until the gate is turned hard.
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: astral-sh/ruff-action@4919ec5cf1f49eff0871dbcea0da843445b837e6 # v3.6.1
+        with: { version: "0.14.2", args: "check src test --select F,E9" }
+
+  # Coding standards: ruff at the configured tier, Google docstrings on changed lines, and the
+  # ratchet check (burn-down list only shrinks; lint config and pins only tighten). ADVISORY:
+  # findings go to the job summary and never fail the workflow.
+  standards:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with: { fetch-depth: 0 }   # the checks compare against the merge-base with origin/main
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with: { python-version: "3.12", cache: pip }
+      - name: Install pinned dev deps
+        run: pip install -r requirements-dev.txt
+      - name: Ruff
+        id: ruff
+        continue-on-error: true
+        run: ruff check . --output-format github
+      - name: New code (Google docstrings on changed lines)
+        id: newcode
+        continue-on-error: true
+        run: python tools/standards/check_standards.py new-code | tee newcode.txt
+      - name: Ratchet
+        id: ratchet
+        continue-on-error: true
+        run: python tools/standards/check_standards.py ratchet | tee ratchet.txt
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Coding standards (advisory)"
+            echo "| Check | Result |"
+            echo "|---|---|"
+            echo "| ruff | ${{ steps.ruff.outcome }} |"
+            echo "| new code | ${{ steps.newcode.outcome }} |"
+            echo "| ratchet | ${{ steps.ratchet.outcome }} |"
+            for f in newcode.txt ratchet.txt; do
+              if [ -s "$f" ]; then echo; echo "### $f"; echo '```'; head -100 "$f"; echo '```'; fi
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with: { python-version: "3.12" }
+      # Same light, pinned dependency set as `test`: mypy needs the typed libraries
+      # importable to check the call sites against them. Untyped/optional deps
+      # (yaml, bs4, boto3, redis, FlagEmbedding, …) are handled in mypy.ini.
+      - name: Install pinned deps + mypy
+        run: pip install -r requirements-dev.txt
+      - name: "mypy (config: mypy.ini)"
+        run: mypy src/
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with: { python-version: "3.12" }
+      - name: Install pinned test deps (light — fakes avoid torch/FlagEmbedding)
+        run: pip install -r requirements-dev.txt
+      - name: Run tests
+        env: { PYTHONPATH: src }
+        run: pytest test/ -q
+
+  ui-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with: { node-version: "24.14.0", cache: "npm", cache-dependency-path: ui/package-lock.json }
+      - name: Install + type-check + build (npm run build runs tsc)
+        working-directory: ui
+        run: |
+          npm ci
+          npm run build
+
+  security-scan:
+    runs-on: ubuntu-latest
+    continue-on-error: true          # advisory: don't block merges on a new CVE feed
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with: { python-version: "3.12" }
+      - name: pip-audit (dependency CVEs)
+        run: |
+          python -m pip install pip-audit==2.10.1
+          # Audit both the full dev set and the lightweight serving set that ships in the image.
+          pip-audit -r requirements.txt || true
+          pip-audit -r requirements-serve.txt || true
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      # Both images build from the repo root. The backend is lightweight (no torch,
+      # requirements-serve.txt); the UI is the nginx SPA + /api proxy.
+      - name: Build backend image (no push)
+        run: docker build -f infra/docker/Dockerfile -t macrorag:ci .
+      - name: Build UI image (no push)
+        run: docker build -f ui/Dockerfile -t macrorag-ui:ci .

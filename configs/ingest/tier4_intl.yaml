@@ -1,0 +1,191 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — Tier 4 ingestion catalog: International Official Institutions
+#
+# Implements Ingestion Design §2.5 (endpoint catalog) and §7 (per-endpoint
+# blueprint). Channels: IMF -> global outlook + AI-productivity-risk framing;
+# BIS -> financial-system + USD-liquidity narrative (#15-19 spread, #26/#27
+# funding); BoJ -> USD/JPY policy channel (#27).
+#
+# Two cross-jurisdictional novelties vs Tiers 1-3 (§7): (a) multiple hosts, each
+# its own release calendar; (b) a formal SDMX 3.0 API alongside PDF reports.
+# Four endpoints are PDF (URL-construction discovery, reuse the PDF pipeline);
+# the IMF SDMX API is the only structurally novel piece.
+# ─────────────────────────────────────────────────────────────────────────────
+
+tier: 4
+name: "International Official Institutions"
+publisher: "International Official Institutions"
+licence: "official_free_attribution"     # copyrighted but free-to-download; attribute
+base_url: "https://www.bis.org"
+
+defaults:
+  poll_cadence: "weekly"
+  rate_limit_per_sec: 1.0
+
+endpoints:
+
+  # ── Endpoint 3 — BIS Quarterly Review ─────────────
+  - id: "bis_quarterly"
+    handler: "bis_quarterly"
+    title: "BIS Quarterly Review"
+    enabled: true
+    publisher: "Bank for International Settlements"
+    bucket: "B"
+    poll_cadence: "weekly"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.bis.org/publications/qr"
+    release_schedule:
+      frequency: "3x_per_year"
+      months: ["March", "September", "December"]   # NOT 4x — June is a no-show (§7.6 #4)
+      note: "deterministic URL qr-{YYYYMM}.pdf; markets section + boxes are highest-signal"
+    factor_tags: ["credit_spread", "term_premium", "usd_funding", "fx"]
+    entity_tags: ["ai"]
+    trades: ["#26", "#27", "#15-19", "#28-30"]
+    content:
+      # bis.org moved in 2026: the old r_qt{YYMM}.pdf URLs 301 to an HTML page.
+      full_url_pattern: "https://www.bis.org/publications/qr-{YYYYMM}.pdf"
+      # Article PDFs are slug-named, so they are scraped: issue page -> article
+      # pages -> each article page's PDF link.
+      issue_page_pattern: "https://www.bis.org/publications/qr-{YYYYMM}"
+      article_link_pattern: "/publications/qr-{YYYYMM}/[a-z0-9-]+$"
+      max_articles: 8
+      issue_months: [3, 9, 12]
+      years_back: 1
+      max_issues: 1
+      section_headings:
+        - "Asset markets"
+        - "Sovereign bond markets"
+        - "Corporate credit"
+        - "Emerging market"
+        - "Foreign exchange"
+        - "Box A"
+        - "Box B"
+        - "Box C"
+        - "Box D"
+
+  # ── Endpoint 4 — BIS Annual Economic Report ────────────────────────────────
+  - id: "bis_annual"
+    handler: "bis_annual"
+    title: "BIS Annual Economic Report"
+    enabled: true
+    publisher: "Bank for International Settlements"
+    bucket: "B"
+    poll_cadence: "weekly"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.bis.org/publications/aer"
+    release_schedule:
+      frequency: "annual"
+      months: ["June"]
+      note: "single ~150pp PDF; financial-system chapter is highest-signal"
+    factor_tags: ["usd_funding", "credit_spread", "systemic"]
+    entity_tags: []
+    trades: ["#15-19", "#26", "#27", "#28-30"]
+    content:
+      # bis.org moved in 2026 (was publ/arpdf/ar{YYYY}e.pdf, now 301s to HTML).
+      pdf_url_pattern: "https://www.bis.org/publications/aer-{YYYY}.pdf"
+      years_back: 1
+      max_issues: 1
+      section_headings:
+        - "Introduction"
+        - "global economy"
+        - "Monetary policy"
+        - "financial system"
+
+  # ── Endpoint 2 — IMF WEO + GFSR PDFs ───────────────────────────────────────
+  - id: "imf_reports"
+    handler: "imf_reports"
+    title: "IMF WEO + GFSR"
+    enabled: true
+    publisher: "International Monetary Fund"
+    bucket: "B"
+    poll_cadence: "weekly"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.imf.org/en/publications/weo"
+    release_schedule:
+      frequency: "4x_per_year"
+      months: ["April", "October"]
+      note: "April+October main; Jan+Jul updates; multi-PDF bundle (treat issue as one event)"
+    factor_tags: ["growth", "inflation", "valuation_stretch", "ai_productivity_risk"]
+    entity_tags: ["ai"]
+    trades: ["all", "tail"]
+    content:
+      media_base: "https://www.imf.org/-/media/files/publications/{pub}/{year}/{month}/english/"
+      publications:
+        - {key: "weo", label: "World Economic Outlook"}
+        - {key: "gfsr", label: "Global Financial Stability Report"}
+      # Components vary per release; each is HEAD-probed and only fetched on 200.
+      components: ["foreword", "execsum", "ch1", "ch2", "ch3", "statsappendix", "text"]
+      existence_sentinel: "ch1"      # if this 200s, the issue exists
+      release_months: ["october", "april"]
+      years_back: 1
+      max_issues_per_pub: 1
+      section_headings:
+        - "Global Outlook"
+        - "Advanced Economies"
+        - "Emerging Market"
+        - "Risk Assessment"          # AI-productivity-risk language lives here
+        - "Policy Priorities"
+
+  # ── Endpoint 5 — BoJ Outlook Report ────────────────────────────────────────
+  - id: "boj_outlook"
+    handler: "boj_outlook"
+    title: "BoJ Outlook Report"
+    enabled: true
+    publisher: "Bank of Japan"
+    bucket: "B"
+    poll_cadence: "weekly"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.boj.or.jp/en/mopo/outlook/"
+    release_schedule:
+      frequency: "4x_per_year"
+      months: ["January", "April", "July", "October"]
+      note: "English edition only (/en/ path); projection tables -> time-series store"
+    factor_tags: ["fx", "inflation", "monetary_policy"]
+    entity_tags: []
+    trades: ["#27"]
+    content:
+      pdf_url_pattern: "https://www.boj.or.jp/en/mopo/outlook/gor{YYMM}a.pdf"
+      outlook_months: [1, 4, 7, 10]
+      years_back: 1
+      max_issues: 1
+      ts_source: "BoJ_Outlook_projections"
+      section_headings:
+        - "Baseline Scenario of the Outlook for Economic Activity"
+        - "Baseline Scenario of the Outlook for Prices"
+        - "Risks to the Outlook"
+        - "Conduct of Monetary Policy"
+
+  # ── Endpoint 1 — IMF SDMX 3.0 API ──────────────────
+  - id: "imf_sdmx"
+    handler: "imf_sdmx"
+    title: "IMF SDMX 3.0 API"
+    enabled: true
+    publisher: "International Monetary Fund"
+    bucket: "C"                       # rolling cross-country numeric backbone
+    poll_cadence: "weekly"
+    discovery:
+      type: "api"
+      url: "https://api.imf.org/external/sdmx/3.0"
+    release_schedule:
+      frequency: "2x_per_year_major"
+      note: "WEO underlying updates Apr+Oct major, Jan+Jul minor"
+    factor_tags: ["growth", "inflation", "fiscal", "fx"]
+    entity_tags: []
+    trades: ["rates", "fx", "credit"]
+    content:
+      base: "https://api.imf.org/external/sdmx/3.0"
+      start_period: "2015"
+      end_period: "2031"
+      # Keys are DSD-positional (§7.6 #1). For IMF.RES WEO the order is
+      # COUNTRY.INDICATOR.FREQUENCY (verified live), not FREQ-first.
+      flows:
+        - {agency: "IMF.RES", dataflow: "WEO", version: "~",
+           key: "USA+CHN+JPN+DEU+GBR.NGDP_RPCH.A", label: "WEO real GDP growth (%)"}
+        - {agency: "IMF.RES", dataflow: "WEO", version: "~",
+           key: "USA+CHN+JPN.PCPIPCH.A", label: "WEO CPI inflation, avg (%)"}
+        - {agency: "IMF.RES", dataflow: "WEO", version: "~",
+           key: "USA+JPN.GGXWDG_NGDP.A", label: "WEO general govt gross debt (% GDP)"}

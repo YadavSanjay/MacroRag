@@ -1,0 +1,53 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-21",
+  "criteria": {
+    "C1": [
+      "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_pilot_reply_with_null_paraphrase_validates",
+      "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_each_and_all_optional_fields_may_be_null",
+      "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_type_rules_stay_while_null_is_allowed",
+      "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_property_null_or_typed_optional_fields_validate",
+      "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_metamorphic_bad_value_rejected_null_accepted"
+    ],
+    "C2": [
+      "test/spec/plan-schema-nullable/test_psn_c2_analyzer.py::test_decompose_reply_with_nulls_is_one_ok_call",
+      "test/spec/plan-schema-nullable/test_psn_c2_analyzer.py::test_pilot_reply_null_paraphrase_is_one_ok_call",
+      "test/spec/plan-schema-nullable/test_psn_c2_analyzer.py::test_property_any_null_combination_is_one_ok_call"
+    ]
+  },
+  "files": {
+    "test/spec/plan-schema-nullable/conftest.py": "3e298baf6d23687e7b4060d66e27d3e30070550bed9997cdbca3009c89a88abf",
+    "test/spec/plan-schema-nullable/test_psn_c1_schema.py": "6185ed3d76b1d6a2d3cfb8ab97d4b15fc2f54cdf3947dae0aaf779285fb5a231",
+    "test/spec/plan-schema-nullable/test_psn_c2_analyzer.py": "e604c0bc43733e92bf18bbc724443035f2bc07b62b1d09006e040af4ea95df28"
+  },
+  "id": "plan-schema-nullable",
+  "interface": [],
+  "nodes": [
+    "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_each_and_all_optional_fields_may_be_null",
+    "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_metamorphic_bad_value_rejected_null_accepted",
+    "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_pilot_reply_with_null_paraphrase_validates",
+    "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_property_null_or_typed_optional_fields_validate",
+    "test/spec/plan-schema-nullable/test_psn_c1_schema.py::test_type_rules_stay_while_null_is_allowed",
+    "test/spec/plan-schema-nullable/test_psn_c2_analyzer.py::test_decompose_reply_with_nulls_is_one_ok_call",
+    "test/spec/plan-schema-nullable/test_psn_c2_analyzer.py::test_pilot_reply_null_paraphrase_is_one_ok_call",
+    "test/spec/plan-schema-nullable/test_psn_c2_analyzer.py::test_property_any_null_combination_is_one_ok_call"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/plan-schema-nullable.md",
+    "sha256": "7c56f24b7c7c40e8699fdacbbf07a58f11b93bbf2aecef34a0f9ab40eba4d2c5"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

@@ -1,0 +1,116 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — Tier 6C ingestion catalog: AI Macro / Productivity / Geopolitics
+#
+# Implements Ingestion Design §2.7 (6C) and §9C. The quantitative tail-probability
+# + adoption layer: GPR and EPU are the only DIRECTLY QUANTIFIABLE geopolitical
+# and policy-uncertainty signals in the whole catalog (-> Taiwan-tail probability
+# weighting). Three of four endpoints are pure numeric (no chunking); only the
+# Stanford AI Index is a narrative PDF.
+# ─────────────────────────────────────────────────────────────────────────────
+
+tier: 6
+name: "AI Macro / Productivity / Geopolitics (6C)"
+publisher: "AI Macro Sources"
+licence: "public_research_free"
+base_url: "https://www.policyuncertainty.com"
+
+defaults:
+  poll_cadence: "monthly"
+  rate_limit_per_sec: 1.0
+
+endpoints:
+
+  # ── GPR — Geopolitical Risk Index (Caldara & Iacoviello) ───────────────────
+  - id: "gpr"
+    handler: "index_download"
+    title: "Geopolitical Risk (GPR) Index"
+    enabled: true
+    publisher: "Caldara & Iacoviello (Federal Reserve Board)"
+    bucket: "C"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.matteoiacoviello.com/gpr.htm"
+    release_schedule:
+      frequency: "monthly"
+      note: "monthly historical (1900-) + daily recent (~24m); GPR-China = Taiwan-tail proxy"
+    factor_tags: ["geopolitical_risk", "china_taiwan_tail"]
+    entity_tags: []
+    trades: ["#2", "#3", "#4", "#26"]
+    content:
+      files:
+        - {url: "https://www.matteoiacoviello.com/gpr_files/data_gpr_export.xls",
+           publication: "GPR Index (monthly historical)", vintage: "monthly"}
+        - {url: "https://www.matteoiacoviello.com/gpr_files/data_gpr_daily_recent.xls",
+           publication: "GPR Index (daily recent)", vintage: "daily"}
+
+  # ── EPU — Economic Policy Uncertainty (Baker, Bloom & Davis) ───────────────
+  - id: "epu"
+    handler: "index_download"
+    title: "Economic Policy Uncertainty (EPU) Index"
+    enabled: true
+    publisher: "Baker, Bloom & Davis"
+    bucket: "C"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.policyuncertainty.com"
+    release_schedule:
+      frequency: "monthly"
+      note: "complements GPR — policy (not geopolitical) uncertainty; US + China + Taiwan"
+    factor_tags: ["policy_uncertainty", "china_taiwan_tail"]
+    entity_tags: []
+    trades: ["#2", "#3", "#4", "#26"]
+    content:
+      files:
+        - {url: "https://www.policyuncertainty.com/media/All_Country_Data.xlsx",
+           publication: "EPU Index (all countries, monthly)", vintage: "monthly"}
+
+  # ── Census BTOS — Business Trends & Outlook Survey (AI supplement) ─────────
+  - id: "census_btos"
+    handler: "census_btos"
+    title: "Census BTOS — AI adoption supplement"
+    enabled: true
+    publisher: "U.S. Census Bureau"
+    bucket: "C"
+    discovery:
+      type: "api"
+      url: "https://api.census.gov/data/timeseries/eits/btos"
+    release_schedule:
+      frequency: "biweekly"
+      note: "only US-gov high-frequency firm-level AI-adoption series; ~2-week lag"
+    factor_tags: ["ai_adoption"]
+    entity_tags: ["AI"]
+    trades: ["methodology_b"]
+    content:
+      api_key_env: "CENSUS_API_KEY"
+      # eits/btos variable set; tune as needed (endpoint is param-sensitive).
+      params:
+        get: "cell_value,data_type_code,seasonally_adj,category_code,time_slot_id"
+        for: "us:*"
+        time: "from 2023"
+
+  # ── Stanford HAI AI Index Report (annual PDF) ──────────────────────────────
+  - id: "stanford_hai"
+    handler: "stanford_hai"
+    title: "Stanford HAI AI Index Report"
+    enabled: true
+    publisher: "Stanford HAI"
+    bucket: "B"
+    discovery:
+      type: "predictable_url"
+      url: "https://hai.stanford.edu/ai-index"
+    release_schedule:
+      frequency: "annual"
+      months: ["April"]
+      note: "~400pp canonical AI adoption/investment/performance reference"
+    factor_tags: ["ai_adoption", "ai_capex"]
+    entity_tags: ["ai"]
+    trades: ["scenario_priors"]
+    content:
+      pdf_url_pattern: "https://hai.stanford.edu/assets/files/ai_index_report_{YYYY}.pdf"
+      years_back: 2
+      section_headings:
+        - "Research and Development"
+        - "Technical Performance"
+        - "Economy"
+        - "Policy and Governance"
+        - "Public Opinion"

@@ -1,0 +1,129 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-17",
+  "criteria": {
+    "C1": [
+      "test/spec/model-set-switch/test_mss.py::test_current_set_profiles",
+      "test/spec/model-set-switch/test_mss.py::test_current_set_unaffected_by_replacement_calls"
+    ],
+    "C2": [
+      "test/spec/model-set-switch/test_mss.py::test_replacement_set_profiles_and_fresh_copy",
+      "test/spec/model-set-switch/test_mss.py::test_property_any_call_sequence_returns_fresh_tables"
+    ],
+    "C3": [
+      "test/spec/model-set-switch/test_mss.py::test_absent_key_returns_default",
+      "test/spec/model-set-switch/test_mss.py::test_recognised_values_override_default",
+      "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[]",
+      "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[ ]",
+      "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[2]",
+      "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[maybe]",
+      "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[enabled]",
+      "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[y]",
+      "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[tru]",
+      "test/spec/model-set-switch/test_mss.py::test_env_none_reads_os_environ",
+      "test/spec/model-set-switch/test_mss.py::test_property_case_and_whitespace_are_ignored",
+      "test/spec/model-set-switch/test_mss.py::test_property_every_other_value_raises"
+    ],
+    "C4": [
+      "test/spec/model-set-switch/test_mss.py::test_llm_settings_field_selects_the_set",
+      "test/spec/model-set-switch/test_mss.py::test_variable_overrides_field_both_ways",
+      "test/spec/model-set-switch/test_mss.py::test_explicit_flat_tier_wins_over_replacement_set",
+      "test/spec/model-set-switch/test_mss.py::test_anthropic_tiers_follow_the_switch",
+      "test/spec/model-set-switch/test_mss.py::test_property_selected_set_follows_variable_then_field"
+    ],
+    "C5": [
+      "test/spec/model-set-switch/test_mss.py::test_committed_config_switch_off",
+      "test/spec/model-set-switch/test_mss.py::test_committed_config_variable_on",
+      "test/spec/model-set-switch/test_mss.py::test_property_committed_config_follows_variable"
+    ],
+    "C6": [
+      "test/spec/model-set-switch/test_mss.py::test_temperature_by_model",
+      "test/spec/model-set-switch/test_mss.py::test_property_no_temperature_whatever_follows"
+    ],
+    "C7": [
+      "test/spec/model-set-switch/test_mss.py::test_rates_per_model",
+      "test/spec/model-set-switch/test_mss.py::test_every_model_in_either_set_is_priced",
+      "test/spec/model-set-switch/test_mss.py::test_property_cost_is_linear_in_the_rates"
+    ],
+    "C8": [
+      "test/spec/model-set-switch/test_mss.py::test_openai_temperature_by_model",
+      "test/spec/model-set-switch/test_mss.py::test_property_openai_no_temperature_whatever_follows_gpt6"
+    ]
+  },
+  "files": {
+    "test/spec/model-set-switch/conftest.py": "db227646dd922870c0b393faa1c4305f794bc8864c1a6f3973c135718863ece4",
+    "test/spec/model-set-switch/test_mss.py": "d84ac58aa2724cc57f0700d49271c4cdcc392aea3ba56d33103517fcb676fbc0"
+  },
+  "id": "model-set-switch",
+  "interface": [
+    {
+      "file": "src/llm/openai_client.py",
+      "module": "llm.openai_client",
+      "qualname": "accepts_temperature",
+      "signature": "def accepts_temperature(model: str) -> bool"
+    },
+    {
+      "file": "src/utils/config.py",
+      "module": "utils.config",
+      "qualname": "default_profiles",
+      "signature": "def default_profiles(use_replacement: bool) -> dict[str, dict[str, str]]"
+    },
+    {
+      "file": "src/utils/config.py",
+      "module": "utils.config",
+      "qualname": "replacement_models_enabled",
+      "signature": "def replacement_models_enabled(env: Mapping[str, str] | None=None, default: bool=False) -> bool"
+    }
+  ],
+  "nodes": [
+    "test/spec/model-set-switch/test_mss.py::test_absent_key_returns_default",
+    "test/spec/model-set-switch/test_mss.py::test_anthropic_tiers_follow_the_switch",
+    "test/spec/model-set-switch/test_mss.py::test_committed_config_switch_off",
+    "test/spec/model-set-switch/test_mss.py::test_committed_config_variable_on",
+    "test/spec/model-set-switch/test_mss.py::test_current_set_profiles",
+    "test/spec/model-set-switch/test_mss.py::test_current_set_unaffected_by_replacement_calls",
+    "test/spec/model-set-switch/test_mss.py::test_env_none_reads_os_environ",
+    "test/spec/model-set-switch/test_mss.py::test_every_model_in_either_set_is_priced",
+    "test/spec/model-set-switch/test_mss.py::test_explicit_flat_tier_wins_over_replacement_set",
+    "test/spec/model-set-switch/test_mss.py::test_llm_settings_field_selects_the_set",
+    "test/spec/model-set-switch/test_mss.py::test_openai_temperature_by_model",
+    "test/spec/model-set-switch/test_mss.py::test_property_any_call_sequence_returns_fresh_tables",
+    "test/spec/model-set-switch/test_mss.py::test_property_case_and_whitespace_are_ignored",
+    "test/spec/model-set-switch/test_mss.py::test_property_committed_config_follows_variable",
+    "test/spec/model-set-switch/test_mss.py::test_property_cost_is_linear_in_the_rates",
+    "test/spec/model-set-switch/test_mss.py::test_property_every_other_value_raises",
+    "test/spec/model-set-switch/test_mss.py::test_property_no_temperature_whatever_follows",
+    "test/spec/model-set-switch/test_mss.py::test_property_openai_no_temperature_whatever_follows_gpt6",
+    "test/spec/model-set-switch/test_mss.py::test_property_selected_set_follows_variable_then_field",
+    "test/spec/model-set-switch/test_mss.py::test_rates_per_model",
+    "test/spec/model-set-switch/test_mss.py::test_recognised_values_override_default",
+    "test/spec/model-set-switch/test_mss.py::test_replacement_set_profiles_and_fresh_copy",
+    "test/spec/model-set-switch/test_mss.py::test_temperature_by_model",
+    "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[ ]",
+    "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[2]",
+    "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[]",
+    "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[enabled]",
+    "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[maybe]",
+    "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[tru]",
+    "test/spec/model-set-switch/test_mss.py::test_unknown_values_raise[y]",
+    "test/spec/model-set-switch/test_mss.py::test_variable_overrides_field_both_ways"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/model-set-switch.md",
+    "sha256": "12fcef2f47d056184a779ecc96841ebe29188205b696b95df88c4c2a0c1c5755"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

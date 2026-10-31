@@ -1,0 +1,56 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-15",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-band-floor/test_sbf_c1_limit.py::test_spec_examples",
+      "test/spec/synth-band-floor/test_sbf_c1_limit.py::test_no_horizon_and_reference_edge_cases",
+      "test/spec/synth-band-floor/test_sbf_c1_limit.py::test_property_limit_matches_the_definitions"
+    ],
+    "C2": [
+      "test/spec/synth-band-floor/test_sbf_c2_validate.py::test_realized_card_moves_are_admitted",
+      "test/spec/synth-band-floor/test_sbf_c2_validate.py::test_gross_errors_still_flagged_and_realized_admitted",
+      "test/spec/synth-band-floor/test_sbf_c2_validate.py::test_property_flag_iff_over_the_limit"
+    ]
+  },
+  "files": {
+    "test/spec/synth-band-floor/conftest.py": "23484d6f9edc2bd02601078ea32cdb3067afae6460295dd11c174b820d0abd68",
+    "test/spec/synth-band-floor/test_sbf_c1_limit.py": "01a4597ca7f19382dcff808e9b43caa2c084b4fae51d31a9c25211a2b8c8f748",
+    "test/spec/synth-band-floor/test_sbf_c2_validate.py": "79923e819fcb7303840d938d014c5e4249724379582836cd7d643f98f41c3413"
+  },
+  "id": "synth-band-floor",
+  "interface": [
+    {
+      "file": "src/synthesis/validate.py",
+      "module": "synthesis.validate",
+      "qualname": "magnitude_limit",
+      "signature": "def magnitude_limit(field: str, unit: str, *, horizon_days: int | None, reference_days: int=90) -> float | None"
+    }
+  ],
+  "nodes": [
+    "test/spec/synth-band-floor/test_sbf_c1_limit.py::test_no_horizon_and_reference_edge_cases",
+    "test/spec/synth-band-floor/test_sbf_c1_limit.py::test_property_limit_matches_the_definitions",
+    "test/spec/synth-band-floor/test_sbf_c1_limit.py::test_spec_examples",
+    "test/spec/synth-band-floor/test_sbf_c2_validate.py::test_gross_errors_still_flagged_and_realized_admitted",
+    "test/spec/synth-band-floor/test_sbf_c2_validate.py::test_property_flag_iff_over_the_limit",
+    "test/spec/synth-band-floor/test_sbf_c2_validate.py::test_realized_card_moves_are_admitted"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-band-floor.md",
+    "sha256": "c3f26e01c55592e4fd9fc0edd49ce829f7cca6bdc7b5d9a8887cb9e4cabff35c"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

@@ -1,0 +1,75 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-15",
+  "criteria": {
+    "C1": [
+      "test/spec/ingest-acm-daily/test_acm_c1_parse.py::test_rows_per_series_in_order_with_skips",
+      "test/spec/ingest-acm-daily/test_acm_c1_parse.py::test_missing_header_or_column_raises",
+      "test/spec/ingest-acm-daily/test_acm_c1_parse.py::test_property_any_order_any_date_form"
+    ],
+    "C2": [
+      "test/spec/ingest-acm-daily/test_acm_c2_handler.py::test_routine_run_emits_current_and_previous_year",
+      "test/spec/ingest-acm-daily/test_acm_c2_handler.py::test_backfill_from_backfill_start_and_failures_emit_nothing",
+      "test/spec/ingest-acm-daily/test_acm_c2_handler.py::test_property_routine_window_follows_today"
+    ],
+    "C3": [
+      "test/spec/ingest-acm-daily/test_acm_c3_config.py::test_acm_daily_endpoint_as_specified",
+      "test/spec/ingest-acm-daily/test_acm_c3_config.py::test_registry_and_typed_config_agree"
+    ]
+  },
+  "files": {
+    "test/spec/ingest-acm-daily/conftest.py": "ce1824e197ff22426e0e285012198b3caf9e4dd747ab6283587591fc43fb834e",
+    "test/spec/ingest-acm-daily/test_acm_c1_parse.py": "bbdf257f4b9d55e4eada95f499540ca19c1066f7b62c3828c89b81a255479224",
+    "test/spec/ingest-acm-daily/test_acm_c2_handler.py": "bd3b9faae7b9c594c3eb0e28d015c04156eea3ce9c7c3dfb522ee995deb64714",
+    "test/spec/ingest-acm-daily/test_acm_c3_config.py": "a0e0ffe3ecdc75527a9998a810ba9a9d599003e0f59ffb9979dab74602bbf7f7"
+  },
+  "id": "ingest-acm-daily",
+  "interface": [
+    {
+      "file": "src/ingest/usstats/handlers/acm.py",
+      "module": "ingest.usstats.handlers.acm",
+      "qualname": "AcmDailyHandler.discover",
+      "signature": "def discover(self) -> list[DiscoveredItem]"
+    },
+    {
+      "file": "src/ingest/usstats/handlers/acm.py",
+      "module": "ingest.usstats.handlers.acm",
+      "qualname": "AcmDailyHandler.fetch",
+      "signature": "def fetch(self, item: DiscoveredItem) -> list[ParsedDocument]"
+    },
+    {
+      "file": "src/ingest/usstats/parsers.py",
+      "module": "ingest.usstats.parsers",
+      "qualname": "parse_acm_daily",
+      "signature": "def parse_acm_daily(grid: list[list], series: list[str]) -> list[dict[str, typing.Any]]"
+    }
+  ],
+  "nodes": [
+    "test/spec/ingest-acm-daily/test_acm_c1_parse.py::test_missing_header_or_column_raises",
+    "test/spec/ingest-acm-daily/test_acm_c1_parse.py::test_property_any_order_any_date_form",
+    "test/spec/ingest-acm-daily/test_acm_c1_parse.py::test_rows_per_series_in_order_with_skips",
+    "test/spec/ingest-acm-daily/test_acm_c2_handler.py::test_backfill_from_backfill_start_and_failures_emit_nothing",
+    "test/spec/ingest-acm-daily/test_acm_c2_handler.py::test_property_routine_window_follows_today",
+    "test/spec/ingest-acm-daily/test_acm_c2_handler.py::test_routine_run_emits_current_and_previous_year",
+    "test/spec/ingest-acm-daily/test_acm_c3_config.py::test_acm_daily_endpoint_as_specified",
+    "test/spec/ingest-acm-daily/test_acm_c3_config.py::test_registry_and_typed_config_agree"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/ingest-acm-daily.md",
+    "sha256": "f4c7291e832230eb75123c569692e074d64bc770b9d8de9838b4ae8f7e2e5aa5"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

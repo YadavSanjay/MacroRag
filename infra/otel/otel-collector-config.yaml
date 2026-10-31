@@ -1,0 +1,31 @@
+# OpenTelemetry Collector — receives OTLP spans from the Macro RAG service and
+# fans them out. Exports to Tempo (edit the `otlp/tempo` endpoint for your
+# Tempo/Jaeger OTLP gRPC ingress) AND keeps `debug` (stdout) so there is always a
+# working sink even before Tempo is reachable. A temporarily unreachable Tempo
+# only produces retry warnings; it does not stop the collector.
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch: {}
+
+exporters:
+  debug:
+    verbosity: normal
+  otlp/tempo:
+    endpoint: tempo:4317
+    tls: { insecure: true }
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      # debug + Tempo (§J: real trace backend beyond the stdout debug exporter).
+      exporters: [debug, otlp/tempo]

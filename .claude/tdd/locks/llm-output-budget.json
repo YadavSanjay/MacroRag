@@ -1,0 +1,181 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-21",
+  "criteria": {
+    "C1": [
+      "test/spec/llm-output-budget/test_lob_c1_tier_options_for.py::test_active_profile_options_and_empty_cases",
+      "test/spec/llm-output-budget/test_lob_c1_tier_options_for.py::test_follows_replacement_switch_and_provider",
+      "test/spec/llm-output-budget/test_lob_c1_tier_options_for.py::test_missing_replacement_entry_falls_back_to_profiles",
+      "test/spec/llm-output-budget/test_lob_c1_tier_options_for.py::test_property_matches_the_active_profile"
+    ],
+    "C2": [
+      "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_valid_efforts_load_and_bad_ones_raise",
+      "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_out_of_set_effort_in_each_place_raises[profiles-openai-plan-extreme]",
+      "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_out_of_set_effort_in_each_place_raises[profiles-anthropic-complex-none]",
+      "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_out_of_set_effort_in_each_place_raises[replacement_profiles-openai-escalation-minimal]",
+      "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_out_of_set_effort_in_each_place_raises[replacement_profiles-anthropic-default-ultra]",
+      "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_swapping_an_in_set_effort_for_an_out_of_set_one_flips_the_outcome"
+    ],
+    "C3": [
+      "test/spec/llm-output-budget/test_lob_c3_openai_request.py::test_tier_with_all_options_sends_them",
+      "test/spec/llm-output-budget/test_lob_c3_openai_request.py::test_unset_options_are_omitted_and_outside_is_today",
+      "test/spec/llm-output-budget/test_lob_c3_openai_request.py::test_options_come_from_the_active_replacement_profile",
+      "test/spec/llm-output-budget/test_lob_c3_openai_request.py::test_property_request_follows_the_tier_options"
+    ],
+    "C4": [
+      "test/spec/llm-output-budget/test_lob_c4_anthropic_request.py::test_tier_with_all_options_sends_them",
+      "test/spec/llm-output-budget/test_lob_c4_anthropic_request.py::test_unset_options_are_omitted_and_outside_is_today",
+      "test/spec/llm-output-budget/test_lob_c4_anthropic_request.py::test_options_come_from_the_active_provider",
+      "test/spec/llm-output-budget/test_lob_c4_anthropic_request.py::test_property_request_follows_the_tier_options"
+    ],
+    "C5": [
+      "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_normalize_table",
+      "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_property_unmapped_values_pass_through",
+      "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_openai_length_reply_is_recorded_and_returned",
+      "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_anthropic_max_tokens_reply_is_recorded_and_returned",
+      "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_openai_content_filter_raises_after_billing",
+      "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_anthropic_refusal_raises_with_category_after_billing",
+      "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_property_client_records_the_normalized_reason",
+      "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_record_call_warns_on_a_different_served_model",
+      "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_snapshot_suffix_is_quiet_and_another_model_warns"
+    ],
+    "C6": [
+      "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_refused_first_reply_returns_empty_without_repair",
+      "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_refused_repair_returns_the_first_parse",
+      "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_valid_length_reply_is_ok_and_truncated",
+      "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_invalid_length_reply_is_still_repaired",
+      "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_counts_dict_and_admin_totals",
+      "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_property_counts_follow_the_outcomes"
+    ],
+    "C7": [
+      "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_simple_route_answer",
+      "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_complex_route_answer",
+      "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_synthesis_and_factor_discovery",
+      "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_prose_escalation_answer_to_complex",
+      "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_escalation_above_complex_and_multi_hop",
+      "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_property_every_call_has_its_tier"
+    ],
+    "C8": [
+      "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_equal_settings_agree_and_each_input_changes_it",
+      "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_unrelated_settings_do_not_change_it",
+      "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_active_replacement_profile_options_are_hashed",
+      "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_property_inputs_change_and_noise_does_not",
+      "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_pipeline_cache_misses_after_a_tier_option_change"
+    ],
+    "C9": [
+      "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_retry_after_seconds_is_honoured_and_capped",
+      "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_retry_after_ms_wins_over_seconds",
+      "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_unusable_values_fall_back_to_jitter",
+      "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_bad_ms_value_falls_back_to_seconds_or_jitter",
+      "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_property_sleep_is_the_header_capped"
+    ]
+  },
+  "files": {
+    "test/spec/llm-output-budget/conftest.py": "db44d1924e3f11b66c6e3e3ab02429622e8b753d77937ecbf93b850466183780",
+    "test/spec/llm-output-budget/test_lob_c1_tier_options_for.py": "90a56f80e81e7207e2298bb6984cdd53efb2dfa894a59097c84a8f271f8b62a4",
+    "test/spec/llm-output-budget/test_lob_c2_effort_validation.py": "9738b370c7de6950056a3ecafd94d6aab1f319572c03d22ce707c5d40248b8d6",
+    "test/spec/llm-output-budget/test_lob_c3_openai_request.py": "76a20c0712c062445369b62a0b9a1bcc3b8f2b0cc812a2af27fb7f1a8f9d38a3",
+    "test/spec/llm-output-budget/test_lob_c4_anthropic_request.py": "bbd4a5673e7e97d2c6c1a9f7568db975d0904e88758cde7c43b0e42c278cb2fe",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py": "575dd11b4a78d3c613e8f2386e20a11f16ad4d460780e38f2ac359c4ca08a016",
+    "test/spec/llm-output-budget/test_lob_c6_complete_json.py": "add6b5697eab8f047086623952ce1834eed73d11423ca4f6cb098e6eb1a4a1fc",
+    "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py": "cecdb060b4044e4ce785588ece05c63e6049a01d04d131dc0d399bda9b694d12",
+    "test/spec/llm-output-budget/test_lob_c8_cache_version.py": "2ed9f8933ad123631a3fba0238ee7917499f60e2a62af38ae99ff4528ecc8473",
+    "test/spec/llm-output-budget/test_lob_c9_retry_after.py": "19350039beb655d516979f8b747c9482a01026c5159add32ca5a1da383c56544"
+  },
+  "id": "llm-output-budget",
+  "interface": [
+    {
+      "file": "src/llm/base.py",
+      "module": "llm.base",
+      "qualname": "LLMRefusalError.__init__",
+      "signature": "def __init__(self, model: str, category: str | None=None) -> None"
+    },
+    {
+      "file": "src/llm/base.py",
+      "module": "llm.base",
+      "qualname": "normalize_finish_reason",
+      "signature": "def normalize_finish_reason(provider: str, raw: str | None) -> str | None"
+    },
+    {
+      "file": "src/pipelines/query_pipeline.py",
+      "module": "pipelines.query_pipeline",
+      "qualname": "cache_version",
+      "signature": "def cache_version(settings: RagSettings) -> str"
+    },
+    {
+      "file": "src/utils/config.py",
+      "module": "utils.config",
+      "qualname": "tier_options_for",
+      "signature": "def tier_options_for(llm: LLMSettings, tier: str | None) -> TierOptions"
+    }
+  ],
+  "nodes": [
+    "test/spec/llm-output-budget/test_lob_c1_tier_options_for.py::test_active_profile_options_and_empty_cases",
+    "test/spec/llm-output-budget/test_lob_c1_tier_options_for.py::test_follows_replacement_switch_and_provider",
+    "test/spec/llm-output-budget/test_lob_c1_tier_options_for.py::test_missing_replacement_entry_falls_back_to_profiles",
+    "test/spec/llm-output-budget/test_lob_c1_tier_options_for.py::test_property_matches_the_active_profile",
+    "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_out_of_set_effort_in_each_place_raises[profiles-anthropic-complex-none]",
+    "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_out_of_set_effort_in_each_place_raises[profiles-openai-plan-extreme]",
+    "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_out_of_set_effort_in_each_place_raises[replacement_profiles-anthropic-default-ultra]",
+    "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_out_of_set_effort_in_each_place_raises[replacement_profiles-openai-escalation-minimal]",
+    "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_swapping_an_in_set_effort_for_an_out_of_set_one_flips_the_outcome",
+    "test/spec/llm-output-budget/test_lob_c2_effort_validation.py::test_valid_efforts_load_and_bad_ones_raise",
+    "test/spec/llm-output-budget/test_lob_c3_openai_request.py::test_options_come_from_the_active_replacement_profile",
+    "test/spec/llm-output-budget/test_lob_c3_openai_request.py::test_property_request_follows_the_tier_options",
+    "test/spec/llm-output-budget/test_lob_c3_openai_request.py::test_tier_with_all_options_sends_them",
+    "test/spec/llm-output-budget/test_lob_c3_openai_request.py::test_unset_options_are_omitted_and_outside_is_today",
+    "test/spec/llm-output-budget/test_lob_c4_anthropic_request.py::test_options_come_from_the_active_provider",
+    "test/spec/llm-output-budget/test_lob_c4_anthropic_request.py::test_property_request_follows_the_tier_options",
+    "test/spec/llm-output-budget/test_lob_c4_anthropic_request.py::test_tier_with_all_options_sends_them",
+    "test/spec/llm-output-budget/test_lob_c4_anthropic_request.py::test_unset_options_are_omitted_and_outside_is_today",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_anthropic_max_tokens_reply_is_recorded_and_returned",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_anthropic_refusal_raises_with_category_after_billing",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_normalize_table",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_openai_content_filter_raises_after_billing",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_openai_length_reply_is_recorded_and_returned",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_property_client_records_the_normalized_reason",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_property_unmapped_values_pass_through",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_record_call_warns_on_a_different_served_model",
+    "test/spec/llm-output-budget/test_lob_c5_finish_reasons.py::test_snapshot_suffix_is_quiet_and_another_model_warns",
+    "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_counts_dict_and_admin_totals",
+    "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_invalid_length_reply_is_still_repaired",
+    "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_property_counts_follow_the_outcomes",
+    "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_refused_first_reply_returns_empty_without_repair",
+    "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_refused_repair_returns_the_first_parse",
+    "test/spec/llm-output-budget/test_lob_c6_complete_json.py::test_valid_length_reply_is_ok_and_truncated",
+    "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_complex_route_answer",
+    "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_escalation_above_complex_and_multi_hop",
+    "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_property_every_call_has_its_tier",
+    "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_prose_escalation_answer_to_complex",
+    "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_simple_route_answer",
+    "test/spec/llm-output-budget/test_lob_c7_call_site_tiers.py::test_synthesis_and_factor_discovery",
+    "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_active_replacement_profile_options_are_hashed",
+    "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_equal_settings_agree_and_each_input_changes_it",
+    "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_pipeline_cache_misses_after_a_tier_option_change",
+    "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_property_inputs_change_and_noise_does_not",
+    "test/spec/llm-output-budget/test_lob_c8_cache_version.py::test_unrelated_settings_do_not_change_it",
+    "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_bad_ms_value_falls_back_to_seconds_or_jitter",
+    "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_property_sleep_is_the_header_capped",
+    "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_retry_after_ms_wins_over_seconds",
+    "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_retry_after_seconds_is_honoured_and_capped",
+    "test/spec/llm-output-budget/test_lob_c9_retry_after.py::test_unusable_values_fall_back_to_jitter"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/llm-output-budget.md",
+    "sha256": "698390aacd33f3a38647edc8b955412b1e60cf501a5c377a935ae1dcbe864086"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

@@ -1,0 +1,142 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — Tier 5 ingestion catalog: House Views (Public Flagships)
+#
+# Implements Ingestion Design §2.6 (endpoint catalog) and §8 (per-endpoint
+# blueprint). Channel: forward narrative + consensus/contrarian house view on
+# top of the official-sources backbone (Tiers 1-4). Cembalest's four risks, the
+# BlackRock "mega forces" frame, GS single-topic deep dives, MS speaker rotation,
+# and Slok's AI-capex-concentration thesis map directly onto this book's stress
+# scenarios.
+#
+# Tier-5 distinctives (§8.6):
+#   * LICENCE FLAG, not a gate — these are openly published pieces, still under
+#     their publishers' copyright. Every chunk records the flag; nothing in the
+#     code enforces it, so redistribution stays the operator's responsibility.
+#   * SLUG URLs (no date encoding) -> discovery mandatory, seen-set diffing
+#     (handled by the cache's processed-doc ledger).
+#   * Some house sites 403 the identified MacroRAG User-Agent (goldmansachs);
+#     those endpoints skip rather than pose as a browser.
+#   * AUTHOR/SPEAKER attribution preserved at chunk level for specialty-weighted
+#     retrieval (MS Tirupattur=credit vs Wilson=equity).
+# ─────────────────────────────────────────────────────────────────────────────
+
+tier: 5
+name: "House Views (Public Flagships)"
+publisher: "Financial Institution"
+licence: "public_with_attribution_required"
+base_url: "https://www.apolloacademy.com"
+
+defaults:
+  poll_cadence: "daily"
+  rate_limit_per_sec: 1.0
+
+endpoints:
+
+  # ── Endpoint 5 — Apollo Academy (Daily Spark) ─────
+  - id: "apollo"
+    handler: "apollo"
+    title: "Apollo Academy — The Daily Spark (Torsten Slok)"
+    enabled: true
+    publisher: "Apollo Global Management"
+    bucket: "C"
+    poll_cadence: "daily"
+    discovery:
+      type: "api"
+      # WP REST: categories=8 is "The Daily Spark" (verified live); one call
+      # returns slug + date + rendered body for each post.
+      url: "https://www.apolloacademy.com/wp-json/wp/v2/posts?per_page=20&categories=8"
+    factor_tags: ["ai_capex", "credit_spread", "hyperscaler_concentration"]
+    entity_tags: ["ai"]
+    trades: ["#15-19", "#28-30"]
+    content:
+      author: "Torsten Slok, Chief Economist, Apollo Global Management"
+      link_filter: ""                     # already filtered to Daily Spark via categories=8
+      max_posts: 12
+
+  # ── Endpoint 4 — Morgan Stanley Thoughts on the Market ─────────────────────
+  - id: "ms_totm"
+    handler: "ms_totm"
+    title: "Morgan Stanley — Thoughts on the Market"
+    enabled: true
+    publisher: "Morgan Stanley Research"
+    bucket: "C"
+    poll_cadence: "daily"
+    discovery:
+      type: "html_index"
+      url: "https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market"
+    factor_tags: ["credit_spread", "discount_rate", "ai_capex"]
+    entity_tags: ["ai"]
+    trades: ["#15-19", "#22-25", "#28-30"]
+    content:
+      episode_link_pattern: "/insights/podcasts/thoughts-on-the-market/[a-z0-9-]+"
+      transcript_marker: "Transcript"
+      max_episodes: 8
+
+  # ── Endpoint 3 — Goldman Sachs Top of Mind ─────────────────────────────────
+  - id: "gs_tom"
+    handler: "gs_tom"
+    title: "Goldman Sachs — Top of Mind"
+    enabled: true
+    publisher: "Goldman Sachs Research"
+    bucket: "C"
+    poll_cadence: "weekly"
+    discovery:
+      # Rendered via the shared headless browser (JS-only list + bodies, §8.6 #4).
+      type: "html_index"
+      url: "https://www.goldmansachs.com/insights/top-of-mind"
+    factor_tags: ["credit_spread", "valuation_stretch", "ai_capex"]
+    entity_tags: ["ai"]
+    trades: ["all"]
+    content:
+      article_base: "https://www.goldmansachs.com/insights/top-of-mind/"
+      article_url_pattern: "/insights/top-of-mind/[a-z0-9-]+"
+      max_issues: 6
+
+  # ── Endpoint 2 — BlackRock Investment Institute ────────────────────────────
+  - id: "blackrock"
+    handler: "blackrock"
+    title: "BlackRock Investment Institute (Weekly + Outlook)"
+    enabled: true
+    publisher: "BlackRock Investment Institute"
+    bucket: "C"
+    poll_cadence: "daily"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.blackrock.com/corporate/insights/blackrock-investment-institute/publications"
+    factor_tags: ["ai_capex", "equity_vol", "valuation_stretch"]
+    entity_tags: ["ai"]
+    trades: ["all"]
+    content:
+      # The archive's article LIST is JS-rendered, but these landing pages are
+      # server-rendered with the latest full article body (verified live). The
+      # weekly commentary is BII's operative tactical view (§8.2).
+      direct_urls:
+        - {url: "https://www.blackrock.com/us/individual/insights/blackrock-investment-institute/weekly-commentary",
+           publication: "BII Weekly Commentary", doc_type: "bii_weekly"}
+        - {url: "https://www.blackrock.com/corporate/insights/blackrock-investment-institute/publications/investment-perspective",
+           publication: "BII Investment Perspective", doc_type: "bii_perspective"}
+      mega_forces: ["artificial intelligence", "demographic", "geopolitical fragmentation",
+                    "future of finance", "low-carbon transition"]
+
+  # ── Endpoint 1 — JPM Eye on the Market (Cembalest) ──
+  - id: "jpm_eotm"
+    handler: "jpm_eotm"
+    title: "J.P. Morgan — Eye on the Market (Cembalest)"
+    enabled: true
+    publisher: "J.P. Morgan Asset Management"
+    # EOTM is explicitly public-facing (carries the "not JPM Research" disclaimer),
+    # so it is the one Tier-5 source ingestible as public-with-attribution (§8.1).
+    licence: "public_with_attribution_required"
+    bucket: "C"
+    poll_cadence: "weekly"
+    discovery:
+      type: "html_index"
+      url: "https://am.jpmorgan.com/us/en/asset-management/institutional/insights/market-insights/eye-on-the-market/"
+    podcast_rss: "https://eyeonthemarket.podbean.com/feed.xml"
+    factor_tags: ["ai_capex", "china_taiwan_tail", "data_center_power"]
+    entity_tags: ["ai"]
+    trades: ["all", "tail"]
+    content:
+      author: "Michael Cembalest, J.P. Morgan Asset Management"
+      pdf_link_pattern: "amv\\.pdf"        # the stable -amv.pdf artifact convention
+      max_pdfs: 5

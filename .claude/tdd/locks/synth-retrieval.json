@@ -1,0 +1,47 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-11",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-retrieval/test_sr_c1_scenario_slots.py::test_default_slots_reserve_two_studies_replacing_lowest",
+      "test/spec/synth-retrieval/test_sr_c1_scenario_slots.py::test_only_reservable_studies_fill_slots",
+      "test/spec/synth-retrieval/test_sr_c1_scenario_slots.py::test_reserved_count_follows_rule"
+    ],
+    "C2": [
+      "test/spec/synth-retrieval/test_sr_c2_rerank_cap.py::test_synthesize_pool_capped_by_synthesis_setting",
+      "test/spec/synth-retrieval/test_sr_c2_rerank_cap.py::test_rerank_count_is_min_n_f_reserved_inside"
+    ]
+  },
+  "files": {
+    "test/spec/synth-retrieval/conftest.py": "affeeab5aa57ad325a4fdd7caf425479969f675719ddb7cce96d4aa812aa5247",
+    "test/spec/synth-retrieval/test_sr_c1_scenario_slots.py": "4a4688be3234ba86ba58c4ca19a349b00255d8b9481627a7082de065661a85f7",
+    "test/spec/synth-retrieval/test_sr_c2_rerank_cap.py": "806ffabd7af9d98b9151bba7d67405b793956dddbacdd8a3e9efee059507d89f"
+  },
+  "id": "synth-retrieval",
+  "interface": [],
+  "nodes": [
+    "test/spec/synth-retrieval/test_sr_c1_scenario_slots.py::test_default_slots_reserve_two_studies_replacing_lowest",
+    "test/spec/synth-retrieval/test_sr_c1_scenario_slots.py::test_only_reservable_studies_fill_slots",
+    "test/spec/synth-retrieval/test_sr_c1_scenario_slots.py::test_reserved_count_follows_rule",
+    "test/spec/synth-retrieval/test_sr_c2_rerank_cap.py::test_rerank_count_is_min_n_f_reserved_inside",
+    "test/spec/synth-retrieval/test_sr_c2_rerank_cap.py::test_synthesize_pool_capped_by_synthesis_setting"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-retrieval.md",
+    "sha256": "a92eb968b6e7ea0145afe812d7d7e21a3a06b5424095148cb4e8a6cb21a2b723"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

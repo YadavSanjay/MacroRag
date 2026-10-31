@@ -1,0 +1,164 @@
+qdrant:
+  url: http://localhost:6333
+  collection: macro_chunks
+  dense_vector: dense
+  sparse_vector: sparse
+
+inference:
+  # Shared RagInference service (one bge-m3 embedder + bge-reranker copy, shared
+  # with XbrlRag) — factored out so this project runs on constrained-RAM/CPU desktops
+  # without loading its own multi-GB models. This is the DEFAULT: retrieval uses
+  # the service at remote_url. Override per-process with the RAGINFER_URL env var
+  # (a different base URL, or an empty value to force in-process models).
+  remote_url: http://localhost:8799
+  # Load the models in-process if the service is unreachable, so a stopped service
+  # degrades gracefully instead of failing the query (env: RAGINFER_FALLBACK_LOCAL).
+  fallback_local: true
+
+llm:
+  provider: openai            # or anthropic — the active profile below supplies the models
+  # Provider-aware model tiers. Switching `provider` above remaps every tier to
+  # that provider's profile; no need to re-pin each model. (You can still override
+  # a single tier for the ACTIVE provider with a top-level plan_model/answer_model/
+  # complex_model key here — an explicit flat key wins over the profile.)
+  #   plan    drives the PLAN_EXECUTE planner + router/decompose/HyDE/verify. Must
+  #           be capable: gpt-5.4-nano plans poorly and breaks retrieval (returns
+  #           IMF chunks instead of the right DFAST data). gpt-5.4-mini plans
+  #           correctly (invokes the structured time-series lookup) at ~3.3x lower
+  #           cost than gpt-5.4.
+  #   answer  simple-query generation only (cheapest tier).
+  #   complex complex routes incl. PLAN_EXECUTE generation + synthesis + factors.
+  # Anthropic ids are placeholders (all priced in configs/llm_pricing.yaml); tune
+  # to taste. See docs/design/Macro_RAG_LLM_Harness.md.
+  profiles:
+    openai:
+      plan:    gpt-5.4-mini
+      answer:  gpt-5.4-nano      # shuts down 2027-04-01 (replacement gpt-6-luna)
+      complex: gpt-5.4
+      default: gpt-5.4-nano
+    anthropic:
+      plan:    claude-sonnet-4-6
+      answer:  claude-haiku-4-5
+      complex: claude-opus-4-8
+      default: claude-haiku-4-5
+  # Feature switch: true takes the active provider's tiers from replacement_profiles
+  # instead (a provider without one keeps its profile above). Off until eval runs
+  # pick the new set. Env MACRORAG_USE_REPLACEMENT_MODELS (1/0, true/false, yes/no,
+  # on/off) overrides this for one process; any other value raises.
+  use_replacement_models: false
+  replacement_profiles:
+    openai:
+      plan:    gpt-6-sol
+      answer:  gpt-6-luna
+      complex: gpt-6-sol
+      default: gpt-6-luna
+    anthropic:
+      plan:    claude-sonnet-5-5
+      answer:  claude-haiku-5-5
+      complex: claude-opus-5-5
+      default: claude-haiku-5-5
+      # The Claude 5 models think by default and thinking counts against max_tokens.
+      # Live pilot 2026-10-21 (llm.max_tokens 4000): Opus 5.5 `generate` used 2,649 /
+      # 3,335 / 3,816 tokens and Sonnet 5.5 `verify` up to 2,826, so these two tiers get
+      # headroom, and a longer timeout to match (no call timed out at ~3.8K under 60 s).
+      tier_options:
+        complex: {max_tokens: 8000, timeout_s: 180}
+        plan:    {max_tokens: 6000, timeout_s: 120}
+  complex_routes: [DECOMPOSE, DECOMPOSE_AND_PARAPHRASE, PLAN_EXECUTE]
+  # Completion-token cap per call. Keep high enough that a fully-cited answer's
+  # JSON is not truncated (at 1500, DECOMPOSE answers get cut off and parse to an
+  # empty summary). Only generation approaches this; plan/verify/synthesize are small.
+  max_tokens: 4000
+
+escalation:
+  # Quality-signal-driven model escalation: when a cheap-model pass deteriorates,
+  # retry the same generation on a higher tier and keep it only if measurably
+  # better; every upgrade is recorded in the query trace's `escalations` array.
+  # OFF by default (opt-in). With the profiles above, only the simple-route prose
+  # path (answer -> complex) has a higher tier; add an `escalation:` model to a
+  # provider profile to also enable complex-route / synthesis escalation.
+  enabled: false
+  max_per_request: 1          # hard cap on escalated re-runs per query
+  cost_budget_usd: 0.05       # abort escalation once this query's LLM spend exceeds this
+  verifier_drop_ratio: 0.34   # > this fraction of cited claims dropped -> escalate prose
+  gate_loss_ratio: 0.34       # > this fraction of emitted shock fields gated -> escalate synthesis
+
+retrieval:
+  # CPU-only box: reranking 60 candidates with bge-reranker-v2-m3 takes ~130s.
+  # Trimming the rerank pool to 24 cuts that ~3x; recall holds with a capable
+  # planner (cold query ~63s, was ~150s). HyDE stays ON — it doesn't add rerank
+  # load (pool is capped at rerank_candidates) and helps recall.
+  rerank_candidates: 24
+  # Relevance floor: if the top rerank score is below this AND there are no
+  # structured time-series hits, the query refuses instead of answering on weak
+  # chunks. bge-reranker scores are 0-1; ~0.3 is sensible. 0 = off (default).
+  min_rerank_score: 0.0
+  # Iterative multi-hop retrieval: walk a causal chain (shock -> channel ->
+  # factor), each hop's evidence seeding the next sub-question. 0/1 = off. >1
+  # enables up to N hops — CPU-costly (extra LLM call + rerank per hop), so it is
+  # off by default; try 3 when a query needs multi-step causal reasoning.
+  multi_hop_max_hops: 0
+
+trace:
+  # Per-query JSONL trace (route, evidence, timings, final answer, LLM call log).
+  enabled: true
+  # Capture each LLM call's raw system+user prompt and response into the trace's
+  # call log (visible in System -> Traces). Token/cost accounting is always kept;
+  # this only gates the prompt/response TEXT. Set false to keep traces lean.
+  capture_llm: true
+  max_prompt_chars: 20000   # truncate each captured prompt/response field to this
+
+synthesis:
+  # Citation gate: min dated chunk_ids a shock field must cite to be emitted.
+  # Raise to 2 to require corroboration; 1 = any single dated citation (default).
+  min_citation_chunks: 1
+  # Allow analog/proxy grounding (P3). Set false for strict direct-only shocks
+  # (analog-grounded fields are dropped after the gate).
+  enable_analog: true
+  # Numeric-validation / coherence pass over the gated shock vector: flags a
+  # magnitude outside a horizon-scaled plausibility band, a move that dwarfs a
+  # hydrated series' observed span, and cross-field sign incoherence (e.g. IG/HY
+  # OAS diverging, equity-vol vs HY-credit diverging). Surface-only by default —
+  # flagged fields are kept but annotated (field.validation + diagnostics) so the
+  # consumer can down-weight them.
+  numeric_validation: true
+  # Reference horizon (days) the plausibility bands are calibrated at; caps scale
+  # ~sqrt(horizon/reference) (capped at 3x). Short horizons are floored per field
+  # (VIX 1.0, Treasuries 0.5 of the cap; spec synth-band-floor) so realized
+  # 5-10-day jumps are not flagged.
+  validation_reference_horizon_days: 90
+  # When true, DROP fields with a hard failure (implausible_magnitude,
+  # unit_scale_mismatch, horizon_mismatch) instead of only flagging them;
+  # coherence/series-anchor flags and horizon_unknown remain surface-only either
+  # way. On since 2026-10-13: faultline priced a flagged +440bp IG_OAS (a
+  # multi-quarter DFAST peak) as a 10-day shock, so a hard flag must not reach a
+  # consumer that does not read validation codes.
+  drop_invalid: true
+  # Evidence-horizon check (spec synth-analog-horizon). A field whose evidence
+  # covers a horizon more than horizon_tolerance times away from the requested
+  # horizon_days is flagged horizon_mismatch (hard). The evidence horizon comes from
+  # a chunk's own horizon_days, else a doc_type minimum for supervisory paths (DFAST
+  # 90 days, EBA 365), else the model's declared source_horizon_days.
+  horizon_check: true
+  horizon_tolerance: 3.0
+  # Sign-agreement check (spec synth-direction): when the caller sends
+  # synthesis.directions, a field whose sign contradicts its requested direction is
+  # flagged direction_mismatch (hard, so dropped above). No directions = no effect.
+  direction_check: true
+  # Upgrade grounding_mode analog->direct when a field's own scenario series was in
+  # the hydrated DATA and the emitted sign agrees with that path — the LLM
+  # sometimes mislabels a scenario's own numeric path as an analog. Only upgrades
+  # (never downgrades) and only on a sign-consistent, data-present factor.
+  reconcile_grounding: true
+  # Winner slots reserved for quantified scenario studies (cross_asset_scenario /
+  # stress_scenario, e.g. EBA adverse, IMF GFSR geopolitical) that pass the filter:
+  # one extra tag-restricted vector search finds them, and they replace the
+  # lowest-ranked other winners, so the magnitude anchors reach the model rather
+  # than being outranked by closer prose. 0 = off.
+  scenario_study_slots: 2
+  # Rerank pool cap for synthesize only (the /query answer path keeps
+  # retrieval.rerank_candidates). The shared CPU reranker costs ~8s/doc, linear in
+  # the count (measured 2026-10: 12 docs ~100s vs 24 ~200s), so this is the
+  # latency lever that keeps synthesize inside a 300s consumer timeout. Reserved
+  # studies count inside the cap. null = use retrieval.rerank_candidates.
+  rerank_candidates: 12

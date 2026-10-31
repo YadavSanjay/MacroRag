@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["shock_vector"],
+  "properties": {
+    "shock_vector": {"type": "object"}
+  },
+  "additionalProperties": true
+}

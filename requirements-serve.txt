@@ -1,0 +1,61 @@
+# ── Macro RAG — lightweight SERVING image dependencies ───────────────────────
+# The served backend (REST API / MCP) is a SEPARATE, lightweight image: it does
+# NOT bundle the bge-m3 embedder / bge-reranker (torch). The heavy inference is
+# hosted out-of-process by the sister project **RagInference**; the backend
+# reaches it over HTTP (RAGINFER_URL / inference.remote_url, default :8799) via
+# the RemoteEmbedder / RemoteReranker clients.
+#
+# Consequently this list DELIBERATELY OMITS the multi-GB ML stack that the full
+# requirements.txt carries for local dev / in-process fallback:
+#   - FlagEmbedding          (pulls torch; local bge-m3 embed + rerank)
+#   - sentence-transformers  (pulls torch; cross-encoder rerank fallback)
+#   - playwright             (JS-rendered ingestion fetch fallback)
+# All three are imported lazily (embeddings/bge_m3.py, retriever/rerank.py,
+# ingest/common/browser.py), so their absence is safe as long as the backend
+# uses the remote clients and inference.fallback_local is OFF (see rag.prod.yaml).
+
+# HTTP & core ----------------------------------------------------------------
+httpx>=0.27,<1.0
+tenacity>=8.2
+PyYAML>=6.0
+pydantic>=2.6
+python-dotenv>=1.2.4
+python-dateutil>=2.9
+
+# Ingestion parsing (kept so `index` / `ingest` still run in the backend
+# container — index-time embedding is delegated to RagInference via the SAME
+# remote-aware factory the query flow uses (embeddings.select_embedder →
+# RemoteEmbedder), so no path here loads bge-m3/torch in-process; only the
+# JS-browser fetch fallback, playwright, is dropped) -------------------------
+feedparser>=6.0
+beautifulsoup4>=4.12
+lxml>=5.1
+trafilatura>=1.8
+pypdf>=6.21.4
+pdfplumber>=0.11
+openpyxl>=3.1
+xlrd>=2.0
+
+# Vector store ---------------------------------------------------------------
+qdrant-client>=1.9
+
+# AWS object storage (deploy_mode=aws → corpus raw/processed/manifest on S3).
+# Pure-python; imported lazily by utils.objectstore.S3ObjectStore, so local mode
+# never needs it. See docs/design/Macro_RAG_AWS_Deployment.md.
+boto3>=1.34
+
+# Generation -----------------------------------------------------------------
+openai==2.14.0      # pinned with requirements-dev.txt
+anthropic==0.109.1  # pinned with requirements-dev.txt
+tiktoken>=0.7
+jsonschema>=4.20
+
+# Numerics / time-series store -----------------------------------------------
+numpy>=1.26
+pandas>=2.2
+
+# Serving --------------------------------------------------------------------
+fastapi>=0.110
+uvicorn>=0.29
+mcp>=1.30
+redis>=5.0                # prod cache/jobs/cost backends (rag.prod.yaml: backend=redis)

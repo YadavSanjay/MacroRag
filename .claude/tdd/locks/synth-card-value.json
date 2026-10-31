@@ -1,0 +1,60 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-16",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-card-value/test_scv_c1_check.py::test_live_case_end_value_flagged_largest_kept",
+      "test/spec/synth-card-value/test_scv_c1_check.py::test_tolerance_prose_only_label_lines_and_any_card_rule",
+      "test/spec/synth-card-value/test_scv_c1_check.py::test_property_flag_iff_outside_tolerance"
+    ],
+    "C2": [
+      "test/spec/synth-card-value/test_scv_c2_c3.py::test_code_is_hard_and_dropped",
+      "test/spec/synth-card-value/test_scv_c2_c3.py::test_property_drop_set_is_flagged_set"
+    ],
+    "C3": [
+      "test/spec/synth-card-value/test_scv_c2_c3.py::test_pipeline_drops_the_end_value_field",
+      "test/spec/synth-card-value/test_scv_c2_c3.py::test_peak_value_kept_end_value_dropped"
+    ]
+  },
+  "files": {
+    "test/spec/synth-card-value/conftest.py": "03273d83201e375d52fa16a1ff16ee6bb2e4c13a90d73bc26a0400f768d0f2f0",
+    "test/spec/synth-card-value/test_scv_c1_check.py": "747a1cc1eeca995a186643ac1fcd9a5d308d744e88a80ad47e5c9cc3febd547f",
+    "test/spec/synth-card-value/test_scv_c2_c3.py": "20362979c319458be84cfb48b44e048993b2eabeaec476d1d32cb0faae70093c"
+  },
+  "id": "synth-card-value",
+  "interface": [
+    {
+      "file": "src/synthesis/validate.py",
+      "module": "synthesis.validate",
+      "qualname": "check_card_values",
+      "signature": "def check_card_values(fields: dict[str, ShockField], chunks: list[RetrievedChunk], *, diag: SynthesisDiagnostics | None=None) -> None"
+    }
+  ],
+  "nodes": [
+    "test/spec/synth-card-value/test_scv_c1_check.py::test_live_case_end_value_flagged_largest_kept",
+    "test/spec/synth-card-value/test_scv_c1_check.py::test_property_flag_iff_outside_tolerance",
+    "test/spec/synth-card-value/test_scv_c1_check.py::test_tolerance_prose_only_label_lines_and_any_card_rule",
+    "test/spec/synth-card-value/test_scv_c2_c3.py::test_code_is_hard_and_dropped",
+    "test/spec/synth-card-value/test_scv_c2_c3.py::test_peak_value_kept_end_value_dropped",
+    "test/spec/synth-card-value/test_scv_c2_c3.py::test_pipeline_drops_the_end_value_field",
+    "test/spec/synth-card-value/test_scv_c2_c3.py::test_property_drop_set_is_flagged_set"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-card-value.md",
+    "sha256": "99fc05140efda2bf99ca0ada1bb08ecbecedc0571e2535b85a15834075e33c11"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

@@ -1,0 +1,23 @@
+data/
+docs/local/
+**/*.ipynb_checkpoints/
+logs/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.env
+.env.*
+!.env.example
+*.local.hcl
+.claude/*
+!.claude/review/
+.claude/review/out/
+.claude/settings.local.json
+# Shared hook registration (no personal permissions — those go in settings.local.json), the hook
+# scripts and the coding-standards rule files are versioned; .claude/state/ (hook run state) is not.
+!.claude/settings.json
+!.claude/hooks/
+!.claude/rules/
+!.claude/tdd/
+.claude/tdd/state/

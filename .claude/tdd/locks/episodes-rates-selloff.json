@@ -1,0 +1,47 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-15",
+  "criteria": {
+    "C1": [
+      "test/spec/episodes-rates-selloff/test_rs_c1_config.py::test_entries_exactly_as_specified",
+      "test/spec/episodes-rates-selloff/test_rs_c1_config.py::test_tags_are_vocabulary_tags",
+      "test/spec/episodes-rates-selloff/test_rs_c1_config.py::test_existing_order_kept_and_anchors_ascending"
+    ],
+    "C2": [
+      "test/spec/episodes-rates-selloff/test_rs_c2_card.py::test_taper_card_from_the_notes_rows",
+      "test/spec/episodes-rates-selloff/test_rs_c2_card.py::test_property_each_new_episode_builds_its_card"
+    ]
+  },
+  "files": {
+    "test/spec/episodes-rates-selloff/conftest.py": "0cff5562111808ceed5534ec788caab0fa80743400dae474689f830190959718",
+    "test/spec/episodes-rates-selloff/test_rs_c1_config.py": "6c1ca991c6c93d08394a349e1740bbbb50ce04df45688b53a4650fce44b46064",
+    "test/spec/episodes-rates-selloff/test_rs_c2_card.py": "a4a8a1e9f5d175ef08f7198537f75fb8f64767510212451be9bbab59494df846"
+  },
+  "id": "episodes-rates-selloff",
+  "interface": [],
+  "nodes": [
+    "test/spec/episodes-rates-selloff/test_rs_c1_config.py::test_entries_exactly_as_specified",
+    "test/spec/episodes-rates-selloff/test_rs_c1_config.py::test_existing_order_kept_and_anchors_ascending",
+    "test/spec/episodes-rates-selloff/test_rs_c1_config.py::test_tags_are_vocabulary_tags",
+    "test/spec/episodes-rates-selloff/test_rs_c2_card.py::test_property_each_new_episode_builds_its_card",
+    "test/spec/episodes-rates-selloff/test_rs_c2_card.py::test_taper_card_from_the_notes_rows"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/episodes-rates-selloff.md",
+    "sha256": "c49ffd33e727a6d852a4f88efdb0d25d8d17ba8153637cadd0a1c42696488273"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

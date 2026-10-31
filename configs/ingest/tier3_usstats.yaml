@@ -1,0 +1,311 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — Tier 3 ingestion catalog: U.S. Statistical & Policy Agencies
+#
+# Implements Ingestion Design §2.4 (endpoint catalog) and §6 (per-endpoint
+# blueprint). Native Tier-3 endpoints: BEA, BLS, CBO. (Federal Register is
+# covered in Tier 6B; EIA in Tier 6A; SEC EDGAR + CFTC SDR are already in the
+# faultline pull and deliberately NOT re-ingested.)
+#
+# Channels: BEA + BLS -> growth + inflation legs (-> time-series store, numeric
+# only, no vector chunks); CBO -> deficit trajectory / 10Y-Treasury term-premium
+# prior for #17, #18, #20, #23 (-> vector store + supplemental data files).
+#
+# §6.5 item 5: the productive work is curating WHICH series/tables matter. That
+# curation lives here in version-controlled config, not in the handler code.
+# ─────────────────────────────────────────────────────────────────────────────
+
+tier: 3
+name: "U.S. Statistical & Policy Agencies"
+publisher: "U.S. Government"
+licence: "public_domain_us_gov"
+base_url: "https://www.bea.gov"
+
+defaults:
+  poll_cadence: "weekly"           # release-schedule driven; no real-time feeds
+
+endpoints:
+
+  # ── Endpoint 1 — BEA (GET REST + JSON) — implement first ───────────────────
+  - id: "bea"
+    handler: "bea"
+    title: "Bureau of Economic Analysis (NIPA)"
+    enabled: true
+    bucket: "C"                    # rolling monthly/quarterly time series
+    poll_cadence: "weekly"
+    discovery:
+      type: "api"
+      url: "https://apps.bea.gov/api/data/"
+    publisher: "Bureau of Economic Analysis"
+    release_schedule:
+      frequency: "monthly+quarterly"
+      note: "Personal Income & Outlays (PCE) ~end of month; GDP advance ~26-27 of month after quarter"
+    factor_tags: ["growth", "inflation"]
+    entity_tags: []
+    trades: ["all equity discounting"]
+    content:
+      api_key_env: "BEA_API_KEY"   # query param UserID=
+      dataset: "NIPA"
+      result_format: "JSON"
+      years: "2022,2023,2024,2025,2026"
+      # Curated NIPA tables (§6.1). frequency: M=monthly, Q=quarterly.
+      tables:
+        - {name: "T20804", frequency: "M", description: "PCE Price Index by Major Type (Fed's preferred gauge)"}
+        - {name: "T20807", frequency: "M", description: "Percent Change in PCE Price Index (headline + core)"}
+        - {name: "T10101", frequency: "Q", description: "Percent Change in Real GDP"}
+        - {name: "T10105", frequency: "Q", description: "GDP in Current Dollars"}
+        - {name: "T20306", frequency: "Q", description: "Real PCE by Major Type"}
+        - {name: "T50305", frequency: "Q", description: "Private Fixed Investment by Type (AI-capex corroboration: info-processing equipment, software)"}
+        - {name: "T61600D", frequency: "Q", description: "Corporate Profits by Industry"}
+
+  # ── Endpoint 2 — BLS (POST REST + JSON body) ───────────────────────────────
+  - id: "bls"
+    handler: "bls"
+    title: "Bureau of Labor Statistics"
+    enabled: true
+    bucket: "C"
+    poll_cadence: "weekly"
+    discovery:
+      type: "api"
+      url: "https://api.bls.gov/publicAPI/v2/timeseries/data/"
+    publisher: "Bureau of Labor Statistics"
+    release_schedule:
+      frequency: "monthly"
+      note: "Employment Situation first Friday 8:30 ET; CPI/PPI mid-month 8:30 ET; JOLTS mid-month"
+    factor_tags: ["inflation", "growth", "labor"]
+    entity_tags: []
+    trades: ["rates leg", "all"]
+    content:
+      api_key_env: "BLS_API_KEY"   # registrationkey in JSON body
+      start_year: "2022"
+      end_year: "2026"
+      batch_size: 50               # API max series per request
+      # Curated series IDs (§6.2).
+      series:
+        - {id: "CUSR0000SA0", description: "CPI-U All Items, SA (headline CPI)"}
+        - {id: "CUUR0000SA0", description: "CPI-U All Items, NSA"}
+        - {id: "CUSR0000SA0L1E", description: "CPI-U Less Food & Energy (core CPI)"}
+        - {id: "CES0000000001", description: "Total Nonfarm Payrolls (NFP)"}
+        - {id: "CES0500000003", description: "Average Hourly Earnings, Total Private"}
+        - {id: "LNS14000000", description: "Unemployment Rate (16+)"}
+        - {id: "LNS11300000", description: "Labor Force Participation Rate"}
+        - {id: "LNS12300000", description: "Employment-Population Ratio"}
+        - {id: "JTS000000000000000JOL", description: "JOLTS Job Openings, Total Nonfarm"}
+        - {id: "JTS000000000000000QUL", description: "JOLTS Quits Rate"}
+        - {id: "WPSFD4", description: "PPI Final Demand"}
+
+  # ── Endpoint 3 — CBO (HTML scrape + PDF) — implement last ──────────────────
+  - id: "cbo"
+    handler: "cbo"
+    title: "Congressional Budget Office"
+    enabled: true
+    bucket: "B"                    # latest projection supersedes; prior for diff
+    poll_cadence: "weekly"
+    discovery:
+      type: "html_index"
+      url: "https://www.cbo.gov/data/publications-with-data-files"
+    publisher: "Congressional Budget Office"
+    release_schedule:
+      frequency: "annual+monthly"
+      months: ["February", "September"]
+      note: "Budget & Economic Outlook (Feb) is highest-value; Monthly Budget Review ~10th business day"
+    factor_tags: ["term_premium", "fiscal", "discount_rate"]
+    entity_tags: []
+    trades: ["#17", "#18", "#20", "#23"]
+    content:
+      max_publications: 6
+      exec_summary_hint: "Executive-Summary"
+      pdf_link_pattern: "\\.pdf$"
+      data_file_pattern: "\\.(xlsx|xls|csv)$"
+      # Chapter headings for the Budget & Economic Outlook (§6.3 Stage B).
+      section_headings:
+        - "Executive Summary"
+        - "The Economic Outlook"
+        - "The Budget Outlook"
+        - "The Spending Outlook"
+        - "The Revenue Outlook"
+
+  # ── Endpoint 4 — FRED daily market series (GET REST + JSON) ────────────────
+  # Daily closes for the market-episode library (spec ingest-fred-daily; see
+  # Source Catalog §4). Numeric only: one document
+  # per series per calendar year in the time-series store, no vector chunks.
+  # FRED serves the ICE BofA spread pair only for a rolling three-year window
+  # (from 2023-10-16 when checked on 2026-10-14), so routine runs fetch only the
+  # current and previous year; `--refresh` backfills from backfill_start and writes
+  # an old year only when FRED also returned a row before it (proof the window did
+  # not cut into it). BAA10Y (Moody's Baa yield minus the 10Y
+  # Treasury) is the long-history stand-in for IG spreads before that window — a
+  # yield spread, not an option-adjusted spread.
+  - id: "fred_daily"
+    handler: "fred"
+    title: "FRED daily market series"
+    enabled: true
+    bucket: "C"                    # rolling daily series
+    poll_cadence: "weekly"
+    discovery:
+      type: "api"
+      url: "https://api.stlouisfed.org/fred/series/observations"
+    publisher: "Federal Reserve Bank of St. Louis"
+    factor_tags: ["equity_vol", "credit_spread", "discount_rate", "term_premium", "fx"]
+    entity_tags: []
+    trades: ["scenario_priors"]
+    content:
+      api_key_env: "FRED_API_KEY"  # query param api_key= (never stored: fred:// URLs)
+      backfill_start: "2005-01-01"
+      series:
+        - {id: "VIXCLS", units: "index_points"}
+        - {id: "BAMLC0A0CM", units: "percent"}     # ICE BofA US IG OAS
+        - {id: "BAMLH0A0HYM2", units: "percent"}   # ICE BofA US HY OAS
+        - {id: "BAA10Y", units: "percent"}         # Moody's Baa - 10Y (IG stand-in)
+        - {id: "DGS2", units: "percent"}
+        - {id: "DGS5", units: "percent"}
+        - {id: "DGS10", units: "percent"}
+        - {id: "DGS30", units: "percent"}
+        - {id: "DFII10", units: "percent"}         # 10Y TIPS real yield
+        - {id: "THREEFYTP10", units: "percent"}    # Kim-Wright 10Y term premium
+        - {id: "SOFR", units: "percent"}
+        - {id: "DEXTAUS", units: "twd_per_usd"}
+        - {id: "DEXJPUS", units: "jpy_per_usd"}
+
+  # ── Endpoint 4b — NY Fed ACM term premium (daily, one workbook) ───────────
+  # The Adrian-Crump-Moench 10Y term premium, the model faultline drives as
+  # tp:ACMTP10 (spec ingest-acm-daily). Kim-Wright (THREEFYTP10, fred_daily) is a
+  # different model. One download holds the full daily history; stored like
+  # fred_daily, one numeric document per series per year. Must stay before
+  # market_episodes so the cards read fresh rows.
+  - id: "acm_daily"
+    handler: "acm"
+    title: "NY Fed ACM term premium (daily)"
+    enabled: true
+    bucket: "C"
+    poll_cadence: "weekly"
+    discovery:
+      type: "api"
+      url: "https://www.newyorkfed.org/medialibrary/media/research/data_indicators/ACMTermPremium.xls"
+    publisher: "Federal Reserve Bank of New York"
+    factor_tags: ["term_premium"]
+    entity_tags: []
+    trades: ["scenario_priors"]
+    content:
+      sheet: "ACM Daily"
+      series: ["ACMTP10"]
+      backfill_start: "2005-01-01"
+
+  # ── Endpoint 5 — Market-episode cards (computed, no HTTP) ──────────────────
+  # One card per named stress episode: the realized moves over the 5 and the 10
+  # trading days after the anchor close (the last close before the shock),
+  # computed from the rows fred_daily stored (spec market-episodes). An episode may
+  # set its own `horizons` (trading-day counts, default [5, 10]) to match a replay
+  # window faultline asks for; all of a card's chunks are dated at its longest
+  # window's end (spec episode-card-horizons). Must stay after fred_daily so it
+  # reads fresh data. Each card chunk carries an exact horizon_days, and every card
+  # is tagged cross_asset_scenario so the reserved scenario-study slots bring it
+  # into synthesis. Anchors were checked against the stored FRED data on 2026-10-14
+  # (and 2026-10-18 for the episode-card-horizons cards): the stress shows in the
+  # days after each one. Keep the list in ascending anchor order.
+  - id: "market_episodes"
+    handler: "episodes"
+    title: "Market-episode cards (realized moves from FRED)"
+    enabled: true
+    bucket: "C"
+    poll_cadence: "weekly"
+    discovery:
+      type: "api"                  # no request is made: rows come from fred_daily
+      url: "episode://"
+    publisher: "MacroRAG (derived from FRED)"
+    factor_tags: ["cross_asset_scenario"]
+    entity_tags: []
+    trades: ["scenario_priors"]
+    content:
+      episodes:
+        - id: "lehman"
+          name: "Lehman Brothers bankruptcy"
+          anchor: 2008-09-12
+          factor_tags: ["credit_spread", "systemic", "flight_to_quality", "equity_vol"]
+          entity_tags: []
+        - id: "us_downgrade"
+          name: "US sovereign downgrade"
+          anchor: 2011-08-05
+          factor_tags: ["fiscal", "flight_to_quality", "equity_vol"]
+          entity_tags: []
+        # spec episodes-rates-selloff: Treasury sell-offs (every other card is a rally).
+        - id: "taper_tantrum"
+          name: "Taper tantrum"
+          anchor: 2013-06-18
+          factor_tags: ["forward_guidance", "term_premium", "rates_vol", "discount_rate"]
+          entity_tags: []
+        - id: "china_deval"
+          name: "China yuan devaluation"
+          anchor: 2015-08-10
+          factor_tags: ["fx", "policy_uncertainty", "equity_vol"]
+          entity_tags: ["china"]
+        - id: "volmageddon"
+          name: "Volmageddon short-vol unwind"
+          anchor: 2018-02-01
+          factor_tags: ["equity_vol", "valuation_stretch"]
+          entity_tags: []
+        - id: "covid"
+          name: "COVID-19 market crash"
+          anchor: 2020-02-21
+          factor_tags: ["systemic", "equity_vol", "credit_spread", "flight_to_quality"]
+          entity_tags: []
+        # spec episode-card-horizons: faultline's ai_deflation replay window. 221
+        # FRED rows end 2022-10-17 (Treasury series skip bond holidays). No ICE spreads
+        # before 2023-10-16: no HY_OAS line, IG is the BAA10Y stand-in.
+        - id: "ai_peak_to_trough_2022"
+          name: "2021-22 AI and growth-equity peak-to-trough"
+          anchor: 2021-11-29
+          horizons: [5, 10, 221]
+          factor_tags: ["equity_vol", "credit_spread", "discount_rate", "ai_capex"]
+          entity_tags: ["ai", "semiconductors"]
+        # spec episode-russia-ukraine. VIX moves little after this anchor: it had
+        # already risen 20 -> 31 in the run-up. Credit, real yields and TWD carry it.
+        - id: "russia_ukraine"
+          name: "Russian invasion of Ukraine"
+          anchor: 2022-02-23
+          factor_tags: ["geopolitical_risk", "sanctions_regime", "flight_to_quality", "credit_spread"]
+          entity_tags: []
+        - id: "cpi_shock_2022"
+          name: "June 2022 CPI shock"
+          anchor: 2022-06-09
+          factor_tags: ["inflation", "discount_rate", "rates_vol"]
+          entity_tags: []
+        # spec episode-card-horizons: faultline's inflation_repricing window.
+        - id: "hawkish_repricing_2022"
+          name: "Aug-Oct 2022 hawkish real-rate repricing"
+          anchor: 2022-08-16
+          horizons: [5, 10, 42]
+          factor_tags: ["inflation", "discount_rate", "rates_vol"]
+          entity_tags: []
+        - id: "svb"
+          name: "Silicon Valley Bank failure"
+          anchor: 2023-03-08
+          factor_tags: ["systemic", "credit_conditions", "rates_vol", "discount_rate"]
+          entity_tags: []
+        - id: "treasury_refunding_2023"
+          name: "Treasury refunding and Fitch downgrade"
+          anchor: 2023-07-31
+          factor_tags: ["fiscal", "term_premium", "rates_vol"]
+          entity_tags: []
+        # spec episode-card-horizons: faultline's ai_rotation window; the anchor is the
+        # close before the soft June 2024 CPI print of 2024-07-11.
+        - id: "ai_rotation_2024"
+          name: "July 2024 rotation out of AI leaders"
+          anchor: 2024-07-10
+          factor_tags: ["equity_vol", "valuation_stretch"]
+          entity_tags: ["ai", "semiconductors"]
+        - id: "yen_carry"
+          name: "Yen carry-trade unwind"
+          anchor: 2024-07-31
+          factor_tags: ["fx", "monetary_policy", "equity_vol"]
+          entity_tags: []
+        - id: "deepseek"
+          name: "DeepSeek AI selloff"
+          anchor: 2025-01-24
+          horizons: [1, 5, 10]       # 1: faultline's ai_efficiency_shock (spec episode-card-horizons)
+          factor_tags: ["ai_capex", "hyperscaler_concentration", "valuation_stretch", "equity_vol"]
+          entity_tags: ["ai", "semiconductors", "hyperscaler"]
+        - id: "tariff"
+          name: "Liberation Day tariff shock"
+          anchor: 2025-04-02
+          factor_tags: ["supply_chain_disruption", "policy_uncertainty", "equity_vol", "credit_spread"]
+          entity_tags: ["china"]

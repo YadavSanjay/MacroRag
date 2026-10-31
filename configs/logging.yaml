@@ -1,0 +1,58 @@
+version: 1
+disable_existing_loggers: false
+filters:
+  context:
+    (): utils.logging.LogContextFilter
+formatters:
+  simple:
+    format: "%(asctime)s %(levelname)s [%(name)s] %(message)s"
+    datefmt: "%H:%M:%S"
+  detailed:
+    format: "%(asctime)s %(levelname)s [%(name)s] [qid=%(query_id)s] %(message)s"
+    datefmt: "%H:%M:%S"
+  json:
+    (): utils.logging.JsonFormatter
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: detailed
+    filters: [context]
+    # stderr, not stdout: under the stdio MCP transport (src/mcp_server/server.py)
+    # stdout is the JSON-RPC framing channel, so any log line on stdout corrupts
+    # the protocol and deadlocks the host. stderr is also the conventional stream
+    # for diagnostics and is harmless for the REST (uvicorn) and CLI entrypoints,
+    # which use stdout for their own output.
+    stream: ext://sys.stderr
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: INFO
+    formatter: json
+    filters: [context]
+    # relative to the repo root; setup_logging() resolves it + mkdirs the dir.
+    filename: logs/macro_app.log
+    maxBytes: 10485760
+    backupCount: 5
+    encoding: utf8
+loggers:
+  # MacroRAG modules are imported top-level (PYTHONPATH=src), so there's no single
+  # package prefix to attach to — project loggers (pipelines.*, retriever.*,
+  # mcp_server.*, api.*, …) propagate to root and pick up its handlers. Below we
+  # only cap chatty third-party libraries so they don't drown the signal.
+  httpx:
+    level: WARNING
+  httpcore:
+    level: WARNING
+  openai:
+    level: WARNING
+  urllib3:
+    level: WARNING
+  qdrant_client:
+    level: WARNING
+  sentence_transformers:
+    level: WARNING
+  uvicorn.access:
+    level: WARNING
+root:
+  level: INFO
+  handlers: [console, file]

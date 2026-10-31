@@ -1,0 +1,280 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — golden RETRIEVAL set · Viewpoint A: user-facing RAG / UI
+#
+# Consumed by src/eval/harness.py:evaluate_retrieval (hit@k / recall@k / MRR).
+# For each item the harness projects every retrieved chunk onto `match_field`
+# and scores the projected keys against `expected` (the gold key set). So the
+# "expected answer" here is NOT prose — it is the PROVENANCE a correct answer
+# must draw on, expressed in the corpus's own closed vocabulary:
+#   match_field: source_id    -> endpoint id (configs/ingest/*.yaml `id:`)
+#   match_field: factor_tags  -> macro shock channel (configs/ingest/vocabulary.yaml)
+#   match_field: doc_type     -> per-source document type (vocabulary.yaml doc_types)
+#   match_field: entity_tags  -> theme/actor tag (vocabulary.yaml entity_tags)
+# Multi-value `expected` + recall@k rewards a query that surfaces ALL the
+# grounding sources a good synthesis needs (a coverage assertion).
+#
+# `note` is a human/LLM-judge stub (what a grounded answer must contain); the
+# retrieval harness ignores unknown keys, so it is safe to carry here.
+#
+# Run:  $env:PYTHONPATH="src"
+#   conda run -n py312 python -m pipelines.cli eval --k 8 \
+#       --golden configs/eval/golden_user_facing.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+
+questions:
+  # ── Monetary policy / rates ────────────────────────────────────────────────
+  - question: "How has the FOMC's forward-guidance posture shifted since the Warsh chairmanship began, and what does the latest SEP dot plot imply for the rate path over the next four quarters?"
+    match_field: source_id
+    expected: ["press_monetary", "speeches"]
+    note: "Grounds in FOMC statement/SEP (press_monetary feed) + inter-meeting Chair/Governor speeches; answer must cite a dated SEP path."
+
+  - question: "Reconcile the latest FOMC statement's characterization of inflation progress with the most recent BLS CPI and BEA PCE prints — where does the Fed's language lead or lag the data?"
+    match_field: source_id
+    expected: ["press_monetary", "bls", "bea"]
+    note: "Cross-tier: Fed narrative vs the two official inflation gauges."
+
+  - question: "What do the last two sets of FOMC minutes say about the pace of balance-sheet runoff (QT), and how might that interact with the long-end supply picture from the latest Treasury Quarterly Refunding?"
+    match_field: source_id
+    expected: ["press_monetary", "quarterly_refunding"]
+    note: "QT pace (minutes) × long-end issuance (refunding) → supply pressure."
+
+  - question: "Combine the latest TBAC discussion charts, the Quarterly Refunding financing estimates, and CBO's deficit trajectory into a view on long-end (10y–30y) issuance pressure and the term premium."
+    match_field: factor_tags
+    expected: ["term_premium"]
+    note: "Thematic term-premium channel; hits should span refunding + CBO + TBAC."
+
+  - question: "According to the most recent Fed Financial Stability Report, which valuation and leverage vulnerabilities are flagged as most acute, and how does that compare with the prior report?"
+    match_field: source_id
+    expected: ["financial_stability"]
+    note: "Requires the FSR; temporal compare across two vintages of the same source."
+
+  - question: "What does the latest SLOOS say about lending standards and loan demand, and does it confirm or contradict the 'AI leveraging-up' credit theme in the house views?"
+    match_field: source_id
+    expected: ["sloos"]
+    note: "Survey-based credit conditions; a strong answer also pulls a house-view chunk."
+
+  - question: "Trace the Fed's evolving stance on r-star / neutral-rate estimates across the most recent SEP and any relevant Chair or Governor speeches."
+    match_field: source_id
+    expected: ["press_monetary", "speeches"]
+    note: "SEP longer-run dot + speech commentary."
+
+  - question: "How has the dispersion of the SEP dot plot changed over the last two projection rounds, and what does widening or narrowing dispersion say about Committee consensus?"
+    match_field: doc_type
+    expected: ["sep_projections"]
+    note: "Table-extraction over two SEP releases; doc_type target isolates the SEP."
+
+  - question: "Between the latest FOMC statement and the subsequent minutes, where did the tone on the balance of risks shift, and which sentences carry that shift?"
+    match_field: doc_type
+    expected: ["fomc_statement", "fomc_minutes"]
+    note: "Paired statement↔minutes comparison; both doc_types must surface."
+
+  - question: "What dissents or 'several/some participants' qualifiers appear in the latest minutes, and on which policy dimension is the Committee least unified?"
+    match_field: doc_type
+    expected: ["fomc_minutes"]
+    note: "Minutes-specific; answer identifies the least-consensus dimension."
+
+  - question: "Using the latest Monetary Policy Report and the Chair's testimony framing, how does the Fed characterize the trade-off between labor-market cooling and inflation persistence?"
+    match_field: source_id
+    expected: ["press_monetary"]
+    note: "MPR arrives via the press_monetary feed; labor↔inflation trade-off."
+
+  - question: "Walk the causal chain from the latest Quarterly Refunding financing estimate to a change in the 30y term premium to the discount rate on a 27–28-year corporate bond, citing a source at each hop."
+    match_field: factor_tags
+    expected: ["term_premium"]
+    note: "Multi-hop causal; DECOMPOSE path. Grounding: refunding → term_premium chunks."
+
+  # ── Growth / inflation / fiscal ────────────────────────────────────────────
+  - question: "Assemble the current growth picture from BEA GDP components and the most recent IMF WEO US forecast — where do the official-agency and Fund views diverge?"
+    match_field: source_id
+    expected: ["bea", "imf_reports"]
+    note: "Two independent growth reads; answer must surface the divergence."
+
+  - question: "What is the latest read on services vs goods inflation from BLS CPI/PPI, and how does the Fed's preferred PCE gauge (BEA) frame the same signal?"
+    match_field: source_id
+    expected: ["bls", "bea"]
+    note: "CPI/PPI (BLS) + PCE (BEA); services/goods split."
+
+  - question: "How does CBO's latest Budget & Economic Outlook characterize the deficit and debt path, and how is that reflected in Treasury's stated financing needs?"
+    match_field: source_id
+    expected: ["cbo", "quarterly_refunding"]
+    note: "Deficit trajectory → issuance; CBO + refunding must both appear."
+
+  - question: "Where in the recent BLS/BEA releases is data quality caveated by shutdown-driven disruptions, and how should an analyst weight those prints?"
+    match_field: source_id
+    expected: ["bls", "bea"]
+    note: "Data-continuity caveat handling; ingestion metadata flags the disruption."
+
+  - question: "Decompose the latest BEA GDP print into consumption, investment (esp. tech/IP), government and net exports — how much of recent US growth is the AI-capex-heavy investment component?"
+    match_field: source_id
+    expected: ["bea"]
+    note: "GDP-component decomposition; a good answer bridges to the capex narrative."
+
+  - question: "Compare how the IMF WEO and the sell-side houses each quantify AI's contribution to US growth — upside catalyst or downside/concentration risk, and by whom?"
+    match_field: source_id
+    expected: ["imf_reports", "jpm_eotm", "blackrock"]
+    note: "Official vs Street framing of AI growth contribution."
+
+  - question: "What does the latest ECI / productivity data (BLS) imply for unit labor costs, and how does that reconcile with the AI-productivity optimism in Stanford HAI and the house views?"
+    match_field: source_id
+    expected: ["bls", "stanford_hai"]
+    note: "Labor-cost data vs AI-productivity optimism."
+
+  # ── AI capex cycle ─────────────────────────────────────────────────────────
+  - question: "Synthesize the hyperscaler AI-capex outlook across BlackRock BII, JPM Eye on the Market and Apollo — consensus vs disagreement on the spend-vs-revenue 'financing hump'."
+    match_field: source_id
+    expected: ["blackrock", "jpm_eotm", "apollo"]
+    note: "Three-house synthesis; recall@k rewards surfacing all three."
+
+  - question: "What does Cembalest's Eye on the Market identify as the medium-term risks to the AI trade, and how do those map to S&P concentration risk?"
+    match_field: source_id
+    expected: ["jpm_eotm"]
+    note: "The four Cembalest risks; concentration channel."
+
+  - question: "Combine Census BTOS AI-adoption readings with the Stanford HAI AI Index to describe the pace of firm-level AI diffusion — broadening or narrowing?"
+    match_field: source_id
+    expected: ["census_btos", "stanford_hai"]
+    note: "Official adoption read + canonical index."
+
+  - question: "How do the house views frame the risk of a 'metaverse moment' (hyperscaler profit disappointment) for AI-linked equities, and what evidence do they cite?"
+    match_field: factor_tags
+    expected: ["hyperscaler_concentration", "valuation_stretch"]
+    note: "Concentration + valuation-stretch channels."
+
+  - question: "Trace the 'front-loaded spend, back-loaded revenue' thesis to its credit-market implication: what do BlackRock, Morgan Stanley and Apollo each say about resulting bond-issuance / leverage pressure?"
+    match_field: source_id
+    expected: ["blackrock", "ms_totm", "apollo"]
+    note: "Capex-financing hump → credit issuance; MS spread-leg framing."
+
+  - question: "Across the last two rounds of house-view outlooks, how has consensus on 2026–2028 hyperscaler capex shifted, and which house is most contrarian?"
+    match_field: source_id
+    expected: ["blackrock", "jpm_eotm"]
+    note: "Temporal consensus shift; identify the outlier."
+
+  - question: "Reconcile the official AI-adoption read (Census BTOS) with the market-narrative read (house views): does adoption data support or temper the capex optimism the Street prices?"
+    match_field: source_id
+    expected: ["census_btos", "blackrock"]
+    note: "Official data vs Street narrative reconciliation."
+
+  # ── Power / data-center constraint ─────────────────────────────────────────
+  - question: "According to EIA AEO and STEO, how much does data-center load contribute to the projected US electricity-demand trajectory, and over what horizon?"
+    match_field: source_id
+    expected: ["eia_aeo", "eia_steo"]
+    note: "Forward power trajectory; long-run (AEO) + near-term (STEO)."
+
+  - question: "Compare the EIA AEO2026 domestic view with the IEA Energy and AI global projection for data-center electricity growth — where do the two diverge on magnitude or timing?"
+    match_field: source_id
+    expected: ["eia_aeo", "iea"]
+    note: "Domestic vs global power projection divergence."
+
+  - question: "What do FERC interconnection-queue and PJM materials say about grid bottlenecks in 'Data Center Alley', and why is interconnection framed as the binding physical cap?"
+    match_field: factor_tags
+    expected: ["interconnection_constraint", "data_center_power"]
+    note: "Binding-constraint framing; FERC 714 + PJM grounding."
+
+  - question: "Lay out the causal chain from a data-center power constraint to hyperscaler capex to AI-equity earnings, using the power sources and house-view framing together."
+    match_field: factor_tags
+    expected: ["data_center_power", "ai_capex"]
+    note: "Multi-hop physical-constraint → capex → earnings."
+
+  - question: "How has the EIA STEO's near-term electricity-demand attribution to data centers / large computing facilities changed across its most recent monthly updates?"
+    match_field: source_id
+    expected: ["eia_steo"]
+    note: "Temporal drift within a single high-frequency source."
+
+  - question: "Triangulate the data-center power-demand estimate across EIA AEO, IEA and any house-view cross-reference — how wide is the uncertainty band and what drives the disagreement?"
+    match_field: source_id
+    expected: ["eia_aeo", "iea", "blackrock"]
+    note: "Three-way triangulation with an explicit uncertainty band."
+
+  # ── Semiconductors / export controls / Taiwan ──────────────────────────────
+  - question: "Summarize the current US chip-export-control regime: what did the Jan-2026 BIS final rule change (H200 / MI325X), and how does the Section 232 semiconductor tariff interact with it?"
+    match_field: source_id
+    expected: ["federal_register"]
+    note: "Primary-source rule + proclamation both land in the Federal Register feed."
+
+  - question: "What is the latest SIA global semiconductor sales trend and TSMC monthly-sales / capex-guidance signal, and what do they jointly imply for near-term AI-hardware demand?"
+    match_field: source_id
+    expected: ["sia", "tsmc"]
+    note: "Two high-frequency demand proxies read together."
+
+  - question: "Which firms and activities does the Treasury OISP (EO-14105) restrict, and how does that overlap with the BIS Entity List as a Taiwan-tail catalyst?"
+    match_field: source_id
+    expected: ["oisp", "bis_entity_list"]
+    note: "Outbound-investment restriction × entity-list naming."
+
+  - question: "Trace the dated export-control catalyst calendar (e.g. the ~Nov-2026 Affiliates Rule resumption) and explain what to watch on each date."
+    match_field: source_id
+    expected: ["federal_register"]
+    note: "Release-calendar awareness; dated catalysts in the FR feed."
+
+  - question: "How is a 'US data center' defined in the Section 232 tariff carve-out (>100 MW threshold), and why does that definition matter for the tariff's effective incidence?"
+    match_field: source_id
+    expected: ["federal_register"]
+    note: "Precise definitional extraction from the proclamation."
+
+  - question: "Distinguish the Jan-2026 BIS 'case-by-case review' posture from the prior 'presumption of denial' — for H200 / MI325X, what conditions now gate a license?"
+    match_field: factor_tags
+    expected: ["export_controls"]
+    note: "Regime-change delta; supply/security/testing conditions."
+
+  - question: "Using TSMC monthly sales as a leading indicator, does the latest foundry-demand signal lead or lag the SIA global-sales trend, and what does any divergence imply?"
+    match_field: source_id
+    expected: ["tsmc", "sia"]
+    note: "Lead/lag reasoning between two proxies."
+
+  - question: "What do the Federal Register / BIS materials say about stricter enforcement (Operation Gatekeeper, the BIS budget increase), and how does that change the regime's credibility?"
+    match_field: source_id
+    expected: ["federal_register"]
+    note: "Enforcement-posture signal from primary filings."
+
+  # ── FX / funding / international ────────────────────────────────────────────
+  - question: "What does the latest BoJ Outlook Report signal for policy normalization, and how might that feed USD/JPY and the broader carry environment?"
+    match_field: source_id
+    expected: ["boj_outlook"]
+    note: "BoJ stance → JPY/carry."
+
+  - question: "Combine the BIS Quarterly Review funding narrative with Treasury TIC foreign-demand data into a view on USD cross-border liquidity and cross-currency basis pressure."
+    match_field: source_id
+    expected: ["bis_quarterly", "tic"]
+    note: "Funding narrative × foreign demand → basis."
+
+  - question: "What does the latest TIC data say about the composition of foreign Treasury demand (official vs private, by region), and how does that intersect with the term-premium story?"
+    match_field: source_id
+    expected: ["tic"]
+    note: "TIC composition; bridge to term premium."
+
+  - question: "From the BIS Annual Economic Report, summarize the systemic cross-border-USD-liquidity risks flagged, and connect them to the funding leg the pricing engine watches."
+    match_field: source_id
+    expected: ["bis_annual"]
+    note: "Systemic USD-liquidity framing (WS_GLI narrative)."
+
+  # ── Cross-source synthesis / conflict / meta ───────────────────────────────
+  - question: "On the outlook for long-end US rates, where do the Fed, Treasury/TBAC, CBO and the sell-side houses agree, and where do they conflict — surface the disagreement."
+    match_field: source_id
+    expected: ["press_monetary", "quarterly_refunding", "cbo"]
+    note: "Four-source agree/conflict map; must not collapse the disagreement."
+
+  - question: "Give a single unified 'company fundamental + macro context' view for the semiconductor complex: pair the export-control / SIA / TSMC macro layer with the entity-tagged AI narrative."
+    match_field: entity_tags
+    expected: ["semiconductors"]
+    note: "Exercises the entity_tags cross-link (macro ↔ filings join key)."
+
+  - question: "What is the most recent authoritative source on the chip-export-control regime, and does any newer source contradict it? Prefer the freshest primary source and flag the conflict."
+    match_field: factor_tags
+    expected: ["export_controls"]
+    note: "Recency-conflict handling; time-decay should favor the newest FR rule."
+
+  - question: "Build a 'what changed this week' macro briefing: across the latest releases in all tiers, which one or two items most materially update the prior read, and why?"
+    match_field: factor_tags
+    expected: ["forward_guidance", "export_controls", "ai_capex"]
+    note: "Broad recency scan; loose gold — primarily an LLM-judge relevancy target."
+
+  - question: "Where do the four Cembalest medium-term risks (US power, China scaling AI alone, Taiwan, hyperscaler-profit 'metaverse moment') each find corroboration in a non-house-view primary source?"
+    match_field: source_id
+    expected: ["eia_aeo", "federal_register", "imf_reports"]
+    note: "Cross-validate a house thesis against Fed/EIA/IMF/FR primaries."
+
+  - question: "Identify a case where two sources of different vintage disagree on the same factor (e.g. an older IMF WEO growth number vs a newer house-view revision) and explain how the system should present the conflict."
+    match_field: source_id
+    expected: ["imf_reports", "blackrock"]
+    note: "Vintage-conflict presentation; recency policy surfaces, does not silently pick."

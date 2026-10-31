@@ -1,0 +1,56 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-16",
+  "criteria": {
+    "C1": [
+      "test/spec/cache-scope/test_cs_scope.py::test_semantic_hit_only_within_the_same_filter",
+      "test/spec/cache-scope/test_cs_scope.py::test_property_each_filter_gets_its_own_publishers"
+    ],
+    "C2": [
+      "test/spec/cache-scope/test_cs_scope.py::test_synthesize_does_not_reuse_a_plain_answer",
+      "test/spec/cache-scope/test_cs_scope.py::test_synthesize_twice_still_hits"
+    ],
+    "C3": [
+      "test/spec/cache-scope/test_cs_scope.py::test_corpus_change_invalidates_both_levels",
+      "test/spec/cache-scope/test_cs_scope.py::test_same_corpus_shares_the_cache"
+    ],
+    "C4": [
+      "test/spec/cache-scope/test_cs_scope.py::test_redis_semantic_cache_is_scoped_too",
+      "test/spec/cache-scope/test_cs_scope.py::test_redis_and_memory_agree"
+    ]
+  },
+  "files": {
+    "test/spec/cache-scope/conftest.py": "3faae65efb1a9b9ed6bfefcc2bf5ffadf90feefe484e8b75bcddf67a77649e42",
+    "test/spec/cache-scope/test_cs_scope.py": "15d70f5b0130821ebb34cedca666af4d1479c52269b7d8f3845cca18c4eee0d8"
+  },
+  "id": "cache-scope",
+  "interface": [],
+  "nodes": [
+    "test/spec/cache-scope/test_cs_scope.py::test_corpus_change_invalidates_both_levels",
+    "test/spec/cache-scope/test_cs_scope.py::test_property_each_filter_gets_its_own_publishers",
+    "test/spec/cache-scope/test_cs_scope.py::test_redis_and_memory_agree",
+    "test/spec/cache-scope/test_cs_scope.py::test_redis_semantic_cache_is_scoped_too",
+    "test/spec/cache-scope/test_cs_scope.py::test_same_corpus_shares_the_cache",
+    "test/spec/cache-scope/test_cs_scope.py::test_semantic_hit_only_within_the_same_filter",
+    "test/spec/cache-scope/test_cs_scope.py::test_synthesize_does_not_reuse_a_plain_answer",
+    "test/spec/cache-scope/test_cs_scope.py::test_synthesize_twice_still_hits"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/cache-scope.md",
+    "sha256": "1bb051b7ab0c8bd81991ba06af55c761c885d71b9ab680b8f866b3e1cafb6cf5"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

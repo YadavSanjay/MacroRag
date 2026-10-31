@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-macro-rag-ui
+  labels: { app: macro-rag-ui }
+spec:
+  replicas: {{ .Values.ui.replicaCount }}
+  selector:
+    matchLabels: { app: macro-rag-ui }
+  template:
+    metadata:
+      labels: { app: macro-rag-ui }
+    spec:
+      containers:
+        - name: macro-rag-ui
+          image: "{{ .Values.ui.image.repository }}:{{ .Values.ui.image.tag }}"
+          imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.ui.service.port }}
+          env:
+            # nginx reverse-proxies /api/* to the API Service (strips /api). The
+            # bundle uses a relative /api base, so this is the only wiring needed.
+            - name: API_UPSTREAM
+              value: "{{ .Release.Name }}-macro-rag:{{ .Values.service.port }}"
+          resources: {{- toYaml .Values.ui.resources | nindent 12 }}
+          readinessProbe:
+            httpGet: { path: /, port: {{ .Values.ui.service.port }} }
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          livenessProbe:
+            httpGet: { path: /, port: {{ .Values.ui.service.port }} }
+            initialDelaySeconds: 10
+            periodSeconds: 30

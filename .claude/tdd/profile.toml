@@ -1,0 +1,15 @@
+# .claude/tdd/profile.toml: the gate's settings for this repo (a maintenance path).
+# The gate reads this file from origin/main, never from the working tree. Unknown keys are an error.
+spec_root = "test/spec"
+unit_root = "test/unit"
+dispute_dir = ".claude/tdd/disputes"
+specs_dir = "docs/specs"
+src_roots = ["src"]               # where interface stubs live
+pythonpath = ["src", "."]         # the only PYTHONPATH the controlled run gets
+plugins = ["hypothesispytest"]    # pytest plugins enabled with -p (autoload is off)
+budget = 8                        # blocked stops per change before the gate gives way
+valuation_date = ""               # the fixed "today" spec tests use, e.g. "2026-05-29"
+
+[hypothesis]
+gate_profile = "tdd-gate"         # registered in <spec_root>/conftest.py
+verify_profile = "tdd-verify"

@@ -1,0 +1,37 @@
+# tdd-spec: run every spec test with the controlled run. Graduated tests must pass; active-lock
+# tests must pass or fail for the right reason; on the PR from exactly impl/<id>, that lock's tests
+# must all pass. The tools are taken from main, not from the PR.
+name: tdd-spec
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  pull-requests: read      # retirement: GitHub's record of merged impl/<id> PRs
+jobs:
+  spec-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      - name: Take the tdd tools from main
+        run: |
+          git fetch --no-tags origin main
+          mkdir -p "$RUNNER_TEMP/tdd-main"
+          git archive origin/main tools/tdd | tar -x -C "$RUNNER_TEMP/tdd-main"
+          python "$RUNNER_TEMP/tdd-main/tools/tdd/tdd.py" manifest-check
+      - name: Spec and regression tests
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          GH_TOKEN: ${{ github.token }}
+        run: python "$RUNNER_TEMP/tdd-main/tools/tdd/tdd.py" ci --head-ref "$HEAD_REF"

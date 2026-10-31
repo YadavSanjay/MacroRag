@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(**/.env)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+		"matcher": "Edit|Write|MultiEdit|NotebookEdit|Read|Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_protected_paths.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking protected paths"
+          }
+        ]
+      }
+    ],
+	"PostToolUse": [
+	  {
+		"matcher": "Edit|Write|MultiEdit",
+		"hooks": [
+		  {
+			"type": "command",
+			"command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"$CLAUDE_PROJECT_DIR/.claude/hooks/format-python.ps1\"",
+			"timeout": 10
+		  }
+		]
+	  }
+	],
+	"Stop": [
+	  {
+		"hooks": [
+		  {
+			"type": "command",
+			"command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"$CLAUDE_PROJECT_DIR/.claude/hooks/test-gate.ps1\"",
+			"timeout": 120
+		  }
+		]
+	  }
+	]
+  }
+}

@@ -1,0 +1,15 @@
+# Provenance metadata for the 'synthesize' task's base (provider/model-agnostic) prompt.
+# The resolver falls back to this variant when no provider/model-series variant
+# matches. See src/llm/registry.py and docs/design/Macro_RAG_LLM_Harness.md.
+task: synthesize
+variant_id: base
+provider: null          # base = provider-agnostic
+model_series: null
+version: 4
+status: active          # active | deprecated | experimental
+system: stress-synthesizer      # -> prompts/system/stress-synthesizer.md
+notes: "v1 migrated from prompt/synthesize.txt (Phase 1). v2 (2026-10-14) asks for a
+  per-field source_horizon_days (spec synth-analog-horizon). v3 (2026-10-14) makes it
+  required with worked examples: live, v2's optional wording was omitted on every field.
+  v4 (2026-10-14) explains the expected-directions constraint (spec synth-direction-prompt):
+  choose evidence that moved the requested way; never flip a sign."

@@ -1,0 +1,74 @@
+# Macro RAG — shock-accuracy reference set.
+#
+# Each case pairs a scenario QUESTION with a REFERENCE shock path, so the runner
+# (eval/shock_eval.py, `python -m pipelines.cli eval --shock`) can score the
+# synthesized vector against a known-good expectation: coverage (did it emit the
+# field), sign agreement, and whether the magnitude landed inside `tol`.
+#
+# reference: {FIELD: {value, unit, tol}} — tol is the ± band (same unit) inside
+# which the emitted magnitude counts as correct. A missing field scores as a
+# coverage + tolerance miss (never a sign error).
+#
+# PROVENANCE: the magnitudes below are representative of the cited official
+# adverse paths and are meant as a STARTING calibration — refine each `value`/`tol`
+# from the exact ingested DFAST/EBA figures for your corpus vintage. The
+# store-derived path (eval.derive_reference_from_store) can generate a reference
+# straight from the ingested baseline→adverse scenario rows instead of authoring
+# by hand; use it once the DFAST/EBA numeric series are indexed.
+
+cases:
+  # Fed DFAST severely-adverse: deep recession + flight-to-quality. 10Y rallies
+  # (yields fall), equity + rates vol spike, IG/HY spreads blow out. The rates /
+  # vol / credit reference here is DERIVED FROM THE INGESTED DFAST PATHS (peak
+  # baseline->adverse stress), so it self-calibrates to the indexed vintage; MOVE
+  # stays authored (no rates-vol series in the store). Store-derived fields win
+  # over the authored fallbacks below when the numeric paths are indexed.
+  - id: dfast_severely_adverse
+    question: >-
+      Under the Federal Reserve DFAST severely adverse supervisory stress scenario,
+      what are the shocks to Treasury yields, equity volatility, and IG/HY credit
+      spreads over the planning horizon?
+    horizon_days: 270
+    filter: {factor_tags: [stress_scenario]}
+    derive:
+      source_like: DFAST
+      baseline_scenario: baseline
+      adverse_scenario: severely_adverse
+      reduce: peak
+    reference:                                       # authored fallback (store wins)
+      UST_5Y:  {value: -240, unit: bp,  tol: 120}
+      UST_10Y: {value: -180, unit: bp,  tol: 100}
+      VIX:     {value: 48,   unit: pts, tol: 24}
+      MOVE:    {value: 0.40, unit: rel, tol: 0.30}   # rates vol up ~40% (no series)
+      IG_OAS:  {value: 450,  unit: bp,  tol: 225}
+
+  # EBA/ESRB EU-wide adverse: geopolitics/trade-fragmentation driven. Long-term
+  # rates rise, equities fall (vol up), spreads widen.
+  - id: eba_esrb_adverse
+    question: >-
+      In the EBA/ESRB EU-wide stress test adverse macro-financial scenario, what are
+      the shocks to long-term rates, equity volatility, and credit spreads?
+    horizon_days: 360
+    filter: {factor_tags: [stress_scenario, cross_asset_scenario]}
+    reference:
+      UST_10Y: {value: 150,  unit: bp,  tol: 100}    # fragmentation term-premium up
+      VIX:     {value: 30,   unit: pts, tol: 20}
+      IG_OAS:  {value: 150,  unit: bp,  tol: 100}
+      HY_OAS:  {value: 600,  unit: bp,  tol: 300}
+
+  # Taiwan-conflict joint tail: TWD devaluation + risk-off + credit stress.
+  # NO facet filter: the cross-asset legs (VIX/IG/HY) must be anchored to the
+  # Tier-7 EBA/GFSR geopolitical ANALOGS, which are tagged cross_asset_scenario /
+  # stress_scenario (not china / china_taiwan_tail) — an entity+factor filter
+  # starves exactly that analog evidence. Let hybrid retrieval + rerank surface
+  # both the Taiwan studies and the cross-asset analogs from the query text.
+  - id: taiwan_conflict_tail
+    question: >-
+      In a Taiwan-conflict scenario over six months, what are the joint shocks to
+      USD/TWD, equity volatility, and IG/HY credit spreads?
+    horizon_days: 180
+    reference:
+      USDTWD:  {value: 12,   unit: pct, tol: 10}     # TWD depreciates
+      VIX:     {value: 35,   unit: pts, tol: 20}
+      IG_OAS:  {value: 200,  unit: bp,  tol: 125}
+      HY_OAS:  {value: 700,  unit: bp,  tol: 400}

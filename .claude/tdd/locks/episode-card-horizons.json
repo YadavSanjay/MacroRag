@@ -1,0 +1,88 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-18",
+  "criteria": {
+    "C1": [
+      "test/spec/episode-card-horizons/test_ech_c1_document.py::test_lehman_at_one_five_ten_unsorted",
+      "test/spec/episode-card-horizons/test_ech_c1_document.py::test_horizon_without_moves_and_none_case",
+      "test/spec/episode-card-horizons/test_ech_c1_document.py::test_horizon_order_does_not_matter_and_default_is_five_ten",
+      "test/spec/episode-card-horizons/test_ech_c1_document.py::test_property_card_at_any_horizons_closed_form"
+    ],
+    "C2": [
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[]]",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[0]]",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[-5]]",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[5, 5]]",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[5.0]]",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[True]]",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise['5']",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[None]",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[5, 0]]",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[1, 5, 2.5]]",
+      "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_property_any_invalid_horizons_raise"
+    ],
+    "C3": [
+      "test/spec/episode-card-horizons/test_ech_c3_card_value.py::test_one_day_card_lines_are_checked",
+      "test/spec/episode-card-horizons/test_ech_c3_card_value.py::test_property_one_day_line_checked_exactly_like_a_days_line"
+    ],
+    "C4": [
+      "test/spec/episode-card-horizons/test_ech_c4_config.py::test_entries_exactly_as_specified",
+      "test/spec/episode-card-horizons/test_ech_c4_config.py::test_restricting_to_previous_ids_gives_their_order"
+    ],
+    "C5": [
+      "test/spec/episode-card-horizons/test_ech_c5_handler.py::test_deepseek_and_221_day_cards",
+      "test/spec/episode-card-horizons/test_ech_c5_handler.py::test_property_every_c4_episode_one_chunk_per_horizon"
+    ]
+  },
+  "files": {
+    "test/spec/episode-card-horizons/conftest.py": "e2040e2d09a6e99d65af916134ae9ef9ff87d0c0ef1328fd455e1700f6e67129",
+    "test/spec/episode-card-horizons/test_ech_c1_document.py": "3d812568b1999dc30a77fb6f7d8878327b36e3f2fa3e9b747e4a4f624810df53",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py": "a37e6eba32f59d61d80f6b81000d71a2da98ec3fe28d78e4af68daed5cbb5663",
+    "test/spec/episode-card-horizons/test_ech_c3_card_value.py": "26387917afdb8223e6c70d84f33515021ba1be88637d680f9351e932078dcb24",
+    "test/spec/episode-card-horizons/test_ech_c4_config.py": "db7238e2b11f82a2dec788e8d8622c9a069a1950565e5bbdc8c0022140f6ca1a",
+    "test/spec/episode-card-horizons/test_ech_c5_handler.py": "ee12382e91a6751754ae0a321acb8bd518111f59162a7e665fba05ed5214029b"
+  },
+  "id": "episode-card-horizons",
+  "interface": [],
+  "nodes": [
+    "test/spec/episode-card-horizons/test_ech_c1_document.py::test_horizon_order_does_not_matter_and_default_is_five_ten",
+    "test/spec/episode-card-horizons/test_ech_c1_document.py::test_horizon_without_moves_and_none_case",
+    "test/spec/episode-card-horizons/test_ech_c1_document.py::test_lehman_at_one_five_ten_unsorted",
+    "test/spec/episode-card-horizons/test_ech_c1_document.py::test_property_card_at_any_horizons_closed_form",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_property_any_invalid_horizons_raise",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise['5']",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[None]",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[-5]]",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[0]]",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[1, 5, 2.5]]",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[5, 0]]",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[5, 5]]",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[5.0]]",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[True]]",
+    "test/spec/episode-card-horizons/test_ech_c2_invalid.py::test_spec_examples_raise[[]]",
+    "test/spec/episode-card-horizons/test_ech_c3_card_value.py::test_one_day_card_lines_are_checked",
+    "test/spec/episode-card-horizons/test_ech_c3_card_value.py::test_property_one_day_line_checked_exactly_like_a_days_line",
+    "test/spec/episode-card-horizons/test_ech_c4_config.py::test_entries_exactly_as_specified",
+    "test/spec/episode-card-horizons/test_ech_c4_config.py::test_restricting_to_previous_ids_gives_their_order",
+    "test/spec/episode-card-horizons/test_ech_c5_handler.py::test_deepseek_and_221_day_cards",
+    "test/spec/episode-card-horizons/test_ech_c5_handler.py::test_property_every_c4_episode_one_chunk_per_horizon"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/episode-card-horizons.md",
+    "sha256": "df84523a80153733f414648ead707d946c8112f75697a3e084e2e88e79c2ffe4"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

@@ -1,0 +1,92 @@
+# AWS serving overrides (mounted over configs/rag.yaml on the EC2 service host).
+# Dual-mode deploy: corpus object data (raw/processed/manifest) on S3; SQLite
+# time-series + traces on the EBS volume mounted at /app/data; Qdrant and
+# RagInference on their own in-VPC hosts. See
+# docs/design/Macro_RAG_AWS_Deployment.md.
+#
+# Deployment-specific wiring (bucket, Qdrant/RagInference URLs) is normally
+# supplied via ENV (which wins over this file), so the same image + config runs
+# across environments. The values below are the non-secret tuning + safe defaults.
+
+# ── deploy mode + object storage ─────────────────────────────────────────────
+# deploy_mode: aws makes storage.backend default to s3. Env overrides:
+#   MACRORAG_DEPLOY_MODE, MACRORAG_S3_BUCKET, MACRORAG_S3_PREFIX, MACRORAG_S3_REGION
+deploy_mode: aws
+storage:
+  backend: s3
+  s3_bucket: "REPLACE_WITH_CORPUS_BUCKET"   # or set MACRORAG_S3_BUCKET (env wins)
+  s3_prefix: "corpus"                        # {prefix}/raw/ingest, /processed/ingest, /vectorstore/manifest.json
+  # s3_region: us-east-1                     # else the instance's default region
+
+# ── Qdrant (separate in-VPC host) ────────────────────────────────────────────
+# Server mode is mandatory (local on-disk deadlocks on bulk upsert). Env override:
+# MACRORAG_QDRANT_URL (the bootstrap sets it to the Cloud Map name). The shared
+# host serves TLS with a SELF-SIGNED cert on a private subnet, so https is on and
+# verify is off (verification against a self-signed cert would fail); the network
+# is private + security-group-locked. Auth is off today (phase 1) — when the
+# phase-2 API key lands, uncomment api_key_env and set the QDRANT_API_KEY secret.
+qdrant:
+  url: "https://qdrant.genai-dev.internal:6333"
+  collection: "macro_chunks"
+  quantization: true          # int8: ~4x memory cut
+  https: true
+  verify: false               # self-signed cert on a private, SG-locked network
+  # api_key_env: QDRANT_API_KEY   # phase 2 (Qdrant auth close)
+
+# ── shared inference (separate GPU/CPU host) ─────────────────────────────────
+# Embedder + reranker are out-of-process (this image ships no torch). Env override:
+# RAGINFER_URL. fallback_local MUST stay off — the local model deps aren't in the
+# image, so an unreachable service must error, not attempt an impossible load.
+inference:
+  remote_url: "http://raginference.internal:8799"
+  fallback_local: false
+
+# ── L1/L2 cache (local redis container on the instance, or ElastiCache) ──────
+cache:
+  enabled: true
+  backend: "redis"
+  redis_url: "redis://redis:6379/0"   # or rediss://<elasticache-endpoint>:6379/0
+  ttl_seconds: 3600
+semantic_cache:
+  enabled: true
+  threshold: 0.97
+
+# ── retrieval ────────────────────────────────────────────────────────────────
+# Rerank pool for the /query answer path. The code default is 60; configs/rag.yaml
+# tunes it to 24 because the reranker costs ~2-8s/doc on CPU, and this file
+# replaces that one. 24 keeps answers inside the consumer timeout on a CPU
+# RagInference host; on a GPU host it can go back up for recall. (Synthesize has
+# its own cap, synthesis.rerank_candidates, code default 12.)
+retrieval:
+  rerank_candidates: 24
+
+ranking:
+  time_decay: true
+  half_life_days: 180
+
+llm:
+  provider: "openai"
+  plan_model: "gpt-5.4-mini"
+  answer_model: "gpt-5.4-nano"
+  complex_model: "gpt-5.4"
+
+# ── synthesis (the shock-vector contract faultline consumes) ─────────────────
+# This file replaces configs/rag.yaml, so without this block AWS would fall back
+# to the code default drop_invalid: false and pass hard-flagged fields
+# (synthesis.validate.HARD_VALIDATION_CODES: implausible_magnitude,
+# unit_scale_mismatch, horizon_mismatch, direction_mismatch, card_value_mismatch)
+# to the consumer.
+# Keep these in step with configs/rag.yaml, which explains each knob.
+synthesis:
+  drop_invalid: true
+  horizon_check: true
+  horizon_tolerance: 3.0
+  direction_check: true
+
+observability:
+  otel_enabled: true
+  otel_endpoint: "http://otel-collector:4317"
+  service_name: "macro-rag"
+
+# Jobs stay in-process (single EC2 → single writer; the corpus exclusive lock
+# serialises re-embeds). No Redis job backend needed unless you scale past one host.

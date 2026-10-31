@@ -1,0 +1,51 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-21",
+  "criteria": {
+    "C1": [
+      "test/spec/rechunk-idempotent/test_rci_c1_unchanged.py::test_overlapping_windows_from_chunker_are_not_resplit",
+      "test/spec/rechunk-idempotent/test_rci_c1_unchanged.py::test_sectioned_document_from_chunker_is_not_resplit",
+      "test/spec/rechunk-idempotent/test_rci_c1_unchanged.py::test_any_chunker_output_is_left_unchanged",
+      "test/spec/rechunk-idempotent/test_rci_c1_unchanged.py::test_rewrite_run_leaves_stored_corpus_identical"
+    ],
+    "C2": [
+      "test/spec/rechunk-idempotent/test_rci_c2_oversized.py::test_oversized_chunk_split_in_bound_and_stable",
+      "test/spec/rechunk-idempotent/test_rci_c2_oversized.py::test_rewrite_run_splits_oversized_then_is_idempotent",
+      "test/spec/rechunk-idempotent/test_rci_c2_oversized.py::test_any_oversized_chunk_splits_in_bound_idempotently"
+    ]
+  },
+  "files": {
+    "test/spec/rechunk-idempotent/conftest.py": "6980ee73d85bf3d14e0573a5c6bf49470f6cc191c9e48758b94807150c34468e",
+    "test/spec/rechunk-idempotent/test_rci_c1_unchanged.py": "6173520e01bdb542b5c4334a08eeda7f7689b89273e89c0d41d2cc9726651fb0",
+    "test/spec/rechunk-idempotent/test_rci_c2_oversized.py": "354b653332ab2ec85d572ad87f4dcf4044ff94af2ac5a086123c44ac589078d9"
+  },
+  "id": "rechunk-idempotent",
+  "interface": [],
+  "nodes": [
+    "test/spec/rechunk-idempotent/test_rci_c1_unchanged.py::test_any_chunker_output_is_left_unchanged",
+    "test/spec/rechunk-idempotent/test_rci_c1_unchanged.py::test_overlapping_windows_from_chunker_are_not_resplit",
+    "test/spec/rechunk-idempotent/test_rci_c1_unchanged.py::test_rewrite_run_leaves_stored_corpus_identical",
+    "test/spec/rechunk-idempotent/test_rci_c1_unchanged.py::test_sectioned_document_from_chunker_is_not_resplit",
+    "test/spec/rechunk-idempotent/test_rci_c2_oversized.py::test_any_oversized_chunk_splits_in_bound_idempotently",
+    "test/spec/rechunk-idempotent/test_rci_c2_oversized.py::test_oversized_chunk_split_in_bound_and_stable",
+    "test/spec/rechunk-idempotent/test_rci_c2_oversized.py::test_rewrite_run_splits_oversized_then_is_idempotent"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/rechunk-idempotent.md",
+    "sha256": "1f030288fa9c30f4d937ab63fc366b1bce8e9037449a1c775c7db2202dd441b8"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

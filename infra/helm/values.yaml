@@ -1,0 +1,67 @@
+# ── Backend (API) image ──────────────────────────────────────────────────────
+# Lightweight: ships NO torch. Embedder + reranker are served out-of-process by
+# RagInference (see raginferUrl below).
+image:
+  repository: macrorag
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 2            # horizontal scale (stateless API; no model in-pod)
+
+service:
+  type: ClusterIP
+  port: 8000
+
+resources:
+  requests: { cpu: "500m", memory: "1Gi" }   # lighter now — no in-pod model
+  limits:   { cpu: "2", memory: "2Gi" }
+
+# ── Shared inference (sister project RagInference) ───────────────────────────
+# The bge-m3 embedder + reranker live here, NOT in the API pod. Required — with
+# no reachable service, retrieval fails (the image carries no torch). Point at an
+# in-cluster Service URL, or an external URL.
+raginferUrl: "http://raginference:8799"
+
+# Optional: a COMPLETE rag.yaml written to a ConfigMap and mounted over the API
+# image's baked config (replaces it). The main use is to force
+# inference.fallback_local: false (it cannot be set via env). Leave "" to keep
+# the baked config. Example:
+#   configOverride: |
+#     inference:
+#       fallback_local: false
+#     qdrant:
+#       url: "http://qdrant:6333"
+configOverride: ""
+
+# ── UI image (nginx SPA + /api reverse proxy) ────────────────────────────────
+ui:
+  image:
+    repository: macrorag-ui
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  service:
+    type: ClusterIP
+    port: 8080
+  resources:
+    requests: { cpu: "50m",  memory: "64Mi" }
+    limits:   { cpu: "250m", memory: "128Mi" }
+
+# ── Ingress (fronts the UI Service only; UI proxies /api in-cluster) ─────────
+ingress:
+  enabled: false
+  className: ""
+  host: macro-rag.local
+  annotations: {}
+  tls: []
+
+# External dependencies (deploy separately or via subcharts/operators).
+qdrant:
+  url: "http://qdrant:6333"
+redis:
+  url: "redis://redis:6379/0"
+otel:
+  endpoint: "http://otel-collector:4317"
+
+# OPENAI_API_KEY is injected from this pre-created secret (do not commit keys).
+secretName: macro-rag-secrets

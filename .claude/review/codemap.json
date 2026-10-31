@@ -1,0 +1,4658 @@
+{
+  "schema": "review-core-codemap/1",
+  "built_at": "2026-10-21T00:00+00:00",
+  "head_sha": "b06b511ac9e2b8828eec29a75abdb069d0bfa71e",
+  "edge_hash": "b27e1d91dec5a139",
+  "declared": true,
+  "modules": {
+    "configs/ingest/vocabulary.yaml": {
+      "path": "configs/ingest/vocabulary.yaml",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (4 hops): configs/ingest/vocabulary.yaml ← config ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 101,
+        "fan_out": 0,
+        "pagerank": 2.319,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 4,
+      "cochange": []
+    },
+    "configs/rag.yaml": {
+      "path": "configs/rag.yaml",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector, world_view_id (2 hops): configs/rag.yaml ← config ← retriever",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 133,
+        "fan_out": 0,
+        "pagerank": 2.526,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector",
+        "world_view_id"
+      ],
+      "distance": 2,
+      "cochange": [
+        "src/utils/config.py (10)",
+        "src/pipelines/query_pipeline.py (9)",
+        "src/synthesis/validate.py (5)"
+      ]
+    },
+    "prompts/system/fact-checker.md": {
+      "path": "prompts/system/fact-checker.md",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/system/fact-checker.md ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/system/macro-analyst.md": {
+      "path": "prompts/system/macro-analyst.md",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/system/macro-analyst.md ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/system/stress-synthesizer.md": {
+      "path": "prompts/system/stress-synthesizer.md",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/system/stress-synthesizer.md ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/system/strict-json.md": {
+      "path": "prompts/system/strict-json.md",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/system/strict-json.md ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/answer/base.md": {
+      "path": "prompts/tasks/answer/base.md",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/answer/base.md ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/answer/base.meta.yaml": {
+      "path": "prompts/tasks/answer/base.meta.yaml",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/answer/base.meta.yaml ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/answer/schema.json": {
+      "path": "prompts/tasks/answer/schema.json",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/answer/schema.json ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/plan/base.md": {
+      "path": "prompts/tasks/plan/base.md",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/plan/base.md ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/plan/base.meta.yaml": {
+      "path": "prompts/tasks/plan/base.meta.yaml",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/plan/base.meta.yaml ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/plan/schema.json": {
+      "path": "prompts/tasks/plan/schema.json",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/plan/schema.json ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/synthesize/base.md": {
+      "path": "prompts/tasks/synthesize/base.md",
+      "tier": "TRUNK",
+      "reason": "pinned in profile criticality.pins",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": [
+        "prompts/tasks/synthesize/base.meta.yaml (4)",
+        "src/synthesis/synthesizer.py (3)",
+        "src/pipelines/query_pipeline.py (2)"
+      ]
+    },
+    "prompts/tasks/synthesize/base.meta.yaml": {
+      "path": "prompts/tasks/synthesize/base.meta.yaml",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/synthesize/base.meta.yaml ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": [
+        "prompts/tasks/synthesize/base.md (4)",
+        "src/synthesis/synthesizer.py (3)",
+        "src/pipelines/query_pipeline.py (2)"
+      ]
+    },
+    "prompts/tasks/synthesize/schema.json": {
+      "path": "prompts/tasks/synthesize/schema.json",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/synthesize/schema.json ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/verify/base.md": {
+      "path": "prompts/tasks/verify/base.md",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/verify/base.md ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/verify/base.meta.yaml": {
+      "path": "prompts/tasks/verify/base.meta.yaml",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/verify/base.meta.yaml ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "prompts/tasks/verify/schema.json": {
+      "path": "prompts/tasks/verify/schema.json",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): prompts/tasks/verify/schema.json ← registry ← generate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 30,
+        "fan_out": 0,
+        "pagerank": 0.519,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "scripts.backup_restore": {
+      "path": "scripts/backup_restore.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "scripts.build_push_images": {
+      "path": "scripts/build_push_images.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "scripts.harness.check_reaudit": {
+      "path": "scripts/harness/check_reaudit.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "scripts.normalize_vocab": {
+      "path": "scripts/normalize_vocab.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "scripts.rechunk_processed": {
+      "path": "scripts/rechunk_processed.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "scripts.reextract_dfast": {
+      "path": "scripts/reextract_dfast.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "scripts.reextract_sep": {
+      "path": "scripts/reextract_sep.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "scripts.retag_endpoint": {
+      "path": "scripts/retag_endpoint.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "scripts.run_questions_live": {
+      "path": "scripts/run_questions_live.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "scripts.sync_corpus": {
+      "path": "scripts/sync_corpus.py",
+      "tier": "LEAF",
+      "reason": "script code (consumer, not depended on)",
+      "metrics": {},
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.agent": {
+      "path": "src/agent/__init__.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 5,
+        "pagerank": 0.468,
+        "tests": 0,
+        "tests_reach": 20,
+        "test_coverage": "indirect",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.agent.agent": {
+      "path": "src/agent/agent.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 3,
+        "pagerank": 0.524,
+        "tests": 1,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.75
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.agent.calculator": {
+      "path": "src/agent/calculator.py",
+      "tier": "BRANCH",
+      "reason": "10 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 10,
+        "fan_out": 0,
+        "pagerank": 0.638,
+        "tests": 1,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.agent.executor": {
+      "path": "src/agent/executor.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 9,
+        "fan_out": 5,
+        "pagerank": 0.672,
+        "tests": 1,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.71
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.agent.planner": {
+      "path": "src/agent/planner.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 9,
+        "fan_out": 5,
+        "pagerank": 0.672,
+        "tests": 1,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.71
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/llm/understanding.py (3)",
+        "src/llm/usage.py (3)",
+        "src/llm/anthropic_client.py (2)"
+      ]
+    },
+    "src.agent.schema": {
+      "path": "src/agent/schema.py",
+      "tier": "BRANCH",
+      "reason": "11 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 11,
+        "fan_out": 1,
+        "pagerank": 0.901,
+        "tests": 1,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.2
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.api": {
+      "path": "src/api/__init__.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 1,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.api.admin": {
+      "path": "src/api/admin.py",
+      "tier": "BRANCH",
+      "reason": "3 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 3,
+        "fan_out": 14,
+        "pagerank": 0.476,
+        "tests": 1,
+        "tests_reach": 12,
+        "test_coverage": "direct",
+        "instability": 0.93
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/app.py (14)",
+        "src/utils/config.py (9)",
+        "src/vectorstores/qdrant_store.py (4)"
+      ]
+    },
+    "src.api.app": {
+      "path": "src/api/app.py",
+      "tier": "BRANCH",
+      "reason": "2 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 2,
+        "fan_out": 25,
+        "pagerank": 0.948,
+        "tests": 12,
+        "tests_reach": 12,
+        "test_coverage": "direct",
+        "instability": 0.93
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/admin.py (14)",
+        "src/utils/config.py (13)",
+        "src/api/models.py (9)"
+      ]
+    },
+    "src.api.corpus": {
+      "path": "src/api/corpus.py",
+      "tier": "BRANCH",
+      "reason": "3 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 3,
+        "fan_out": 4,
+        "pagerank": 0.476,
+        "tests": 0,
+        "tests_reach": 12,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/app.py (3)",
+        "src/api/admin.py (2)",
+        "src/utils/config.py (2)"
+      ]
+    },
+    "src.api.discovery": {
+      "path": "src/api/discovery.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 7,
+        "fan_out": 4,
+        "pagerank": 0.588,
+        "tests": 0,
+        "tests_reach": 17,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/mcp_server/server.py (3)",
+        "src/api/app.py (2)",
+        "src/mcp_server/__main__.py (2)"
+      ]
+    },
+    "src.api.jobs": {
+      "path": "src/api/jobs.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 4 transitive dependents",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 4,
+        "fan_out": 3,
+        "pagerank": 0.505,
+        "tests": 7,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.6
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/admin.py (4)",
+        "src/api/app.py (4)",
+        "src/utils/config.py (2)"
+      ]
+    },
+    "src.api.jobstore": {
+      "path": "src/api/jobstore.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 5 transitive dependents",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 5,
+        "fan_out": 2,
+        "pagerank": 0.62,
+        "tests": 1,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.api.models": {
+      "path": "src/api/models.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 8,
+        "fan_out": 5,
+        "pagerank": 0.617,
+        "tests": 7,
+        "tests_reach": 22,
+        "test_coverage": "direct",
+        "instability": 0.62
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/app.py (9)",
+        "src/pipelines/query_pipeline.py (8)",
+        "src/mcp_server/server.py (5)"
+      ]
+    },
+    "src.api.server": {
+      "path": "src/api/server.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 3,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.embeddings": {
+      "path": "src/embeddings/__init__.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (2 hops): embeddings ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 12,
+        "fan_out": 6,
+        "pagerank": 0.514,
+        "tests": 1,
+        "tests_reach": 30,
+        "test_coverage": "direct",
+        "instability": 0.75
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "src.embeddings.base": {
+      "path": "src/embeddings/base.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, world_view_id (1 hops): base ← retriever",
+      "metrics": {
+        "fan_in": 6,
+        "fan_in_transitive": 21,
+        "fan_out": 1,
+        "pagerank": 1.036,
+        "tests": 0,
+        "tests_reach": 34,
+        "test_coverage": "indirect",
+        "instability": 0.14
+      },
+      "outputs": [
+        "answers",
+        "world_view_id"
+      ],
+      "distance": 1,
+      "cochange": []
+    },
+    "src.embeddings.bge_m3": {
+      "path": "src/embeddings/bge_m3.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): bge_m3 ← embeddings ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 14,
+        "fan_out": 4,
+        "pagerank": 0.59,
+        "tests": 0,
+        "tests_reach": 30,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": []
+    },
+    "src.embeddings.hashing": {
+      "path": "src/embeddings/hashing.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): hashing ← embeddings ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 13,
+        "fan_out": 2,
+        "pagerank": 0.517,
+        "tests": 4,
+        "tests_reach": 33,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": []
+    },
+    "src.embeddings.remote_embedder": {
+      "path": "src/embeddings/remote_embedder.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): remote_embedder ← embeddings ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 13,
+        "fan_out": 6,
+        "pagerank": 0.517,
+        "tests": 1,
+        "tests_reach": 30,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (2)",
+        "src/retriever/remote_reranker.py (2)"
+      ]
+    },
+    "src.eval": {
+      "path": "src/eval/__init__.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 7,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/pipelines/cli.py (2)",
+        "src/utils/config.py (2)"
+      ]
+    },
+    "src.eval.drift": {
+      "path": "src/eval/drift.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → eval_evidence (0 hops): drift",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 6,
+        "fan_out": 0,
+        "pagerank": 0.597,
+        "tests": 2,
+        "tests_reach": 15,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [
+        "eval_evidence"
+      ],
+      "distance": 0,
+      "cochange": []
+    },
+    "src.eval.episodes": {
+      "path": "src/eval/episodes.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → eval_evidence (0 hops): episodes",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 4,
+        "fan_out": 5,
+        "pagerank": 0.505,
+        "tests": 1,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.71
+      },
+      "outputs": [
+        "eval_evidence"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/api/admin.py (2)",
+        "src/api/app.py (2)"
+      ]
+    },
+    "src.eval.feedback_reconcile": {
+      "path": "src/eval/feedback_reconcile.py",
+      "tier": "BRANCH",
+      "reason": "5 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 5,
+        "fan_out": 1,
+        "pagerank": 0.527,
+        "tests": 1,
+        "tests_reach": 12,
+        "test_coverage": "direct",
+        "instability": 0.33
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.eval.harness": {
+      "path": "src/eval/harness.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 6,
+        "fan_out": 6,
+        "pagerank": 0.597,
+        "tests": 3,
+        "tests_reach": 15,
+        "test_coverage": "direct",
+        "instability": 0.6
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/admin.py (2)",
+        "src/api/app.py (2)"
+      ]
+    },
+    "src.eval.judge": {
+      "path": "src/eval/judge.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 8,
+        "fan_out": 6,
+        "pagerank": 0.651,
+        "tests": 1,
+        "tests_reach": 17,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/agent/planner.py (2)",
+        "src/factors/discoverer.py (2)",
+        "src/llm/generate.py (2)"
+      ]
+    },
+    "src.eval.matrix": {
+      "path": "src/eval/matrix.py",
+      "tier": "BRANCH",
+      "reason": "1 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 1,
+        "fan_out": 6,
+        "pagerank": 0.482,
+        "tests": 1,
+        "tests_reach": 3,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/app.py (2)",
+        "src/api/models.py (2)",
+        "src/utils/config.py (2)"
+      ]
+    },
+    "src.eval.metrics": {
+      "path": "src/eval/metrics.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 7,
+        "fan_out": 1,
+        "pagerank": 0.583,
+        "tests": 1,
+        "tests_reach": 15,
+        "test_coverage": "direct",
+        "instability": 0.33
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.eval.selfcheck": {
+      "path": "src/eval/selfcheck.py",
+      "tier": "BRANCH",
+      "reason": "3 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 3,
+        "fan_out": 2,
+        "pagerank": 0.476,
+        "tests": 1,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.eval.shock_eval": {
+      "path": "src/eval/shock_eval.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → eval_evidence (0 hops): shock_eval",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 7,
+        "fan_out": 4,
+        "pagerank": 0.622,
+        "tests": 1,
+        "tests_reach": 16,
+        "test_coverage": "direct",
+        "instability": 0.57
+      },
+      "outputs": [
+        "eval_evidence"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/pipelines/cli.py (3)",
+        "src/synthesis/validate.py (2)",
+        "src/synthesis/vocab.py (2)"
+      ]
+    },
+    "src.eval.shock_metrics": {
+      "path": "src/eval/shock_metrics.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → eval_evidence (1 hops): shock_metrics ← episodes",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 8,
+        "fan_out": 0,
+        "pagerank": 0.716,
+        "tests": 1,
+        "tests_reach": 16,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [
+        "eval_evidence"
+      ],
+      "distance": 1,
+      "cochange": []
+    },
+    "src.factors": {
+      "path": "src/factors/__init__.py",
+      "tier": "BRANCH",
+      "reason": "11 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 11,
+        "fan_out": 4,
+        "pagerank": 0.573,
+        "tests": 0,
+        "tests_reach": 33,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.factors.discoverer": {
+      "path": "src/factors/discoverer.py",
+      "tier": "BRANCH",
+      "reason": "12 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 12,
+        "fan_out": 8,
+        "pagerank": 0.566,
+        "tests": 1,
+        "tests_reach": 34,
+        "test_coverage": "direct",
+        "instability": 0.89
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/synthesis/synthesizer.py (3)",
+        "src/agent/planner.py (2)",
+        "src/eval/judge.py (2)"
+      ]
+    },
+    "src.factors.gate": {
+      "path": "src/factors/gate.py",
+      "tier": "BRANCH",
+      "reason": "12 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 12,
+        "fan_out": 3,
+        "pagerank": 0.566,
+        "tests": 1,
+        "tests_reach": 34,
+        "test_coverage": "direct",
+        "instability": 0.75
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.factors.schema": {
+      "path": "src/factors/schema.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 14 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 14,
+        "fan_out": 0,
+        "pagerank": 0.786,
+        "tests": 1,
+        "tests_reach": 34,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.factors.vocab": {
+      "path": "src/factors/vocab.py",
+      "tier": "BRANCH",
+      "reason": "13 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 13,
+        "fan_out": 1,
+        "pagerank": 0.626,
+        "tests": 1,
+        "tests_reach": 34,
+        "test_coverage": "direct",
+        "instability": 0.33
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest": {
+      "path": "src/ingest/__init__.py",
+      "tier": "BRANCH",
+      "reason": "5 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 5,
+        "fan_out": 10,
+        "pagerank": 0.709,
+        "tests": 1,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.__main__": {
+      "path": "src/ingest/__main__.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 1,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.aimacro": {
+      "path": "src/ingest/aimacro/__init__.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 6,
+        "fan_out": 1,
+        "pagerank": 0.505,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.aimacro.common_base": {
+      "path": "src/ingest/aimacro/common_base.py",
+      "tier": "BRANCH",
+      "reason": "12 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 12,
+        "fan_out": 1,
+        "pagerank": 1.029,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.2
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.aimacro.handlers": {
+      "path": "src/ingest/aimacro/handlers/__init__.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 4,
+        "pagerank": 0.815,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.aimacro.handlers.census_btos": {
+      "path": "src/ingest/aimacro/handlers/census_btos.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.617,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.aimacro.handlers.index_download": {
+      "path": "src/ingest/aimacro/handlers/index_download.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 5,
+        "pagerank": 0.617,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.aimacro.handlers.stanford_hai": {
+      "path": "src/ingest/aimacro/handlers/stanford_hai.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 3,
+        "pagerank": 0.617,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.75
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.aimacro.ingestor": {
+      "path": "src/ingest/aimacro/ingestor.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.873,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.chips": {
+      "path": "src/ingest/chips/__init__.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 6,
+        "fan_out": 1,
+        "pagerank": 0.505,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.chips.common_base": {
+      "path": "src/ingest/chips/common_base.py",
+      "tier": "BRANCH",
+      "reason": "13 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 5,
+        "fan_in_transitive": 13,
+        "fan_out": 1,
+        "pagerank": 0.93,
+        "tests": 0,
+        "tests_reach": 15,
+        "test_coverage": "indirect",
+        "instability": 0.17
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.chips.handlers": {
+      "path": "src/ingest/chips/handlers/__init__.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 5,
+        "pagerank": 0.815,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.chips.handlers.bis_entity_list": {
+      "path": "src/ingest/chips/handlers/bis_entity_list.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 5,
+        "pagerank": 0.583,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.chips.handlers.federal_register": {
+      "path": "src/ingest/chips/handlers/federal_register.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.583,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.chips.handlers.sia": {
+      "path": "src/ingest/chips/handlers/sia.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.583,
+        "tests": 1,
+        "tests_reach": 14,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/chips/handlers/tsmc.py (2)",
+        "src/ingest/treasury/handlers/quarterly_refunding.py (2)",
+        "src/ingest/treasury/handlers/tic.py (2)"
+      ]
+    },
+    "src.ingest.chips.handlers.tsmc": {
+      "path": "src/ingest/chips/handlers/tsmc.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.583,
+        "tests": 2,
+        "tests_reach": 15,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/common/dateextract.py (2)",
+        "src/ingest/chips/handlers/sia.py (2)",
+        "src/ingest/treasury/handlers/quarterly_refunding.py (2)"
+      ]
+    },
+    "src.ingest.chips.ingestor": {
+      "path": "src/ingest/chips/ingestor.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.873,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.chips.parsers": {
+      "path": "src/ingest/chips/parsers.py",
+      "tier": "BRANCH",
+      "reason": "12 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 12,
+        "fan_out": 0,
+        "pagerank": 0.692,
+        "tests": 0,
+        "tests_reach": 15,
+        "test_coverage": "indirect",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.cli": {
+      "path": "src/ingest/cli.py",
+      "tier": "BRANCH",
+      "reason": "1 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 1,
+        "fan_out": 3,
+        "pagerank": 0.822,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.75
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.common": {
+      "path": "src/ingest/common/__init__.py",
+      "tier": "BRANCH",
+      "reason": "5 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 5,
+        "fan_out": 12,
+        "pagerank": 0.709,
+        "tests": 0,
+        "tests_reach": 12,
+        "test_coverage": "indirect",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.common.base": {
+      "path": "src/ingest/common/base.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): base ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 12,
+        "fan_in_transitive": 89,
+        "fan_out": 7,
+        "pagerank": 4.382,
+        "tests": 0,
+        "tests_reach": 20,
+        "test_coverage": "indirect",
+        "instability": 0.37
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": []
+    },
+    "src.ingest.common.browser": {
+      "path": "src/ingest/common/browser.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): browser ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 89,
+        "fan_out": 1,
+        "pagerank": 1.0,
+        "tests": 0,
+        "tests_reach": 20,
+        "test_coverage": "indirect",
+        "instability": 0.33
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": []
+    },
+    "src.ingest.common.cache": {
+      "path": "src/ingest/common/cache.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (4 hops): cache ← http_client ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 92,
+        "fan_out": 0,
+        "pagerank": 1.559,
+        "tests": 0,
+        "tests_reach": 20,
+        "test_coverage": "indirect",
+        "instability": 0.0
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 4,
+      "cochange": []
+    },
+    "src.ingest.common.chunking": {
+      "path": "src/ingest/common/chunking.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (2 hops): chunking ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 90,
+        "fan_out": 2,
+        "pagerank": 1.073,
+        "tests": 4,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.4
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 2,
+      "cochange": [
+        "src/ingest/common/config.py (2)",
+        "src/ingest/common/html_extract.py (2)",
+        "src/ingest/fed/handlers/dfast.py (2)"
+      ]
+    },
+    "src.ingest.common.config": {
+      "path": "src/ingest/common/config.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): config ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 14,
+        "fan_in_transitive": 100,
+        "fan_out": 2,
+        "pagerank": 4.412,
+        "tests": 11,
+        "tests_reach": 44,
+        "test_coverage": "direct",
+        "instability": 0.12
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": [
+        "src/utils/config.py (2)",
+        "src/api/admin.py (2)",
+        "src/ingest/common/storage.py (2)"
+      ]
+    },
+    "src.ingest.common.dateextract": {
+      "path": "src/ingest/common/dateextract.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (2 hops): dateextract ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 12,
+        "fan_in_transitive": 89,
+        "fan_out": 1,
+        "pagerank": 1.675,
+        "tests": 2,
+        "tests_reach": 21,
+        "test_coverage": "direct",
+        "instability": 0.08
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 2,
+      "cochange": [
+        "src/ingest/chips/handlers/tsmc.py (2)",
+        "src/ingest/common/handler_base.py (2)",
+        "src/ingest/house/handlers/blackrock.py (2)"
+      ]
+    },
+    "src.ingest.common.federal_register": {
+      "path": "src/ingest/common/federal_register.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 14 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 14,
+        "fan_out": 2,
+        "pagerank": 0.592,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.common.feeds": {
+      "path": "src/ingest/common/feeds.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 17 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 5,
+        "fan_in_transitive": 17,
+        "fan_out": 3,
+        "pagerank": 0.748,
+        "tests": 0,
+        "tests_reach": 14,
+        "test_coverage": "indirect",
+        "instability": 0.38
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.common.handler_base": {
+      "path": "src/ingest/common/handler_base.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (2 hops): handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 11,
+        "fan_in_transitive": 88,
+        "fan_out": 10,
+        "pagerank": 5.74,
+        "tests": 0,
+        "tests_reach": 20,
+        "test_coverage": "indirect",
+        "instability": 0.48
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 2,
+      "cochange": [
+        "src/ingest/common/dateextract.py (2)",
+        "src/ingest/house/handlers/blackrock.py (2)",
+        "src/ingest/house/handlers/gs_tom.py (2)"
+      ]
+    },
+    "src.ingest.common.html_extract": {
+      "path": "src/ingest/common/html_extract.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 54 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 23,
+        "fan_in_transitive": 54,
+        "fan_out": 1,
+        "pagerank": 2.296,
+        "tests": 0,
+        "tests_reach": 20,
+        "test_coverage": "indirect",
+        "instability": 0.04
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/common/chunking.py (2)",
+        "src/ingest/common/config.py (2)",
+        "src/ingest/fed/handlers/dfast.py (2)"
+      ]
+    },
+    "src.ingest.common.http_client": {
+      "path": "src/ingest/common/http_client.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): http_client ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 12,
+        "fan_in_transitive": 91,
+        "fan_out": 4,
+        "pagerank": 2.506,
+        "tests": 4,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.25
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": []
+    },
+    "src.ingest.common.logging_utils": {
+      "path": "src/ingest/common/logging_utils.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): logging_utils ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 55,
+        "fan_in_transitive": 108,
+        "fan_out": 0,
+        "pagerank": 16.67,
+        "tests": 1,
+        "tests_reach": 45,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": [
+        "src/ingest/fed/handlers/sloos.py (2)",
+        "src/ingest/fed/parsers.py (2)"
+      ]
+    },
+    "src.ingest.common.models": {
+      "path": "src/ingest/common/models.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → eval_evidence, world_view_id (2 hops): models ← timeseries_store ← episodes",
+      "metrics": {
+        "fan_in": 49,
+        "fan_in_transitive": 104,
+        "fan_out": 0,
+        "pagerank": 7.83,
+        "tests": 5,
+        "tests_reach": 30,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [
+        "eval_evidence",
+        "world_view_id"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "src.ingest.common.pdf_extract": {
+      "path": "src/ingest/common/pdf_extract.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): pdf_extract ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 9,
+        "fan_in_transitive": 89,
+        "fan_out": 1,
+        "pagerank": 1.433,
+        "tests": 0,
+        "tests_reach": 20,
+        "test_coverage": "indirect",
+        "instability": 0.1
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": []
+    },
+    "src.ingest.common.retag": {
+      "path": "src/ingest/common/retag.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 2,
+        "pagerank": 0.444,
+        "tests": 2,
+        "tests_reach": 2,
+        "test_coverage": "direct",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.common.sdmx": {
+      "path": "src/ingest/common/sdmx.py",
+      "tier": "BRANCH",
+      "reason": "10 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 10,
+        "fan_out": 1,
+        "pagerank": 0.539,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.common.spreadsheet": {
+      "path": "src/ingest/common/spreadsheet.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 18 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 18,
+        "fan_out": 1,
+        "pagerank": 0.674,
+        "tests": 0,
+        "tests_reach": 16,
+        "test_coverage": "indirect",
+        "instability": 0.25
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.common.storage": {
+      "path": "src/ingest/common/storage.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): storage ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 8,
+        "fan_in_transitive": 90,
+        "fan_out": 4,
+        "pagerank": 2.105,
+        "tests": 2,
+        "tests_reach": 22,
+        "test_coverage": "direct",
+        "instability": 0.33
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": [
+        "src/ingest/common/config.py (2)"
+      ]
+    },
+    "src.ingest.common.structured": {
+      "path": "src/ingest/common/structured.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): structured ← handler_base ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 89,
+        "fan_out": 1,
+        "pagerank": 1.139,
+        "tests": 0,
+        "tests_reach": 20,
+        "test_coverage": "indirect",
+        "instability": 0.2
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": []
+    },
+    "src.ingest.fed": {
+      "path": "src/ingest/fed/__init__.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 6,
+        "fan_out": 1,
+        "pagerank": 0.505,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.fed.common_base": {
+      "path": "src/ingest/fed/common_base.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 14 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 6,
+        "fan_in_transitive": 14,
+        "fan_out": 1,
+        "pagerank": 0.902,
+        "tests": 0,
+        "tests_reach": 16,
+        "test_coverage": "indirect",
+        "instability": 0.14
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.fed.dfast_scenarios": {
+      "path": "src/ingest/fed/dfast_scenarios.py",
+      "tier": "BRANCH",
+      "reason": "10 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 10,
+        "fan_out": 0,
+        "pagerank": 0.492,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.fed.handlers": {
+      "path": "src/ingest/fed/handlers/__init__.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 6,
+        "pagerank": 0.815,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.fed.handlers.dfast": {
+      "path": "src/ingest/fed/handlers/dfast.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 10,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.91
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/fed/handlers/sloos.py (2)",
+        "src/ingest/common/chunking.py (2)",
+        "src/ingest/common/config.py (2)"
+      ]
+    },
+    "src.ingest.fed.handlers.financial_stability": {
+      "path": "src/ingest/fed/handlers/financial_stability.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.fed.handlers.press_monetary": {
+      "path": "src/ingest/fed/handlers/press_monetary.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 7,
+        "pagerank": 0.56,
+        "tests": 1,
+        "tests_reach": 14,
+        "test_coverage": "direct",
+        "instability": 0.88
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/common/chunking.py (2)",
+        "src/ingest/common/config.py (2)",
+        "src/ingest/common/html_extract.py (2)"
+      ]
+    },
+    "src.ingest.fed.handlers.sloos": {
+      "path": "src/ingest/fed/handlers/sloos.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 7,
+        "pagerank": 0.56,
+        "tests": 2,
+        "tests_reach": 15,
+        "test_coverage": "direct",
+        "instability": 0.88
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/common/logging_utils.py (2)",
+        "src/ingest/fed/parsers.py (2)",
+        "src/ingest/fed/handlers/dfast.py (2)"
+      ]
+    },
+    "src.ingest.fed.handlers.speeches": {
+      "path": "src/ingest/fed/handlers/speeches.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.fed.ingestor": {
+      "path": "src/ingest/fed/ingestor.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.873,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.fed.parsers": {
+      "path": "src/ingest/fed/parsers.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 14 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 5,
+        "fan_in_transitive": 14,
+        "fan_out": 0,
+        "pagerank": 0.786,
+        "tests": 1,
+        "tests_reach": 16,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/common/logging_utils.py (2)",
+        "src/ingest/fed/handlers/sloos.py (2)"
+      ]
+    },
+    "src.ingest.fed.sep_projections": {
+      "path": "src/ingest/fed/sep_projections.py",
+      "tier": "BRANCH",
+      "reason": "10 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 10,
+        "fan_out": 0,
+        "pagerank": 0.512,
+        "tests": 0,
+        "tests_reach": 14,
+        "test_coverage": "indirect",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.house": {
+      "path": "src/ingest/house/__init__.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 6,
+        "fan_out": 1,
+        "pagerank": 0.505,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.house.common_base": {
+      "path": "src/ingest/house/common_base.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 14 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 6,
+        "fan_in_transitive": 14,
+        "fan_out": 7,
+        "pagerank": 1.0,
+        "tests": 0,
+        "tests_reach": 14,
+        "test_coverage": "indirect",
+        "instability": 0.54
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.house.handlers": {
+      "path": "src/ingest/house/handlers/__init__.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 6,
+        "pagerank": 0.815,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.house.handlers.apollo": {
+      "path": "src/ingest/house/handlers/apollo.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.house.handlers.blackrock": {
+      "path": "src/ingest/house/handlers/blackrock.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.56,
+        "tests": 1,
+        "tests_reach": 14,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/common/dateextract.py (2)",
+        "src/ingest/common/handler_base.py (2)",
+        "src/ingest/house/handlers/gs_tom.py (2)"
+      ]
+    },
+    "src.ingest.house.handlers.gs_tom": {
+      "path": "src/ingest/house/handlers/gs_tom.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 7,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.88
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/common/dateextract.py (2)",
+        "src/ingest/common/handler_base.py (2)",
+        "src/ingest/house/handlers/blackrock.py (2)"
+      ]
+    },
+    "src.ingest.house.handlers.jpm_eotm": {
+      "path": "src/ingest/house/handlers/jpm_eotm.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 5,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.house.handlers.ms_totm": {
+      "path": "src/ingest/house/handlers/ms_totm.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.56,
+        "tests": 1,
+        "tests_reach": 14,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/common/dateextract.py (2)",
+        "src/ingest/common/handler_base.py (2)",
+        "src/ingest/house/handlers/blackrock.py (2)"
+      ]
+    },
+    "src.ingest.house.ingestor": {
+      "path": "src/ingest/house/ingestor.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.873,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.house.parsers": {
+      "path": "src/ingest/house/parsers.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 15 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 6,
+        "fan_in_transitive": 15,
+        "fan_out": 0,
+        "pagerank": 1.006,
+        "tests": 0,
+        "tests_reach": 14,
+        "test_coverage": "indirect",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl": {
+      "path": "src/ingest/intl/__init__.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 6,
+        "fan_out": 1,
+        "pagerank": 0.505,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl.common_base": {
+      "path": "src/ingest/intl/common_base.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 14 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 6,
+        "fan_in_transitive": 14,
+        "fan_out": 2,
+        "pagerank": 1.107,
+        "tests": 0,
+        "tests_reach": 14,
+        "test_coverage": "indirect",
+        "instability": 0.25
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl.handlers": {
+      "path": "src/ingest/intl/handlers/__init__.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 6,
+        "pagerank": 0.815,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl.handlers.bis_annual": {
+      "path": "src/ingest/intl/handlers/bis_annual.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl.handlers.bis_quarterly": {
+      "path": "src/ingest/intl/handlers/bis_quarterly.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 5,
+        "pagerank": 0.56,
+        "tests": 1,
+        "tests_reach": 14,
+        "test_coverage": "direct",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl.handlers.boj_outlook": {
+      "path": "src/ingest/intl/handlers/boj_outlook.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl.handlers.imf_reports": {
+      "path": "src/ingest/intl/handlers/imf_reports.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl.handlers.imf_sdmx": {
+      "path": "src/ingest/intl/handlers/imf_sdmx.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 5,
+        "pagerank": 0.56,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl.ingestor": {
+      "path": "src/ingest/intl/ingestor.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.873,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.intl.parsers": {
+      "path": "src/ingest/intl/parsers.py",
+      "tier": "BRANCH",
+      "reason": "13 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 13,
+        "fan_out": 0,
+        "pagerank": 0.896,
+        "tests": 0,
+        "tests_reach": 14,
+        "test_coverage": "indirect",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.power": {
+      "path": "src/ingest/power/__init__.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 6,
+        "fan_out": 1,
+        "pagerank": 0.505,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.power.common_base": {
+      "path": "src/ingest/power/common_base.py",
+      "tier": "BRANCH",
+      "reason": "13 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 5,
+        "fan_in_transitive": 13,
+        "fan_out": 1,
+        "pagerank": 1.037,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.17
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.power.handlers": {
+      "path": "src/ingest/power/handlers/__init__.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 5,
+        "pagerank": 0.815,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.power.handlers.eia": {
+      "path": "src/ingest/power/handlers/eia.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.583,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.power.handlers.ferc_714": {
+      "path": "src/ingest/power/handlers/ferc_714.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.583,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.power.handlers.iea": {
+      "path": "src/ingest/power/handlers/iea.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.583,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.power.handlers.pjm": {
+      "path": "src/ingest/power/handlers/pjm.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.583,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.power.ingestor": {
+      "path": "src/ingest/power/ingestor.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.873,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.scenarios": {
+      "path": "src/ingest/scenarios/__init__.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 6,
+        "fan_out": 1,
+        "pagerank": 0.505,
+        "tests": 1,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.scenarios.common_base": {
+      "path": "src/ingest/scenarios/common_base.py",
+      "tier": "BRANCH",
+      "reason": "10 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 10,
+        "fan_out": 1,
+        "pagerank": 0.903,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.33
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.scenarios.handlers": {
+      "path": "src/ingest/scenarios/handlers/__init__.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 2,
+        "pagerank": 0.815,
+        "tests": 1,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.scenarios.handlers.pinned_docs": {
+      "path": "src/ingest/scenarios/handlers/pinned_docs.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.791,
+        "tests": 1,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.scenarios.ingestor": {
+      "path": "src/ingest/scenarios/ingestor.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.873,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.treasury": {
+      "path": "src/ingest/treasury/__init__.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 6,
+        "fan_out": 1,
+        "pagerank": 0.505,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.treasury.common_base": {
+      "path": "src/ingest/treasury/common_base.py",
+      "tier": "BRANCH",
+      "reason": "12 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 12,
+        "fan_out": 2,
+        "pagerank": 0.807,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.33
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.treasury.handlers": {
+      "path": "src/ingest/treasury/handlers/__init__.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 4,
+        "pagerank": 0.815,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.treasury.handlers.oisp": {
+      "path": "src/ingest/treasury/handlers/oisp.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 8,
+        "pagerank": 0.617,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.89
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.treasury.handlers.quarterly_refunding": {
+      "path": "src/ingest/treasury/handlers/quarterly_refunding.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 9,
+        "pagerank": 0.617,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.9
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/chips/handlers/sia.py (2)",
+        "src/ingest/chips/handlers/tsmc.py (2)",
+        "src/ingest/treasury/handlers/tic.py (2)"
+      ]
+    },
+    "src.ingest.treasury.handlers.tic": {
+      "path": "src/ingest/treasury/handlers/tic.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 8,
+        "pagerank": 0.617,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.89
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/chips/handlers/sia.py (2)",
+        "src/ingest/chips/handlers/tsmc.py (2)",
+        "src/ingest/treasury/handlers/quarterly_refunding.py (2)"
+      ]
+    },
+    "src.ingest.treasury.ingestor": {
+      "path": "src/ingest/treasury/ingestor.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.873,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.treasury.parsers": {
+      "path": "src/ingest/treasury/parsers.py",
+      "tier": "BRANCH",
+      "reason": "13 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 13,
+        "fan_out": 0,
+        "pagerank": 0.977,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.usstats": {
+      "path": "src/ingest/usstats/__init__.py",
+      "tier": "BRANCH",
+      "reason": "6 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 6,
+        "fan_out": 1,
+        "pagerank": 0.505,
+        "tests": 0,
+        "tests_reach": 13,
+        "test_coverage": "indirect",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.usstats.common_base": {
+      "path": "src/ingest/usstats/common_base.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 15 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 7,
+        "fan_in_transitive": 15,
+        "fan_out": 5,
+        "pagerank": 1.086,
+        "tests": 0,
+        "tests_reach": 16,
+        "test_coverage": "indirect",
+        "instability": 0.42
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.usstats.episodes": {
+      "path": "src/ingest/usstats/episodes.py",
+      "tier": "BRANCH",
+      "reason": "10 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 10,
+        "fan_out": 2,
+        "pagerank": 0.537,
+        "tests": 6,
+        "tests_reach": 22,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/usstats/handlers/episodes.py (3)",
+        "src/synthesis/validate.py (2)"
+      ]
+    },
+    "src.ingest.usstats.handlers": {
+      "path": "src/ingest/usstats/handlers/__init__.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 7,
+        "pagerank": 0.815,
+        "tests": 2,
+        "tests_reach": 16,
+        "test_coverage": "direct",
+        "instability": 0.88
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/usstats/parsers.py (2)"
+      ]
+    },
+    "src.ingest.usstats.handlers.acm": {
+      "path": "src/ingest/usstats/handlers/acm.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.543,
+        "tests": 1,
+        "tests_reach": 16,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/usstats/parsers.py (2)"
+      ]
+    },
+    "src.ingest.usstats.handlers.bea": {
+      "path": "src/ingest/usstats/handlers/bea.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.543,
+        "tests": 0,
+        "tests_reach": 16,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.usstats.handlers.bls": {
+      "path": "src/ingest/usstats/handlers/bls.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 4,
+        "pagerank": 0.543,
+        "tests": 0,
+        "tests_reach": 16,
+        "test_coverage": "indirect",
+        "instability": 0.8
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.usstats.handlers.cbo": {
+      "path": "src/ingest/usstats/handlers/cbo.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 7,
+        "pagerank": 0.543,
+        "tests": 0,
+        "tests_reach": 16,
+        "test_coverage": "indirect",
+        "instability": 0.88
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.usstats.handlers.episodes": {
+      "path": "src/ingest/usstats/handlers/episodes.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 5,
+        "pagerank": 0.543,
+        "tests": 1,
+        "tests_reach": 16,
+        "test_coverage": "direct",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/usstats/episodes.py (3)"
+      ]
+    },
+    "src.ingest.usstats.handlers.fred": {
+      "path": "src/ingest/usstats/handlers/fred.py",
+      "tier": "BRANCH",
+      "reason": "9 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 9,
+        "fan_out": 6,
+        "pagerank": 0.543,
+        "tests": 1,
+        "tests_reach": 16,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/usstats/parsers.py (2)"
+      ]
+    },
+    "src.ingest.usstats.ingestor": {
+      "path": "src/ingest/usstats/ingestor.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.873,
+        "tests": 3,
+        "tests_reach": 16,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.ingest.usstats.parsers": {
+      "path": "src/ingest/usstats/parsers.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 14 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 5,
+        "fan_in_transitive": 14,
+        "fan_out": 0,
+        "pagerank": 0.895,
+        "tests": 2,
+        "tests_reach": 18,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/ingest/usstats/handlers/__init__.py (2)",
+        "src/ingest/usstats/handlers/acm.py (2)",
+        "src/ingest/usstats/handlers/fred.py (2)"
+      ]
+    },
+    "src.llm": {
+      "path": "src/llm/__init__.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 11,
+        "pagerank": 0.468,
+        "tests": 0,
+        "tests_reach": 20,
+        "test_coverage": "indirect",
+        "instability": 0.92
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.llm.anthropic_client": {
+      "path": "src/llm/anthropic_client.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 5,
+        "pagerank": 0.48,
+        "tests": 4,
+        "tests_reach": 24,
+        "test_coverage": "direct",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/utils/config.py (8)",
+        "src/llm/openai_client.py (6)",
+        "src/pipelines/query_pipeline.py (5)"
+      ]
+    },
+    "src.llm.base": {
+      "path": "src/llm/base.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (1 hops): base ← generate",
+      "metrics": {
+        "fan_in": 13,
+        "fan_in_transitive": 31,
+        "fan_out": 2,
+        "pagerank": 1.523,
+        "tests": 4,
+        "tests_reach": 49,
+        "test_coverage": "direct",
+        "instability": 0.13
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 1,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (3)",
+        "src/utils/config.py (3)",
+        "src/agent/planner.py (2)"
+      ]
+    },
+    "src.llm.escalation": {
+      "path": "src/llm/escalation.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 2,
+        "pagerank": 0.468,
+        "tests": 1,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.llm.fake": {
+      "path": "src/llm/fake.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 2,
+        "pagerank": 0.48,
+        "tests": 16,
+        "tests_reach": 24,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/llm/anthropic_client.py (2)",
+        "src/llm/openai_client.py (2)",
+        "src/llm/usage.py (2)"
+      ]
+    },
+    "src.llm.generate": {
+      "path": "src/llm/generate.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (0 hops): generate",
+      "metrics": {
+        "fan_in": 8,
+        "fan_in_transitive": 22,
+        "fan_out": 6,
+        "pagerank": 0.934,
+        "tests": 3,
+        "tests_reach": 41,
+        "test_coverage": "direct",
+        "instability": 0.43
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (2)",
+        "src/agent/planner.py (2)",
+        "src/eval/judge.py (2)"
+      ]
+    },
+    "src.llm.openai_client": {
+      "path": "src/llm/openai_client.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 8,
+        "fan_out": 5,
+        "pagerank": 0.48,
+        "tests": 4,
+        "tests_reach": 24,
+        "test_coverage": "direct",
+        "instability": 0.83
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/utils/config.py (7)",
+        "src/llm/anthropic_client.py (6)",
+        "src/pipelines/query_pipeline.py (4)"
+      ]
+    },
+    "src.llm.pricing": {
+      "path": "src/llm/pricing.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 135 transitive dependents",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 135,
+        "fan_out": 1,
+        "pagerank": 3.158,
+        "tests": 8,
+        "tests_reach": 93,
+        "test_coverage": "direct",
+        "instability": 0.2
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/pipelines/cli.py (3)",
+        "src/llm/anthropic_client.py (2)",
+        "src/llm/usage.py (2)"
+      ]
+    },
+    "src.llm.prompts": {
+      "path": "src/llm/prompts.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 8,
+        "fan_out": 1,
+        "pagerank": 0.504,
+        "tests": 1,
+        "tests_reach": 21,
+        "test_coverage": "direct",
+        "instability": 0.33
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.llm.registry": {
+      "path": "src/llm/registry.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (1 hops): registry ← generate",
+      "metrics": {
+        "fan_in": 10,
+        "fan_in_transitive": 29,
+        "fan_out": 18,
+        "pagerank": 1.592,
+        "tests": 3,
+        "tests_reach": 43,
+        "test_coverage": "direct",
+        "instability": 0.64
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 1,
+      "cochange": []
+    },
+    "src.llm.resilience": {
+      "path": "src/llm/resilience.py",
+      "tier": "BRANCH",
+      "reason": "10 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 10,
+        "fan_out": 1,
+        "pagerank": 0.608,
+        "tests": 2,
+        "tests_reach": 28,
+        "test_coverage": "direct",
+        "instability": 0.33
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/llm/anthropic_client.py (2)",
+        "src/llm/openai_client.py (2)",
+        "src/utils/config.py (2)"
+      ]
+    },
+    "src.llm.sanitize": {
+      "path": "src/llm/sanitize.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (1 hops): sanitize ← generate",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 23,
+        "fan_out": 2,
+        "pagerank": 0.6,
+        "tests": 2,
+        "tests_reach": 41,
+        "test_coverage": "direct",
+        "instability": 0.5
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 1,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (2)"
+      ]
+    },
+    "src.llm.schema_health": {
+      "path": "src/llm/schema_health.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector (2 hops): schema_health ← base ← generate",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 32,
+        "fan_out": 1,
+        "pagerank": 1.189,
+        "tests": 2,
+        "tests_reach": 49,
+        "test_coverage": "direct",
+        "instability": 0.25
+      },
+      "outputs": [
+        "answers",
+        "shock_vector"
+      ],
+      "distance": 2,
+      "cochange": [
+        "src/utils/config.py (4)",
+        "src/llm/anthropic_client.py (2)",
+        "src/llm/base.py (2)"
+      ]
+    },
+    "src.llm.understanding": {
+      "path": "src/llm/understanding.py",
+      "tier": "BRANCH",
+      "reason": "8 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 8,
+        "fan_out": 7,
+        "pagerank": 0.504,
+        "tests": 1,
+        "tests_reach": 21,
+        "test_coverage": "direct",
+        "instability": 0.78
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/agent/planner.py (3)",
+        "src/llm/usage.py (3)",
+        "src/llm/anthropic_client.py (2)"
+      ]
+    },
+    "src.llm.usage": {
+      "path": "src/llm/usage.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 32 transitive dependents",
+      "metrics": {
+        "fan_in": 17,
+        "fan_in_transitive": 32,
+        "fan_out": 3,
+        "pagerank": 1.97,
+        "tests": 9,
+        "tests_reach": 50,
+        "test_coverage": "direct",
+        "instability": 0.15
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/utils/config.py (5)",
+        "src/llm/anthropic_client.py (4)",
+        "src/agent/planner.py (3)"
+      ]
+    },
+    "src.llm.verify": {
+      "path": "src/llm/verify.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers (0 hops): verify",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 8,
+        "fan_out": 6,
+        "pagerank": 0.504,
+        "tests": 1,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.75
+      },
+      "outputs": [
+        "answers"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/synthesis/synthesizer.py (3)",
+        "src/llm/anthropic_client.py (2)",
+        "src/pipelines/query_pipeline.py (2)"
+      ]
+    },
+    "src.mcp_server": {
+      "path": "src/mcp_server/__init__.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 1,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.mcp_server.__main__": {
+      "path": "src/mcp_server/__main__.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 2,
+        "pagerank": 0.444,
+        "tests": 1,
+        "tests_reach": 1,
+        "test_coverage": "direct",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/mcp_server/server.py (4)",
+        "src/api/app.py (3)",
+        "src/api/admin.py (2)"
+      ]
+    },
+    "src.mcp_server.server": {
+      "path": "src/mcp_server/server.py",
+      "tier": "BRANCH",
+      "reason": "3 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 3,
+        "fan_out": 8,
+        "pagerank": 1.048,
+        "tests": 3,
+        "tests_reach": 5,
+        "test_coverage": "direct",
+        "instability": 0.73
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/app.py (6)",
+        "src/pipelines/query_pipeline.py (6)",
+        "src/api/models.py (5)"
+      ]
+    },
+    "src.pipelines": {
+      "path": "src/pipelines/__init__.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 3,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.pipelines.cli": {
+      "path": "src/pipelines/cli.py",
+      "tier": "BRANCH",
+      "reason": "co-changes with TRUNK src/utils/config.py (6 commits)",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 10,
+        "pagerank": 0.444,
+        "tests": 2,
+        "tests_reach": 2,
+        "test_coverage": "direct",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/utils/config.py (6)",
+        "src/api/app.py (4)",
+        "src/llm/pricing.py (3)"
+      ]
+    },
+    "src.pipelines.hydrate": {
+      "path": "src/pipelines/hydrate.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 7,
+        "fan_out": 3,
+        "pagerank": 0.594,
+        "tests": 1,
+        "tests_reach": 21,
+        "test_coverage": "direct",
+        "instability": 0.6
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.pipelines.index_pipeline": {
+      "path": "src/pipelines/index_pipeline.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (1 hops): index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 12,
+        "fan_out": 14,
+        "pagerank": 0.762,
+        "tests": 1,
+        "tests_reach": 15,
+        "test_coverage": "direct",
+        "instability": 0.78
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 1,
+      "cochange": [
+        "src/api/admin.py (3)",
+        "src/utils/manifest.py (2)",
+        "src/api/app.py (2)"
+      ]
+    },
+    "src.pipelines.query_pipeline": {
+      "path": "src/pipelines/query_pipeline.py",
+      "tier": "TRUNK",
+      "reason": "pinned in profile criticality.pins",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 6,
+        "fan_out": 30,
+        "pagerank": 0.845,
+        "tests": 17,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.88
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/utils/config.py (14)",
+        "src/synthesis/__init__.py (10)",
+        "configs/rag.yaml (9)"
+      ]
+    },
+    "src.retriever": {
+      "path": "src/retriever/__init__.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 5,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.retriever.analysis": {
+      "path": "src/retriever/analysis.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers (1 hops): analysis ← retriever",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 17,
+        "fan_out": 2,
+        "pagerank": 0.635,
+        "tests": 2,
+        "tests_reach": 33,
+        "test_coverage": "direct",
+        "instability": 0.4
+      },
+      "outputs": [
+        "answers"
+      ],
+      "distance": 1,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (2)"
+      ]
+    },
+    "src.retriever.fusion": {
+      "path": "src/retriever/fusion.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers (1 hops): fusion ← retriever",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 18,
+        "fan_out": 1,
+        "pagerank": 0.688,
+        "tests": 1,
+        "tests_reach": 31,
+        "test_coverage": "direct",
+        "instability": 0.25
+      },
+      "outputs": [
+        "answers"
+      ],
+      "distance": 1,
+      "cochange": []
+    },
+    "src.retriever.mmr": {
+      "path": "src/retriever/mmr.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers (1 hops): mmr ← retriever",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 15,
+        "fan_out": 0,
+        "pagerank": 0.573,
+        "tests": 1,
+        "tests_reach": 31,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers"
+      ],
+      "distance": 1,
+      "cochange": []
+    },
+    "src.retriever.multihop": {
+      "path": "src/retriever/multihop.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 6,
+        "pagerank": 0.468,
+        "tests": 1,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.86
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/agent/planner.py (2)",
+        "src/llm/understanding.py (2)",
+        "src/llm/usage.py (2)"
+      ]
+    },
+    "src.retriever.ranking": {
+      "path": "src/retriever/ranking.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers (1 hops): ranking ← retriever",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 15,
+        "fan_out": 2,
+        "pagerank": 0.498,
+        "tests": 1,
+        "tests_reach": 30,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [
+        "answers"
+      ],
+      "distance": 1,
+      "cochange": []
+    },
+    "src.retriever.remote_reranker": {
+      "path": "src/retriever/remote_reranker.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): remote_reranker ← embeddings ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 14,
+        "fan_out": 3,
+        "pagerank": 0.614,
+        "tests": 1,
+        "tests_reach": 30,
+        "test_coverage": "direct",
+        "instability": 0.5
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (5)",
+        "src/utils/config.py (3)",
+        "src/mcp_server/server.py (2)"
+      ]
+    },
+    "src.retriever.rerank": {
+      "path": "src/retriever/rerank.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, world_view_id (1 hops): rerank ← retriever",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 20,
+        "fan_out": 3,
+        "pagerank": 0.771,
+        "tests": 12,
+        "tests_reach": 31,
+        "test_coverage": "direct",
+        "instability": 0.43
+      },
+      "outputs": [
+        "answers",
+        "world_view_id"
+      ],
+      "distance": 1,
+      "cochange": []
+    },
+    "src.retriever.retriever": {
+      "path": "src/retriever/retriever.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers (0 hops): retriever",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 14,
+        "fan_out": 11,
+        "pagerank": 0.695,
+        "tests": 12,
+        "tests_reach": 30,
+        "test_coverage": "direct",
+        "instability": 0.73
+      },
+      "outputs": [
+        "answers"
+      ],
+      "distance": 0,
+      "cochange": []
+    },
+    "src.synthesis": {
+      "path": "src/synthesis/__init__.py",
+      "tier": "BRANCH",
+      "reason": "12 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 12,
+        "fan_out": 6,
+        "pagerank": 0.809,
+        "tests": 0,
+        "tests_reach": 33,
+        "test_coverage": "indirect",
+        "instability": 0.6
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (10)",
+        "src/synthesis/validate.py (7)",
+        "src/synthesis/vocab.py (5)"
+      ]
+    },
+    "src.synthesis.diagnostics": {
+      "path": "src/synthesis/diagnostics.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 16 transitive dependents",
+      "metrics": {
+        "fan_in": 5,
+        "fan_in_transitive": 16,
+        "fan_out": 0,
+        "pagerank": 0.849,
+        "tests": 13,
+        "tests_reach": 48,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (5)",
+        "src/synthesis/__init__.py (3)",
+        "src/synthesis/validate.py (3)"
+      ]
+    },
+    "src.synthesis.gate": {
+      "path": "src/synthesis/gate.py",
+      "tier": "TRUNK",
+      "reason": "pinned in profile criticality.pins",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 13,
+        "fan_out": 4,
+        "pagerank": 0.559,
+        "tests": 1,
+        "tests_reach": 33,
+        "test_coverage": "direct",
+        "instability": 0.8
+      },
+      "outputs": [
+        "shock_vector"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/api/app.py (2)",
+        "src/api/models.py (2)",
+        "src/pipelines/query_pipeline.py (2)"
+      ]
+    },
+    "src.synthesis.schema": {
+      "path": "src/synthesis/schema.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → shock_vector (0 hops): schema",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 16,
+        "fan_out": 0,
+        "pagerank": 0.825,
+        "tests": 5,
+        "tests_reach": 49,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [
+        "shock_vector"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (4)",
+        "src/synthesis/vocab.py (4)",
+        "src/utils/config.py (4)"
+      ]
+    },
+    "src.synthesis.synthesizer": {
+      "path": "src/synthesis/synthesizer.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → shock_vector (0 hops): synthesizer",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 13,
+        "fan_out": 9,
+        "pagerank": 0.559,
+        "tests": 3,
+        "tests_reach": 35,
+        "test_coverage": "direct",
+        "instability": 0.9
+      },
+      "outputs": [
+        "shock_vector"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (8)",
+        "src/synthesis/__init__.py (4)",
+        "src/synthesis/vocab.py (4)"
+      ]
+    },
+    "src.synthesis.validate": {
+      "path": "src/synthesis/validate.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → shock_vector (0 hops): validate",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 13,
+        "fan_out": 5,
+        "pagerank": 0.559,
+        "tests": 13,
+        "tests_reach": 45,
+        "test_coverage": "direct",
+        "instability": 0.83
+      },
+      "outputs": [
+        "shock_vector"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (8)",
+        "src/synthesis/__init__.py (7)",
+        "src/synthesis/vocab.py (5)"
+      ]
+    },
+    "src.synthesis.vocab": {
+      "path": "src/synthesis/vocab.py",
+      "tier": "TRUNK",
+      "reason": "pinned in profile criticality.pins",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 15,
+        "fan_out": 0,
+        "pagerank": 0.731,
+        "tests": 2,
+        "tests_reach": 47,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [
+        "shock_vector"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (7)",
+        "src/synthesis/validate.py (5)",
+        "src/synthesis/__init__.py (5)"
+      ]
+    },
+    "src.utils": {
+      "path": "src/utils/__init__.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 4,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.utils.alerting": {
+      "path": "src/utils/alerting.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 3 transitive dependents",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 3,
+        "fan_out": 1,
+        "pagerank": 0.476,
+        "tests": 1,
+        "tests_reach": 12,
+        "test_coverage": "direct",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.utils.cache": {
+      "path": "src/utils/cache.py",
+      "tier": "BRANCH",
+      "reason": "7 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 3,
+        "pagerank": 0.468,
+        "tests": 8,
+        "tests_reach": 21,
+        "test_coverage": "direct",
+        "instability": 0.75
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (4)",
+        "src/api/app.py (2)",
+        "src/utils/config.py (2)"
+      ]
+    },
+    "src.utils.config": {
+      "path": "src/utils/config.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, shock_vector, world_view_id (1 hops): config ← retriever",
+      "metrics": {
+        "fan_in": 27,
+        "fan_in_transitive": 132,
+        "fan_out": 2,
+        "pagerank": 4.898,
+        "tests": 44,
+        "tests_reach": 88,
+        "test_coverage": "direct",
+        "instability": 0.07
+      },
+      "outputs": [
+        "answers",
+        "shock_vector",
+        "world_view_id"
+      ],
+      "distance": 1,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (14)",
+        "src/api/app.py (13)",
+        "configs/rag.yaml (10)"
+      ]
+    },
+    "src.utils.corpus": {
+      "path": "src/utils/corpus.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (2 hops): corpus ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 13,
+        "fan_out": 4,
+        "pagerank": 0.621,
+        "tests": 8,
+        "tests_reach": 23,
+        "test_coverage": "direct",
+        "instability": 0.57
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "src.utils.corpus_sync": {
+      "path": "src/utils/corpus_sync.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 1,
+        "pagerank": 0.444,
+        "tests": 3,
+        "tests_reach": 3,
+        "test_coverage": "direct",
+        "instability": 1.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.utils.costguard": {
+      "path": "src/utils/costguard.py",
+      "tier": "BRANCH",
+      "reason": "3 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 3,
+        "fan_out": 2,
+        "pagerank": 0.476,
+        "tests": 1,
+        "tests_reach": 12,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/app.py (3)",
+        "src/utils/config.py (3)",
+        "src/synthesis/validate.py (2)"
+      ]
+    },
+    "src.utils.fakeredis": {
+      "path": "src/utils/fakeredis.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 0,
+        "pagerank": 0.444,
+        "tests": 2,
+        "tests_reach": 2,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/app.py (2)",
+        "src/utils/config.py (2)"
+      ]
+    },
+    "src.utils.locks": {
+      "path": "src/utils/locks.py",
+      "tier": "BRANCH",
+      "reason": "5 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 5,
+        "fan_out": 2,
+        "pagerank": 0.62,
+        "tests": 1,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.utils.logging": {
+      "path": "src/utils/logging.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 159 transitive dependents",
+      "metrics": {
+        "fan_in": 57,
+        "fan_in_transitive": 159,
+        "fan_out": 0,
+        "pagerank": 13.806,
+        "tests": 1,
+        "tests_reach": 108,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/utils/config.py (2)",
+        "src/llm/usage.py (2)"
+      ]
+    },
+    "src.utils.manifest": {
+      "path": "src/utils/manifest.py",
+      "tier": "TRUNK",
+      "reason": "pinned in profile criticality.pins",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 12,
+        "fan_out": 4,
+        "pagerank": 0.576,
+        "tests": 8,
+        "tests_reach": 33,
+        "test_coverage": "direct",
+        "instability": 0.5
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 0,
+      "cochange": [
+        "src/api/admin.py (2)",
+        "src/pipelines/index_pipeline.py (2)",
+        "src/api/app.py (2)"
+      ]
+    },
+    "src.utils.metrics": {
+      "path": "src/utils/metrics.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 36 transitive dependents",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 36,
+        "fan_out": 0,
+        "pagerank": 2.3,
+        "tests": 3,
+        "tests_reach": 51,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/api/app.py (2)",
+        "src/utils/config.py (2)"
+      ]
+    },
+    "src.utils.objectstore": {
+      "path": "src/utils/objectstore.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (1 hops): objectstore ← manifest",
+      "metrics": {
+        "fan_in": 11,
+        "fan_in_transitive": 96,
+        "fan_out": 1,
+        "pagerank": 2.241,
+        "tests": 7,
+        "tests_reach": 57,
+        "test_coverage": "direct",
+        "instability": 0.08
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 1,
+      "cochange": []
+    },
+    "src.utils.observability": {
+      "path": "src/utils/observability.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 9 transitive dependents",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 9,
+        "fan_out": 1,
+        "pagerank": 0.5,
+        "tests": 1,
+        "tests_reach": 29,
+        "test_coverage": "direct",
+        "instability": 0.33
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.utils.ratelimit": {
+      "path": "src/utils/ratelimit.py",
+      "tier": "BRANCH",
+      "reason": "3 transitive dependents, not on a value path",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 3,
+        "fan_out": 2,
+        "pagerank": 0.476,
+        "tests": 1,
+        "tests_reach": 13,
+        "test_coverage": "direct",
+        "instability": 0.67
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.utils.redisconn": {
+      "path": "src/utils/redisconn.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·infra: 16 transitive dependents (top 10%)",
+      "metrics": {
+        "fan_in": 5,
+        "fan_in_transitive": 16,
+        "fan_out": 1,
+        "pagerank": 1.509,
+        "tests": 0,
+        "tests_reach": 30,
+        "test_coverage": "indirect",
+        "instability": 0.17
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "src.utils.schema": {
+      "path": "src/utils/schema.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, eval_evidence, shock_vector, world_view_id (1 hops): schema ← episodes",
+      "metrics": {
+        "fan_in": 39,
+        "fan_in_transitive": 60,
+        "fan_out": 0,
+        "pagerank": 8.3,
+        "tests": 24,
+        "tests_reach": 68,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [
+        "answers",
+        "eval_evidence",
+        "shock_vector",
+        "world_view_id"
+      ],
+      "distance": 1,
+      "cochange": [
+        "src/mcp_server/server.py (3)",
+        "src/vectorstores/filters.py (3)",
+        "src/vectorstores/qdrant_store.py (3)"
+      ]
+    },
+    "src.utils.text": {
+      "path": "src/utils/text.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): text ← corpus ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 3,
+        "fan_in_transitive": 17,
+        "fan_out": 0,
+        "pagerank": 0.758,
+        "tests": 1,
+        "tests_reach": 36,
+        "test_coverage": "direct",
+        "instability": 0.0
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": []
+    },
+    "src.utils.trace": {
+      "path": "src/utils/trace.py",
+      "tier": "BRANCH",
+      "reason": "non_value (capped at BRANCH): 7 transitive dependents",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 7,
+        "fan_out": 1,
+        "pagerank": 0.468,
+        "tests": 11,
+        "tests_reach": 20,
+        "test_coverage": "direct",
+        "instability": 0.5
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": [
+        "src/pipelines/query_pipeline.py (4)"
+      ]
+    },
+    "src.vectorstores": {
+      "path": "src/vectorstores/__init__.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (2 hops): vectorstores ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 2,
+        "fan_in_transitive": 12,
+        "fan_out": 6,
+        "pagerank": 0.514,
+        "tests": 0,
+        "tests_reach": 30,
+        "test_coverage": "indirect",
+        "instability": 0.75
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 2,
+      "cochange": []
+    },
+    "src.vectorstores.base": {
+      "path": "src/vectorstores/base.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, world_view_id (1 hops): base ← retriever",
+      "metrics": {
+        "fan_in": 5,
+        "fan_in_transitive": 20,
+        "fan_out": 1,
+        "pagerank": 0.851,
+        "tests": 0,
+        "tests_reach": 33,
+        "test_coverage": "indirect",
+        "instability": 0.17
+      },
+      "outputs": [
+        "answers",
+        "world_view_id"
+      ],
+      "distance": 1,
+      "cochange": []
+    },
+    "src.vectorstores.filters": {
+      "path": "src/vectorstores/filters.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → answers, world_view_id (1 hops): filters ← retriever",
+      "metrics": {
+        "fan_in": 4,
+        "fan_in_transitive": 19,
+        "fan_out": 1,
+        "pagerank": 0.741,
+        "tests": 2,
+        "tests_reach": 33,
+        "test_coverage": "direct",
+        "instability": 0.2
+      },
+      "outputs": [
+        "answers",
+        "world_view_id"
+      ],
+      "distance": 1,
+      "cochange": [
+        "src/mcp_server/server.py (3)",
+        "src/utils/schema.py (3)",
+        "src/vectorstores/qdrant_store.py (3)"
+      ]
+    },
+    "src.vectorstores.memory": {
+      "path": "src/vectorstores/memory.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): memory ← vectorstores ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 13,
+        "fan_out": 3,
+        "pagerank": 0.517,
+        "tests": 2,
+        "tests_reach": 31,
+        "test_coverage": "direct",
+        "instability": 0.75
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": []
+    },
+    "src.vectorstores.qdrant_store": {
+      "path": "src/vectorstores/qdrant_store.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → world_view_id (3 hops): qdrant_store ← vectorstores ← index_pipeline ← manifest",
+      "metrics": {
+        "fan_in": 1,
+        "fan_in_transitive": 13,
+        "fan_out": 5,
+        "pagerank": 0.517,
+        "tests": 2,
+        "tests_reach": 32,
+        "test_coverage": "direct",
+        "instability": 0.83
+      },
+      "outputs": [
+        "world_view_id"
+      ],
+      "distance": 3,
+      "cochange": [
+        "src/utils/config.py (5)",
+        "src/api/admin.py (4)",
+        "src/mcp_server/server.py (3)"
+      ]
+    },
+    "src.vectorstores.timeseries_store": {
+      "path": "src/vectorstores/timeseries_store.py",
+      "tier": "TRUNK",
+      "reason": "TRUNK·value → eval_evidence, world_view_id (1 hops): timeseries_store ← episodes",
+      "metrics": {
+        "fan_in": 8,
+        "fan_in_transitive": 18,
+        "fan_out": 2,
+        "pagerank": 1.205,
+        "tests": 9,
+        "tests_reach": 35,
+        "test_coverage": "direct",
+        "instability": 0.2
+      },
+      "outputs": [
+        "eval_evidence",
+        "world_view_id"
+      ],
+      "distance": 1,
+      "cochange": [
+        "src/api/admin.py (2)",
+        "src/api/app.py (2)"
+      ]
+    },
+    "tools.standards.check_standards": {
+      "path": "tools/standards/check_standards.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 0,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "tools.tdd.tdd": {
+      "path": "tools/tdd/tdd.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 0,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "tools.tdd.tdd_plugin": {
+      "path": "tools/tdd/tdd_plugin.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 0,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    },
+    "tools.tdd.tddlib": {
+      "path": "tools/tdd/tddlib.py",
+      "tier": "LEAF",
+      "reason": "no production module depends on it",
+      "metrics": {
+        "fan_in": 0,
+        "fan_in_transitive": 0,
+        "fan_out": 0,
+        "pagerank": 0.444,
+        "tests": 0,
+        "tests_reach": 0,
+        "test_coverage": "none",
+        "instability": 0.0
+      },
+      "outputs": [],
+      "distance": null,
+      "cochange": []
+    }
+  }
+}

@@ -1,0 +1,196 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — Tier 7 ingestion catalog: Cross-Asset Stress & Geopolitical Scenarios
+#
+# The forward-looking SCENARIO layer. Tiers 1-6 supply macro narrative, policy
+# catalysts and numeric series but — by design (Source Catalog §0) — do NOT price
+# a discrete geopolitical shock across rates/credit/vol/FX. This tier fills that
+# gap with authoritative, DATED, QUANTIFIED cross-asset shock studies the
+# shock-vector synthesizer can cite to anchor magnitudes (e.g. a Taiwan-conflict
+# tail) instead of returning an empty, ungrounded vector.
+#
+# Sources are pinned individually (stable URLs + known release dates) and run
+# through the shared PDF/HTML pipeline via the `pinned_docs` handler.
+#
+# Coverage is added in two waves:
+#   Wave 1 (this file, initial): official regulator / IMF cross-asset scenarios.
+#   Wave 2: Taiwan-specific geopolitical scenario studies (added in Sequence 2).
+# ─────────────────────────────────────────────────────────────────────────────
+
+tier: 7
+name: "Cross-Asset Stress & Geopolitical Scenarios (7)"
+publisher: "Scenario & Stress-Test Sources"
+licence: "public_research_free"
+base_url: "https://www.eba.europa.eu"
+
+defaults:
+  poll_cadence: "quarterly"
+  rate_limit_per_sec: 1.0
+
+endpoints:
+
+  # ── EBA / ESRB EU-wide stress test — adverse macro-financial scenario ───────
+  # The adverse scenario is designed by the ESRB (with the ECB) and is an
+  # explicit cross-asset shock path: it is driven by an aggravation of
+  # geopolitical tensions + trade fragmentation, with quantified moves in GDP,
+  # long-term rates, equity/property prices and FX — the closest official analog
+  # for a geopolitically-triggered global stress.
+  - id: "eba_esrb_stress"
+    handler: "pinned_docs"
+    title: "EBA/ESRB EU-wide Stress Test — Adverse Macro-Financial Scenario"
+    enabled: true
+    publisher: "European Banking Authority / ESRB"
+    licence: "public_research_free"
+    bucket: "B"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.eba.europa.eu/publications-and-media/publications"
+    release_schedule:
+      frequency: "biennial"
+      note: "EU-wide stress test scenario; adverse path is geopolitics/trade-fragmentation driven"
+    factor_tags: ["cross_asset_scenario", "stress_scenario", "geopolitical_risk",
+                  "systemic", "credit_spread", "equity_vol", "fx"]
+    entity_tags: []
+    trades: ["scenario_priors", "#2", "#3", "#4"]
+    content:
+      files:
+        - url: "https://www.eba.europa.eu/sites/default/files/2025-01/cd571cfe-b02c-4a08-9bcb-067c12238ef1/2025%20EU-wide%20stress%20test%20-%20Macro%20financial%20scenario.pdf"
+          publication: "EBA/ESRB 2025 EU-wide Stress Test — Adverse Macro-Financial Scenario"
+          release_date: "2025-01-14"
+          doc_type: "eba_esrb_adverse_scenario"
+          scenario_family: "regulatory_adverse"
+          is_pdf: true
+
+  # ── IMF GFSR — geopolitical risks: implications for asset prices ────────────
+  # GFSR Apr-2025 Chapter 2 directly maps geopolitical-risk events to cross-asset
+  # moves (equity drawdowns, sovereign/credit spreads, financial-stability
+  # channels) with an event-study methodology — the canonical event -> asset
+  # shock reference.
+  - id: "imf_gfsr_geopolitical"
+    handler: "pinned_docs"
+    title: "IMF GFSR — Geopolitical Risks and Asset Prices"
+    enabled: true
+    publisher: "International Monetary Fund"
+    licence: "public_research_free"
+    bucket: "B"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.imf.org/en/Publications/GFSR"
+    release_schedule:
+      frequency: "semiannual"
+      note: "GFSR analytical chapter on geopolitical risk & asset prices"
+    factor_tags: ["geopolitical_risk", "cross_asset_scenario", "systemic",
+                  "equity_vol", "credit_spread", "china_taiwan_tail"]
+    entity_tags: ["china"]
+    trades: ["scenario_priors", "#2", "#3", "#4", "#26"]
+    content:
+      files:
+        - url: "https://www.imf.org/-/media/files/publications/gfsr/2025/april/english/ch2.pdf"
+          publication: "IMF GFSR Apr-2025 Ch.2 — Geopolitical Risks: Implications for Asset Prices and Financial Stability"
+          release_date: "2025-04-22"
+          doc_type: "imf_gfsr_geopolitical"
+          scenario_family: "official_event_study"
+          is_pdf: true
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # Wave 2 — Taiwan-conflict scenario studies (the specific tail the portfolio
+  # is exposed to). Public-domain (St. Louis Fed) + free-to-download think-tank
+  # research; the latter flagged for internal analytical use (redistribution
+  # not implied). The flag is a record on each chunk: nothing in the code
+  # enforces it.
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  # ── St. Louis Fed Review — economic effects of a Taiwan conflict ────────────
+  - id: "stlouisfed_taiwan"
+    handler: "pinned_docs"
+    title: "St. Louis Fed Review — Economic Effects of a Potential Armed Conflict Over Taiwan"
+    enabled: true
+    publisher: "Federal Reserve Bank of St. Louis"
+    licence: "public_domain_us_gov"
+    bucket: "B"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.stlouisfed.org/publications/review"
+    factor_tags: ["china_taiwan_tail", "cross_asset_scenario", "flight_to_quality",
+                  "fx", "credit_spread", "supply_chain_disruption"]
+    entity_tags: ["china", "semiconductors"]
+    trades: ["#2", "#3", "#4", "#26", "scenario_priors"]
+    content:
+      files:
+        - url: "https://www.stlouisfed.org/-/media/project/frbstl/stlouisfed/publications/review/pdfs/2025/feb/economic-effects-of-potential-armed-conflict-over-taiwan.pdf"
+          publication: "St. Louis Fed Review — Economic Effects of a Potential Armed Conflict Over Taiwan (Q1 2025)"
+          release_date: "2025-02-26"
+          doc_type: "stlouisfed_taiwan_conflict"
+          scenario_family: "taiwan_conflict"
+          is_pdf: true
+
+  # ── Rhodium / Atlantic Council — sanctioning China in a Taiwan crisis ───────
+  - id: "rhodium_taiwan_crisis"
+    handler: "pinned_docs"
+    title: "Rhodium/Atlantic Council — Sanctioning China in a Taiwan Crisis"
+    enabled: true
+    publisher: "Rhodium Group / Atlantic Council"
+    licence: "internal_analytical_use"
+    bucket: "B"
+    discovery:
+      type: "predictable_url"
+      url: "https://rhg.com/research/sanctioning-china-in-a-taiwan-crisis-scenarios-and-risks/"
+    factor_tags: ["china_taiwan_tail", "sanctions_regime", "supply_chain_disruption",
+                  "cross_asset_scenario", "export_controls"]
+    entity_tags: ["china", "semiconductors"]
+    trades: ["#2", "#3", "#4", "#26", "scenario_priors"]
+    content:
+      files:
+        - url: "https://rhg.com/wp-content/uploads/2024/02/Sanctioning-China-in-a-Taiwan-Crisis-Scenarios-and-Risks-1.pdf"
+          publication: "Sanctioning China in a Taiwan Crisis: Scenarios and Risks"
+          release_date: "2024-02-01"
+          doc_type: "rhodium_taiwan_sanctions"
+          scenario_family: "taiwan_conflict"
+          is_pdf: true
+
+  # ── HCSS — Taiwan: the cost of conflict ────────────────────────────────────
+  - id: "hcss_taiwan_cost"
+    handler: "pinned_docs"
+    title: "HCSS — Taiwan: The Cost of Conflict"
+    enabled: true
+    publisher: "The Hague Centre for Strategic Studies"
+    licence: "internal_analytical_use"
+    bucket: "B"
+    discovery:
+      type: "predictable_url"
+      url: "https://hcss.nl/report/taiwan-the-cost-of-conflict/"
+    factor_tags: ["china_taiwan_tail", "cross_asset_scenario", "supply_chain_disruption"]
+    entity_tags: ["china", "semiconductors"]
+    trades: ["#2", "#3", "#4", "#26", "scenario_priors"]
+    content:
+      files:
+        - url: "https://hcss.nl/wp-content/uploads/2024/03/Taiwan-The-Cost-of-conflict-HCSS-2024.pdf"
+          publication: "Taiwan: The Cost of Conflict (HCSS 2024)"
+          release_date: "2024-03-01"
+          doc_type: "hcss_taiwan_cost"
+          scenario_family: "taiwan_conflict"
+          is_pdf: true
+
+  # ── CSIS — Scared Strait (economic & financial impacts of a Taiwan crisis) ──
+  # HTML analysis page (no stable PDF); ingested via the HTML path with a
+  # bot-wall render fallback — a graceful skip if the site blocks automated GET.
+  - id: "csis_taiwan_impact"
+    handler: "pinned_docs"
+    title: "CSIS — Scared Strait: Economic and Financial Impacts of a Taiwan Crisis"
+    enabled: true
+    publisher: "Center for Strategic and International Studies"
+    licence: "internal_analytical_use"
+    bucket: "B"
+    discovery:
+      type: "predictable_url"
+      url: "https://www.csis.org/analysis"
+    factor_tags: ["china_taiwan_tail", "cross_asset_scenario", "supply_chain_disruption"]
+    entity_tags: ["china", "semiconductors"]
+    trades: ["#2", "#3", "#4", "#26", "scenario_priors"]
+    content:
+      files:
+        - url: "https://www.csis.org/analysis/scared-strait-understanding-economic-and-financial-impacts-taiwan-crisis"
+          publication: "CSIS — Scared Strait: Understanding the Economic and Financial Impacts of a Taiwan Crisis"
+          release_date: "2025-01-31"
+          doc_type: "csis_taiwan_impact"
+          scenario_family: "taiwan_conflict"
+          is_pdf: false

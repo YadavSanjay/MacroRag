@@ -1,0 +1,113 @@
+/* ============================================================================
+   Design tokens — single source of truth (P0 of the UI redesign).
+
+   Two layers:
+     1. Role tokens (--surface-*, --primary, --text-*, spacing, type, radius).
+        Reference THESE in new/edited components.
+     2. Legacy aliases (--bg, --accent, --text-dim, …) mapped onto the roles so
+        every existing component re-skins from here with no churn.
+
+   Light is the base (:root); dark overrides under [data-theme="dark"]. The
+   active theme is chosen by src/theme/useTheme.ts (OS preference, then the
+   user's toggle) and stamped as data-theme on <html>.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---- surfaces & text (soft, cool neutral ramp — deliberately not cream) --- */
+  --surface-0: #f6f8f9; /* app background */
+  --surface-1: #ffffff; /* cards, rail, top bar, answer surface */
+  --surface-2: #edf1f2; /* raised: hover, chips, inputs, highlighted rows */
+  --border: #e0e5e7;
+  --border-strong: #cbd2d5;
+
+  --text-primary: #1c2427;
+  --text-secondary: #586065;
+  --text-muted: #889196;
+
+  /* ---- brand + semantics (one muted primary, muted semantics) -------------- */
+  --primary: #3e7c86; /* muted teal — actions, active state, links */
+  --primary-hover: #356972;
+  --primary-tint: #e6f0f1; /* active/selected background */
+  --on-primary: #ffffff; /* text/icon on a primary fill */
+
+  --success: #4f9d7b; /* retrieval found / high confidence */
+  --warning: #c9a24b; /* low confidence — muted amber, NOT alarm */
+  --danger: #c56b6b; /* no source / error — soft, never fire-engine red */
+  --info: #5b8dbe;
+
+  /* ---- typography ---------------------------------------------------------- */
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-caption: 12px; /* meta, timestamps, overlines */
+  --text-body-sm: 13px; /* secondary text, chip labels */
+  --text-body: 15px; /* answer / reading text */
+  --text-subtitle: 18px; /* panel headers */
+  --text-title: 22px; /* page / conversation title */
+
+  /* ---- spacing (4px base) -------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+
+  /* ---- radius (rounded, not bubbly) ---------------------------------------- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* ---- elevation (soft, low-spread; prefer borders for a calm flat feel) --- */
+  --shadow-sm: 0 1px 2px rgba(20, 23, 28, 0.06);
+  --shadow-md: 0 4px 12px rgba(20, 23, 28, 0.08);
+
+  /* ---- layout -------------------------------------------------------------- */
+  --rail-w: 232px;
+
+  /* ---- legacy aliases → roles (keep existing components working) ----------- */
+  --bg: var(--surface-0);
+  --bg-elev: var(--surface-1);
+  --bg-elev-2: var(--surface-2);
+  --text: var(--text-primary);
+  --text-dim: var(--text-secondary);
+  --text-faint: var(--text-muted);
+  --accent: var(--primary);
+  --accent-dim: var(--primary-hover);
+  --good: var(--success);
+  --warn: var(--warning);
+  --bad: var(--danger);
+  --radius: var(--radius-md);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* soft dark — not pure black */
+  --surface-0: #14181b;
+  --surface-1: #1b2124;
+  --surface-2: #232b2f;
+  --border: #2c363b;
+  --border-strong: #3a464c;
+
+  --text-primary: #e4e9eb;
+  --text-secondary: #a2adb1;
+  --text-muted: #727c80;
+
+  --primary: #6fb3bd; /* lifted for legibility on dark surfaces */
+  --primary-hover: #82c0c9;
+  --primary-tint: #1e2e31;
+  --on-primary: #10201f; /* dark text on the lighter dark-mode fill */
+
+  --success: #6fb694;
+  --warning: #d8bc72;
+  --danger: #d08c8c;
+  --info: #7fa9d4;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.38);
+}

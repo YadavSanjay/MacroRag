@@ -1,0 +1,57 @@
+# ── Macro RAG — Ingestion module dependencies (Python 3.12 / conda env: py312) ──
+# Keep this list scoped to the ingestion layer (src/ingest). Retrieval /
+# embedding / vector-store deps belong with those modules when they land.
+
+# HTTP & networking ----------------------------------------------------------
+httpx>=0.27,<1.0          # polite sync client (UA, conditional GET, timeouts)
+tenacity>=8.2             # retry/backoff on transient failures + HTTP 429/5xx
+
+# Config & environment -------------------------------------------------------
+PyYAML>=6.0               # tier / common YAML config catalogs
+pydantic>=2.6             # typed config + document/chunk models
+python-dotenv>=1.2.4      # load API keys from .env
+
+# Feeds & HTML parsing -------------------------------------------------------
+feedparser>=6.0           # RSS 2.0 discovery feeds (press_monetary, sloos, speeches)
+beautifulsoup4>=4.12      # DOM-targeted Fed body extraction
+lxml>=5.1                 # fast parser backend for bs4 / html indices
+trafilatura>=1.8          # main-content fallback when CSS selectors miss
+
+# PDF extraction -------------------------------------------------------------
+pypdf>=6.21.4             # fast text extraction for born-digital PDFs
+pdfplumber>=0.11          # table-aware extraction (FSR / DFAST / SEP tables)
+
+# Spreadsheets (Tier 6C GPR/EPU index downloads) -----------------------------
+openpyxl>=3.1             # .xlsx (EPU All_Country_Data, modern Excel)
+xlrd>=2.0                # .xls (GPR data_gpr_export — legacy Excel)
+
+# Headless browser (JS-rendered discovery: CBO, GS Top of Mind) ---------------
+playwright>=1.40          # fallback fetch when polite HTTP returns a bot-wall/JS shell
+
+# Utilities ------------------------------------------------------------------
+python-dateutil>=2.9      # robust RFC-822 / mixed date parsing
+
+# ── Macro RAG — Retrieval / embedding / vector-store / LLM layer ─────────────
+# Embeddings + reranking (local, GPU-optional; mirrors ARag's bge-m3 backbone) -
+FlagEmbedding>=1.2        # BAAI/bge-m3 (dense+sparse one pass) + bge-reranker-v2-m3
+sentence-transformers>=2.7  # cross-encoder reranker fallback
+# Vector store ---------------------------------------------------------------
+qdrant-client>=1.9        # hybrid dense+sparse RRF, on-disk HNSW, payload filters
+boto3>=1.34               # deploy_mode=aws: corpus raw/processed/manifest on S3 (lazy import)
+# Generation -----------------------------------------------------------------
+openai==2.14.0            # default chat/completions provider (OPENAI_API_KEY); pinned with requirements-dev.txt
+anthropic==0.109.1        # alternate Claude provider; pinned with requirements-dev.txt
+tiktoken>=0.7             # token counting for context budgeting
+jsonschema>=4.20          # structured-output validation for the prompt registry (llm.base)
+# Numerics / time-series store -----------------------------------------------
+numpy>=1.26               # RRF / MMR vector math
+pandas>=2.2               # time-series store load + query
+# Serving (P1) ---------------------------------------------------------------
+fastapi>=0.110            # query / citations / feedback API + SSE streaming
+uvicorn>=0.29             # ASGI server (api.server:app)
+mcp>=1.30                 # in-process MCP server (mcp_server: tool facade over the pipeline)
+# redis>=5.0              # optional: production L1/L2 cache backend (in-proc default)
+
+# Testing --------------------------------------------------------------------
+pytest>=9.2               # unit tests (test/)
+httpx>=0.27               # fastapi TestClient transport (already required above)

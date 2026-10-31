@@ -1,0 +1,90 @@
+# LLM token pricing — the estimated $ cost of every call (src/llm/pricing.py). It
+# is not only for the logs: the per-request total feeds the cost guard's daily caps
+# (402, §K), the escalation budget, and the `usage` block returned with each answer.
+# Verify and edit against your provider's current price sheet. Settings loaded from
+# configs/rag.yaml fail to load while a configured model (profiles,
+# replacement_profiles, flat tier overrides, escalation) has no row here, and
+# `eval-matrix --models` checks its ids the same way.
+#
+# Units: USD per 1,000,000 tokens. Keys per row (any other key is an error):
+#   input        — prompt / input tokens (uncached); required
+#   output       — completion / output tokens; required
+#   cache_read   — cached prompt tokens billed at the read rate (optional; if
+#                  omitted, cached tokens are billed at the `input` rate). Both
+#                  providers bill cached reads at ~10% of the input rate.
+#   cache_write  — prompt tokens written to the cache (optional, else `input`).
+#                  Anthropic bills 5-minute cache writes at 1.25x input; OpenAI
+#                  does not bill writes separately, so its rows omit it.
+#   max_priced_prompt_tokens — optional; a longer prompt logs a warning because the
+#                  provider charges a higher rate above it (the cost is not repriced).
+#
+# Rates below verified 2026-10-17 against published OpenAI and Anthropic pricing
+# (OpenAI Standard tier, short context; Anthropic Claude API); Anthropic cache-write
+# rates added 2026-10-21 (claude-api reference).
+# Sources:
+#   OpenAI    — https://developers.openai.com/api/docs/pricing
+#   Anthropic — https://platform.claude.com/docs/en/about-claude/models/overview
+
+models:
+  # --- OpenAI (default provider; see configs/rag.yaml -> llm) ----------------
+  gpt-5.4:
+    input: 2.50
+    output: 15.00
+    cache_read: 0.25
+  gpt-5.4-mini:
+    input: 0.75
+    output: 4.50
+    cache_read: 0.075
+  gpt-5.4-nano:                # shuts down 2027-04-01; replacement gpt-6-luna
+    input: 0.20
+    output: 1.25
+    cache_read: 0.02
+  # Replacement set (llm.use_replacement_models, off by default).
+  gpt-6-sol:
+    input: 2.00
+    output: 10.00
+    cache_read: 0.20
+  gpt-6-luna:
+    input: 0.10
+    output: 0.50
+    cache_read: 0.01
+
+  # --- Anthropic (alternate provider) ---------------------------------------
+  # Replacement set (llm.use_replacement_models, off by default).
+  claude-opus-5-5:
+    input: 4.00
+    output: 20.00
+    cache_read: 0.20
+    cache_write: 5.00
+  claude-sonnet-5-5:
+    input: 2.00
+    output: 10.00
+    cache_read: 0.20
+    cache_write: 2.50
+  claude-haiku-5-5:            # $0.50 / $2.50 above 100K prompt tokens
+    input: 0.10
+    output: 0.50
+    cache_read: 0.01
+    cache_write: 0.125
+    max_priced_prompt_tokens: 100000
+  # Current Anthropic profile.
+  claude-opus-4-8:
+    input: 5.00
+    output: 25.00
+    cache_read: 0.50
+    cache_write: 6.25
+  claude-opus-4-7:
+    input: 5.00
+    output: 25.00
+    cache_read: 0.50
+    cache_write: 6.25
+  claude-sonnet-4-6:
+    input: 3.00
+    output: 15.00
+    cache_read: 0.30
+    cache_write: 3.75
+  claude-haiku-4-5:
+    input: 1.00
+    output: 5.00
+    cache_read: 0.10
+    cache_write: 1.25

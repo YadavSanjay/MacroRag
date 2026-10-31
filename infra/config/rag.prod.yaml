@@ -1,0 +1,52 @@
+# Production overrides for the served stack (mounted to configs/rag.yaml).
+# Points at the Qdrant server + Redis + OTel collector from docker-compose and
+# turns on the P1/P2 serving features. Secrets stay in .env.
+
+# Embedder + reranker live out-of-process in the sister project RagInference
+# (this backend image ships no torch). The URL is supplied per-environment via
+# the RAGINFER_URL env var (docker-compose points it at the host's :8799).
+# fallback_local MUST stay OFF here: the local bge-m3/reranker deps are not
+# installed in the serving image, so a stopped service must surface an error
+# rather than attempt an (impossible) in-process load. build_retriever passes
+# this value explicitly, so it can only be changed here — not via env.
+inference:
+  fallback_local: false
+
+qdrant:
+  url: "http://qdrant:6333"     # server mode (NOT local on-disk)
+  collection: "macro_chunks"
+  quantization: true            # int8: ~4x memory cut
+
+cache:
+  enabled: true
+  backend: "redis"
+  redis_url: "redis://redis:6379/0"
+  ttl_seconds: 3600
+
+semantic_cache:
+  enabled: true
+  threshold: 0.97
+
+ranking:
+  time_decay: true              # latest-supersedes
+  half_life_days: 180
+
+llm:
+  provider: "openai"
+  plan_model: "gpt-5.4-mini"    # planner/router/decompose + verify (capable, cheap)
+  answer_model: "gpt-5.4-nano"  # simple generation (cheap)
+  complex_model: "gpt-5.4"      # frontier for complex routes
+
+observability:
+  otel_enabled: true
+  otel_endpoint: "http://otel-collector:4317"
+  service_name: "macro-rag"
+
+# API-key auth is off by default; each key maps to a PRINCIPAL (an auth/rate-limit/
+# cost identity, NOT a data-isolation boundary). To enable, set keys (or inject via a
+# secret manager) and flip enabled:
+# auth:
+#   enabled: true
+#   rate_limit_rpm: 60
+#   api_keys:
+#     "REPLACE_WITH_KEY": "principal-a"

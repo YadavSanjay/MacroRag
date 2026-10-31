@@ -1,0 +1,71 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-15",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-vector-report/test_svr_c1_missing.py::test_rate_capital_shape",
+      "test/spec/synth-vector-report/test_svr_c1_missing.py::test_case_duplicates_reason_fallback_and_empty",
+      "test/spec/synth-vector-report/test_svr_c1_missing.py::test_property_matches_the_rules"
+    ],
+    "C2": [
+      "test/spec/synth-vector-report/test_svr_c2_mix.py::test_taiwan_shape_two_episodes_and_prose",
+      "test/spec/synth-vector-report/test_svr_c2_mix.py::test_single_episode_or_uncited_is_inert_but_mixed_is_not",
+      "test/spec/synth-vector-report/test_svr_c2_mix.py::test_property_flags_iff_two_episodes"
+    ],
+    "C3": [
+      "test/spec/synth-vector-report/test_svr_c3_pipeline.py::test_response_reports_missing_fields_and_mix",
+      "test/spec/synth-vector-report/test_svr_c3_pipeline.py::test_no_fields_and_one_episode",
+      "test/spec/synth-vector-report/test_svr_c3_pipeline.py::test_property_unemitted_requests_are_listed"
+    ]
+  },
+  "files": {
+    "test/spec/synth-vector-report/conftest.py": "7439d3693ee47afabb03c40225940a52d87fcde03e92186200139b3bf1bc344f",
+    "test/spec/synth-vector-report/test_svr_c1_missing.py": "48d640c45df425de361f6bae63dbf1c6ed7816fc38ac43b03423be1f637bf988",
+    "test/spec/synth-vector-report/test_svr_c2_mix.py": "02fb976a954c8b2352d9b9b475abfd681e3295883450beff075b65cc3d8817c6",
+    "test/spec/synth-vector-report/test_svr_c3_pipeline.py": "99b0d6cefeba58be45ac64d282e28b16806c9711d69d61db37040e75f676760d"
+  },
+  "id": "synth-vector-report",
+  "interface": [
+    {
+      "file": "src/synthesis/diagnostics.py",
+      "module": "synthesis.diagnostics",
+      "qualname": "missing_fields",
+      "signature": "def missing_fields(requested: list[str] | None, kept: list[str] | dict, dropped: list[dict]) -> list[dict]"
+    },
+    {
+      "file": "src/synthesis/validate.py",
+      "module": "synthesis.validate",
+      "qualname": "check_episode_mix",
+      "signature": "def check_episode_mix(fields: dict[str, ShockField], chunks: list[RetrievedChunk], *, diag: SynthesisDiagnostics | None=None) -> None"
+    }
+  ],
+  "nodes": [
+    "test/spec/synth-vector-report/test_svr_c1_missing.py::test_case_duplicates_reason_fallback_and_empty",
+    "test/spec/synth-vector-report/test_svr_c1_missing.py::test_property_matches_the_rules",
+    "test/spec/synth-vector-report/test_svr_c1_missing.py::test_rate_capital_shape",
+    "test/spec/synth-vector-report/test_svr_c2_mix.py::test_property_flags_iff_two_episodes",
+    "test/spec/synth-vector-report/test_svr_c2_mix.py::test_single_episode_or_uncited_is_inert_but_mixed_is_not",
+    "test/spec/synth-vector-report/test_svr_c2_mix.py::test_taiwan_shape_two_episodes_and_prose",
+    "test/spec/synth-vector-report/test_svr_c3_pipeline.py::test_no_fields_and_one_episode",
+    "test/spec/synth-vector-report/test_svr_c3_pipeline.py::test_property_unemitted_requests_are_listed",
+    "test/spec/synth-vector-report/test_svr_c3_pipeline.py::test_response_reports_missing_fields_and_mix"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-vector-report.md",
+    "sha256": "cec739382778eafc86f961f109de578592a46a904762d063a644d1f6c10ceda3"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

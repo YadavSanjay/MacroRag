@@ -1,0 +1,6 @@
+# Settings for tools/standards/check_standards.py (Stop hook and CI). MacroRAG has no
+# pyproject.toml, so the [tool.standards] table lives here.
+[tool.standards]
+# mypy src/ takes ~11 s even with a warm cache, over the Stop budget: it runs in CI only.
+mypy_at_stop = false
+protected = ["test/spec/*", ".claude/tdd/*"]

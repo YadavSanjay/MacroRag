@@ -1,0 +1,58 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-14",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-direction-prompt/test_sdp_c1_render.py::test_direction_line_exact_order_and_skips",
+      "test/spec/synth-direction-prompt/test_sdp_c1_render.py::test_block_appends_the_line_after_todays_lines",
+      "test/spec/synth-direction-prompt/test_sdp_c1_render.py::test_line_alone_replaces_none_and_empty_is_inert",
+      "test/spec/synth-direction-prompt/test_sdp_c1_render.py::test_property_line_matches_the_definitions"
+    ],
+    "C2": [
+      "test/spec/synth-direction-prompt/test_sdp_c2_pipeline.py::test_pipeline_prompt_carries_the_line",
+      "test/spec/synth-direction-prompt/test_sdp_c2_pipeline.py::test_without_directions_no_line_with_them_one",
+      "test/spec/synth-direction-prompt/test_sdp_c2_pipeline.py::test_property_prompt_line_matches_the_definitions"
+    ]
+  },
+  "files": {
+    "test/spec/synth-direction-prompt/conftest.py": "c844009c67385d9df1ca39e3d00f9794a003d4a5a5050d1a174c1d12ff7334e1",
+    "test/spec/synth-direction-prompt/test_sdp_c1_render.py": "b02d8592b06d77575328dff546918550138d1628b89948ae68d1398faf3da645",
+    "test/spec/synth-direction-prompt/test_sdp_c2_pipeline.py": "5c09ca725694a073d85a50221596f4d9e01ab27a83be44dcd4f2223cf5eb688f"
+  },
+  "id": "synth-direction-prompt",
+  "interface": [
+    {
+      "file": "src/synthesis/synthesizer.py",
+      "module": "synthesis.synthesizer",
+      "qualname": "direction_line",
+      "signature": "def direction_line(directions: dict[str, str] | None) -> str | None"
+    }
+  ],
+  "nodes": [
+    "test/spec/synth-direction-prompt/test_sdp_c1_render.py::test_block_appends_the_line_after_todays_lines",
+    "test/spec/synth-direction-prompt/test_sdp_c1_render.py::test_direction_line_exact_order_and_skips",
+    "test/spec/synth-direction-prompt/test_sdp_c1_render.py::test_line_alone_replaces_none_and_empty_is_inert",
+    "test/spec/synth-direction-prompt/test_sdp_c1_render.py::test_property_line_matches_the_definitions",
+    "test/spec/synth-direction-prompt/test_sdp_c2_pipeline.py::test_pipeline_prompt_carries_the_line",
+    "test/spec/synth-direction-prompt/test_sdp_c2_pipeline.py::test_property_prompt_line_matches_the_definitions",
+    "test/spec/synth-direction-prompt/test_sdp_c2_pipeline.py::test_without_directions_no_line_with_them_one"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-direction-prompt.md",
+    "sha256": "dac72e08ae62f97d8a2d94cb81b1a2b7b7457628be85e9ede679d3f9adeb5cb2"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

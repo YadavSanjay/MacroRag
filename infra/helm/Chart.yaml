@@ -1,0 +1,6 @@
+apiVersion: v2
+name: macro-rag
+description: Macro RAG serving stack (UI + lightweight API; embedder/reranker via external RagInference)
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

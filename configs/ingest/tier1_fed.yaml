@@ -1,0 +1,214 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — Tier 1 ingestion catalog: Federal Reserve System
+#
+# Implements Ingestion Design §2.2 (endpoint catalog) and §4 (per-endpoint
+# blueprint). Primary channel: discount rate / term premium -> all long-duration
+# equity (#1-14), the bond book (#15-21), the swaption/cap book (#22-25).
+#
+# Each endpoint follows the §4.0 two-stage pattern:
+#   Stage A (discovery)  -> `discovery:` block (rss feed or html index)
+#   Stage B (content)    -> `content:` block (selectors, pdf url hints, chunking)
+#
+# `bucket` is the ingestion-cadence class from §3.2 (A=catalyst, B=periodic
+# forecast, C=rolling commentary). `release_schedule` records the publication
+# cadence/timeline so an on-demand/weekly run knows when to expect new content.
+# ─────────────────────────────────────────────────────────────────────────────
+
+tier: 1
+name: "Federal Reserve System"
+publisher: "Federal Reserve"
+licence: "public_domain_us_gov"
+base_url: "https://www.federalreserve.gov"
+
+defaults:
+  poll_cadence: "daily"
+  rate_limit_per_sec: 1.0          # 1 req/sec for federalreserve.gov across all feeds
+
+endpoints:
+
+  # ── Endpoint 1 — press_monetary.xml (FOMC statement + minutes + SEP + MPR) ──
+  - id: "press_monetary"
+    handler: "press_monetary"
+    title: "FOMC Statement / Minutes / SEP / Monetary Policy Report"
+    enabled: true
+    bucket: "A"                    # cutoff-sensitive; each release is a catalyst
+    poll_cadence: "daily"
+    discovery:
+      type: "rss"
+      url: "https://www.federalreserve.gov/feeds/press_monetary.xml"
+    release_schedule:
+      frequency: "8x_per_year"
+      note: "8 statements + 4 SEP + 8 minutes + annual framework; FOMC meets ~every 6 weeks"
+    # inflation/growth/labor: statements and minutes discuss them every meeting, and
+    # without the tags an inferred inflation filter excluded every Fed chunk (spec
+    # retag-endpoint).
+    factor_tags: ["discount_rate", "term_premium", "rates_vol", "inflation", "growth", "labor"]
+    entity_tags: []
+    trades: ["#20-25", "all equity discounting"]
+    # Title-regex routing table (Ingestion Design §4.1). First match wins.
+    doc_type_rules:
+      - match: "issues FOMC statement"
+        type: "fomc_statement"
+        chunking: "whole"
+        priority: 1
+      - match: "economic projections from the .*FOMC meeting"
+        type: "sep_projections"
+        chunking: "pdf_sections"
+        priority: 1
+      - match: "Minutes of the Federal Open Market Committee"
+        type: "fomc_minutes"
+        chunking: "sections"
+        priority: 1
+      - match: "reaffirms its .*Statement on Longer-Run Goals"
+        type: "framework_reaffirmation"
+        chunking: "whole"
+        priority: 3
+      - match: "Minutes of the Board.s discount rate meeting"
+        type: "discount_rate_minutes"
+        chunking: "whole"
+        priority: 3
+    content:
+      body_selectors: ["#article", "div.col-xs-12.col-sm-8.col-md-8"]
+      # FOMC minutes section headings to sub-chunk on.
+      section_headings:
+        - "Developments in Financial Markets and Open Market Operations"
+        - "Staff Review of the Economic Situation"
+        - "Staff Review of the Financial Situation"
+        - "Staff Economic Outlook"
+        - "Participants' Views on Current Conditions and the Economic Outlook"
+        - "Committee Policy Actions"
+
+  # ── Endpoint 2 — Financial Stability Report ────────────────────────────────
+  - id: "financial_stability"
+    handler: "financial_stability"
+    title: "Financial Stability Report"
+    enabled: true
+    bucket: "B"                    # supersedes prior; latest is the operative view
+    poll_cadence: "weekly"
+    discovery:
+      type: "html_index"
+      url: "https://www.federalreserve.gov/publications/financial-stability-report.htm"
+    release_schedule:
+      frequency: "2x_per_year"
+      months: ["May", "November"]
+      note: "~2 PDF events/yr; small enough for a manual-approval promotion gate"
+    factor_tags: ["credit_spread", "equity_vol", "valuation_stretch"]
+    entity_tags: ["ai", "data_center", "hyperscaler"]
+    trades: ["#28-30", "#6", "#12-14"]
+    content:
+      pdf_link_pattern: "financial-stability-report-\\d{6,8}\\.pdf"
+      section_headings:
+        - "Executive Summary"
+        - "Asset Valuations"
+        - "Borrowing by Businesses and Households"
+        - "Leverage in the Financial Sector"
+        - "Funding Risks"
+        - "Near-Term Risks to the Financial System"
+
+  # ── Endpoint 3 — SLOOS (Senior Loan Officer Opinion Survey) ────────────────
+  - id: "sloos"
+    handler: "sloos"
+    title: "Senior Loan Officer Opinion Survey"
+    enabled: true
+    bucket: "C"                    # quarterly time series; trend matters
+    poll_cadence: "daily"
+    discovery:
+      # Landing page, not feeds/sloos.xml: that feed only carries Data Download
+      # Program notices (anchors on one DDP page), never the survey itself.
+      type: "html_index"
+      url: "https://www.federalreserve.gov/data/sloos.htm"
+    release_schedule:
+      frequency: "4x_per_year"
+      months: ["January", "April", "July", "October"]
+      note: "poll landing page daily; one release event per quarter"
+    factor_tags: ["credit_spread", "credit_conditions"]
+    entity_tags: ["ai"]
+    trades: ["#15-19", "#28-30"]
+    content:
+      release_link_pattern: '/data/sloos/sloos-\d{6}\.htm$'
+      max_releases: 4
+      # The survey text column; without it the page's .gov banner and nav lead chunk 0.
+      body_selectors: ["#content .col-xs-12", "#content"]
+      section_headings:
+        - "Commercial and Industrial"
+        - "Commercial Real Estate"
+        - "Residential Real Estate"
+        - "Consumer"
+        - "Special Questions"
+
+  # ── Endpoint 4 — DFAST (Supervisory Stress Test) ───────────────────────────
+  - id: "dfast"
+    handler: "dfast"
+    title: "Dodd-Frank Act Supervisory Stress Test"
+    enabled: true
+    bucket: "B"                    # annual; latest is the operative template
+    poll_cadence: "monthly"        # weekly during Feb/Jun release windows
+    discovery:
+      type: "html_index"
+      url: "https://www.federalreserve.gov/supervisionreg/stress-tests-capital-planning.htm"
+    release_schedule:
+      frequency: "annual"
+      months: ["February", "June"]
+      note: "scenarios in Feb, results in Jun; highest single-document value, lowest cadence"
+    factor_tags: ["discount_rate", "credit_spread", "equity_vol", "rates_vol"]
+    entity_tags: []
+    trades: ["all"]
+    # URL-based routing for the per-year artifact cluster (anchor text is just
+    # "PDF" on the Fed page, so match the PDF filename instead).
+    doc_type_rules:
+      - match: "stress-test-scenarios"
+        type: "dfast_scenarios"
+        chunking: "pdf_sections"
+        priority: 1
+      - match: "stress-test-results|dfast.*results"
+        type: "dfast_results"
+        chunking: "pdf_sections"
+        priority: 2
+      - match: "stress-test-methodology"
+        type: "dfast_methodology"
+        chunking: "pdf_sections"
+        priority: 3
+    content:
+      # Two-hop discovery: landing -> per-year page (has the PDFs).
+      year_page_pattern: "https://www.federalreserve.gov/supervisionreg/dfa-stress-tests-{YYYY}.htm"
+      years_back: 1
+      max_artifacts: 6
+      # Scenario shock paths come from the Fed's companion CSVs (exact, structured)
+      # rather than parsing the dense PDF tables; see fed/dfast_scenarios.py.
+      ingest_scenario_csv: true
+
+  # ── Endpoint 5 — Speeches & Testimony ──────────────────────────────────────
+  - id: "speeches"
+    handler: "speeches"
+    title: "Speeches & Testimony (Chair Warsh transition era)"
+    enabled: true
+    bucket: "A"                    # real-time stance shifts between FOMC meetings
+    poll_cadence: "daily"
+    discovery:
+      type: "rss"
+      url: "https://www.federalreserve.gov/feeds/speeches_and_testimony.xml"
+    release_schedule:
+      frequency: "5-15x_per_month"
+      note: "absent during the 10-day pre-FOMC quiet period; don't false-alarm on silence"
+    factor_tags: ["discount_rate", "rates_vol", "forward_guidance", "inflation", "growth",
+                  "labor"]                # see press_monetary (spec retag-endpoint)
+    entity_tags: []
+    trades: ["rates leg", "all"]
+    doc_type_rules:
+      - match: ".*"
+        type: "fed_speech"
+        chunking: "paragraphs"
+        priority: 2
+    content:
+      body_selectors: ["#article", "div.col-xs-12.col-sm-8.col-md-8"]
+      # Priority-filter keywords (Ingestion Design §4.5). Chair speeches + these
+      # title keywords are tier-1 priority; everything else gets low retrieval weight.
+      high_priority_title_keywords:
+        - "monetary policy"
+        - "outlook"
+        - "inflation"
+        - "financial conditions"
+        - "economy"
+      high_priority_speakers:
+        - "Chair"
+        - "Vice Chair"

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "route": {"type": "string"},
+    "paraphrase": {"type": ["string", "null"]},
+    "subqueries": {"type": ["array", "null"]},
+    "hyde": {"type": ["array", "null"]}
+  },
+  "additionalProperties": true
+}

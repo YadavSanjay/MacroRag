@@ -1,0 +1,106 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-14",
+  "criteria": {
+    "C1": [
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_rows_sorted_and_unusable_observations_skipped",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_series_and_units_are_stamped_verbatim",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[<html>Service unavailable</html>]",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[]",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[{\"error_code\": 400, \"error_message\": \"Bad Request.\"}]",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[{\"observations\": {\"date\": \"2025-01-02\", \"value\": \"1\"}}]",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[{\"observations\": null}]",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[[{\"date\": \"2025-01-02\", \"value\": \"1\"}]]",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[null]",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_empty_observations_list_gives_no_rows",
+      "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_property_rows_are_the_usable_observations_in_date_order"
+    ],
+    "C2": [
+      "test/spec/ingest-fred-daily/test_ifd_c2_handler.py::test_routine_run_requests_and_documents",
+      "test/spec/ingest-fred-daily/test_ifd_c2_handler.py::test_backfill_run_uses_backfill_start_and_skips_window_cut",
+      "test/spec/ingest-fred-daily/test_ifd_c2_handler.py::test_failing_series_emit_nothing_and_others_still_run",
+      "test/spec/ingest-fred-daily/test_ifd_c2_handler.py::test_property_partitions_cover_every_row_once"
+    ],
+    "C3": [
+      "test/spec/ingest-fred-daily/test_ifd_c3_history.py::test_rolling_window_cut_does_not_overwrite_old_years",
+      "test/spec/ingest-fred-daily/test_ifd_c3_history.py::test_routine_run_emits_nothing_before_last_year",
+      "test/spec/ingest-fred-daily/test_ifd_c3_history.py::test_property_dropping_earliest_months_never_shortens_old_years"
+    ],
+    "C4": [
+      "test/spec/ingest-fred-daily/test_ifd_c4_config.py::test_fred_daily_endpoint_is_configured",
+      "test/spec/ingest-fred-daily/test_ifd_c4_config.py::test_registry_resolves_fred_to_handler",
+      "test/spec/ingest-fred-daily/test_ifd_c4_config.py::test_property_committed_config_drives_the_handler"
+    ]
+  },
+  "files": {
+    "test/spec/ingest-fred-daily/conftest.py": "d53d870b54d4685d4682eda7194f4b1781066ec23a8b782365ba854d985212eb",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py": "e794ac2b57234dae52f8f88681692c9da828c851ac308082a73a8593947497e2",
+    "test/spec/ingest-fred-daily/test_ifd_c2_handler.py": "ab4eabc13719fe9dff607f8d8b5027338684e158e159f93bcc462eca32c82fc3",
+    "test/spec/ingest-fred-daily/test_ifd_c3_history.py": "b775ae9f207290e71a030f975892101c86b1462fe9c4cde0d9738ec50a5bd164",
+    "test/spec/ingest-fred-daily/test_ifd_c4_config.py": "6ce25936bd90d47c4d552cf4ddbaaa7e8927b23b11b0fe3125b16cdb192b696d"
+  },
+  "id": "ingest-fred-daily",
+  "interface": [
+    {
+      "file": "src/ingest/usstats/handlers/fred.py",
+      "module": "ingest.usstats.handlers.fred",
+      "qualname": "FredDailyHandler.discover",
+      "signature": "def discover(self) -> list[DiscoveredItem]"
+    },
+    {
+      "file": "src/ingest/usstats/handlers/fred.py",
+      "module": "ingest.usstats.handlers.fred",
+      "qualname": "FredDailyHandler.fetch",
+      "signature": "def fetch(self, item: DiscoveredItem) -> list[ParsedDocument]"
+    },
+    {
+      "file": "src/ingest/usstats/parsers.py",
+      "module": "ingest.usstats.parsers",
+      "qualname": "parse_fred_observations",
+      "signature": "def parse_fred_observations(series_id: str, units: str, body: bytes) -> list[dict[str, typing.Any]]"
+    }
+  ],
+  "nodes": [
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_empty_observations_list_gives_no_rows",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[<html>Service unavailable</html>]",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[[{\"date\": \"2025-01-02\", \"value\": \"1\"}]]",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[]",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[null]",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[{\"error_code\": 400, \"error_message\": \"Bad Request.\"}]",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[{\"observations\": null}]",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_malformed_body_raises_value_error[{\"observations\": {\"date\": \"2025-01-02\", \"value\": \"1\"}}]",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_property_rows_are_the_usable_observations_in_date_order",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_rows_sorted_and_unusable_observations_skipped",
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_series_and_units_are_stamped_verbatim",
+    "test/spec/ingest-fred-daily/test_ifd_c2_handler.py::test_backfill_run_uses_backfill_start_and_skips_window_cut",
+    "test/spec/ingest-fred-daily/test_ifd_c2_handler.py::test_failing_series_emit_nothing_and_others_still_run",
+    "test/spec/ingest-fred-daily/test_ifd_c2_handler.py::test_property_partitions_cover_every_row_once",
+    "test/spec/ingest-fred-daily/test_ifd_c2_handler.py::test_routine_run_requests_and_documents",
+    "test/spec/ingest-fred-daily/test_ifd_c3_history.py::test_property_dropping_earliest_months_never_shortens_old_years",
+    "test/spec/ingest-fred-daily/test_ifd_c3_history.py::test_rolling_window_cut_does_not_overwrite_old_years",
+    "test/spec/ingest-fred-daily/test_ifd_c3_history.py::test_routine_run_emits_nothing_before_last_year",
+    "test/spec/ingest-fred-daily/test_ifd_c4_config.py::test_fred_daily_endpoint_is_configured",
+    "test/spec/ingest-fred-daily/test_ifd_c4_config.py::test_property_committed_config_drives_the_handler",
+    "test/spec/ingest-fred-daily/test_ifd_c4_config.py::test_registry_resolves_fred_to_handler"
+  ],
+  "red_exempt": [
+    "test/spec/ingest-fred-daily/test_ifd_c1_parse.py::test_empty_observations_list_gives_no_rows: empty the correct answer for an empty observations list is []"
+  ],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/ingest-fred-daily.md",
+    "sha256": "c781cc36800d57c49b1705e01d8453eaa256738302cf415b6a6ff94421a5595b"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

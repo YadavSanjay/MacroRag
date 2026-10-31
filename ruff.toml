@@ -1,0 +1,31 @@
+# Ruff config (coding standards, tier 0). Lint only — no formatter.
+# Coding standard: Google Python Style Guide with house deviations (.claude/rules/python.md).
+# Existing findings live in ruff-burndown.toml, which may only shrink
+# (tools/standards/check_standards.py ratchet). Never add ignores to get green.
+# The blocking CI lint step still selects only F,E9 (critical bugs); the full tier is reported
+# by the advisory `standards` job until the gate is turned hard.
+line-length = 100
+target-version = "py312"
+extend = "ruff-burndown.toml"
+extend-exclude = ["ui", "data"]
+
+[lint]
+# Tier 0: correctness (E/W/F), imports (I), modern syntax (UP), bugs (B), unused/blanket
+# suppressions (RUF100, PGH003), and the Google-guide profile: naming (N), f-strings in logging
+# (G004), implicit Optional (RUF013).
+select = ["E", "W", "F", "I", "UP", "B", "RUF100", "PGH003", "N", "G004", "RUF013"]
+ignore = [
+    "N813",  # standard import aliases (house deviation from the guide)
+]
+
+[lint.flake8-bugbear]
+# FastAPI dependency markers are evaluated once by design.
+extend-immutable-calls = [
+    "fastapi.Depends", "fastapi.Query", "fastapi.Header", "fastapi.Body",
+    "fastapi.Path", "fastapi.Form", "fastapi.File", "fastapi.Cookie", "fastapi.Security",
+]
+
+# `extend-` keeps these alongside the burn-down list's per-file-ignores instead of replacing them.
+[lint.extend-per-file-ignores]
+# Tests: assert is the point, prints are fine, docstrings optional.
+"test/**" = ["S101", "PT018", "T20", "D"]

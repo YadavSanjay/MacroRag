@@ -1,0 +1,66 @@
+# Macro RAG serving stack: UI + API + Qdrant server + Redis + OTel collector.
+# Run from the repo root:  docker compose -f infra/docker/docker-compose.yml up
+#
+# The UI (nginx) is the front door on :8080 — it serves the static SPA and
+# reverse-proxies /api/* to the app service (stripping /api). The bundle uses a
+# relative /api base, so nothing about the backend URL is baked into the image;
+# only API_UPSTREAM (the proxy target) is set here.
+#
+# Production points the app at a Qdrant *server* (local on-disk mode deadlocks
+# on bulk upsert), uses Redis for the L1 cache, and ships traces to the
+# collector. App config comes from infra/config/rag.prod.yaml (mounted) + .env.
+#
+# Ports bind to loopback: auth is off by default, /admin included. Turn it on
+# before publishing any port to a network.
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.18.2
+    ports: ["127.0.0.1:6333:6333", "127.0.0.1:6334:6334"]
+    volumes: ["qdrant_data:/qdrant/storage"]
+
+  redis:
+    image: redis:7-alpine
+    ports: ["127.0.0.1:6379:6379"]
+    command: ["redis-server", "--save", "60", "1"]
+    volumes: ["redis_data:/data"]
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.116.1
+    command: ["--config=/etc/otel/config.yaml"]
+    volumes: ["../otel/otel-collector-config.yaml:/etc/otel/config.yaml:ro"]
+    ports: ["127.0.0.1:4317:4317", "127.0.0.1:4318:4318"]
+
+  app:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile
+    image: macrorag:latest
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on: [qdrant, redis, otel-collector]
+    environment:
+      # Embedder + reranker are hosted out-of-process by the sister project
+      # RagInference (NOT part of this compose). Point the backend at it; the
+      # default assumes RagInference runs on the host at :8799. Override for a
+      # different host, or point at an in-cluster service in k8s.
+      - RAGINFER_URL=http://host.docker.internal:8799
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # resolve the host from the container (Linux)
+    env_file: ["../../.env"]            # OPENAI_API_KEY etc.
+    volumes:
+      - ../config/rag.prod.yaml:/app/configs/rag.yaml:ro
+      - ../../data:/app/data            # processed corpus + index artifacts
+
+  ui:
+    build:
+      context: ../..
+      dockerfile: ui/Dockerfile
+    image: macrorag-ui:latest
+    ports: ["127.0.0.1:8080:8080"]     # front door: SPA + /api reverse proxy
+    depends_on: [app]
+    environment:
+      - API_UPSTREAM=app:8000          # proxy target (compose service DNS)
+
+volumes:
+  qdrant_data:
+  redis_data:

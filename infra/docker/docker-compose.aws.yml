@@ -1,0 +1,79 @@
+# Macro RAG — AWS single-EC2 serving stack (Docker Compose on the instance).
+#
+#   docker compose -f infra/docker/docker-compose.aws.yml up -d
+#
+# Differs from the local docker-compose.yml:
+#   * NO qdrant service — Qdrant runs on its own in-VPC host (MACRORAG_QDRANT_URL).
+#   * NO bundled inference — RagInference runs on its own host (RAGINFER_URL).
+#   * data/ is the mounted EBS volume (SQLite time-series + traces); the corpus
+#     object data (raw/processed/manifest) goes to S3 via deploy_mode=aws.
+#   * S3 + Secrets Manager access comes from the EC2 instance IAM role (no keys
+#     on disk); OPENAI/ANTHROPIC keys are rendered into .env at boot.
+#
+# Assumes the VPC, EBS volume, S3 bucket, IAM role, and security groups are already
+# provisioned (separate infra project). Set the endpoints below to their real
+# in-VPC addresses (or export the MACRORAG_* / RAGINFER_URL env vars before `up`).
+
+services:
+  redis:
+    # Default is the Docker Hub name for local use; in AWS the bootstrap sets
+    # MACRORAG_REDIS_IMAGE to the ECR-mirrored copy so the pull rides the free
+    # S3 gateway endpoint (no NAT, no Docker Hub rate limit).
+    image: ${MACRORAG_REDIS_IMAGE:-redis:7-alpine}
+    command: ["redis-server", "--save", "60", "1"]
+    volumes: ["redis_data:/data"]
+    restart: unless-stopped
+
+  otel-collector:
+    # Pinned (never :latest) so the running collector is a reliable record; in
+    # AWS the bootstrap sets MACRORAG_OTEL_IMAGE to the ECR-mirrored copy.
+    image: ${MACRORAG_OTEL_IMAGE:-otel/opentelemetry-collector-contrib:0.116.1}
+    command: ["--config=/etc/otel/config.yaml"]
+    volumes: ["../otel/otel-collector-config.yaml:/etc/otel/config.yaml:ro"]
+    restart: unless-stopped
+
+  app:
+    # Normal AWS flow: images are built by CI and PULLED from ECR — set
+    # MACRORAG_IMAGE=<acct>.dkr.ecr.<region>.amazonaws.com/macrorag:<tag> and run
+    # `docker compose pull`. The build: block is a fallback for building on the
+    # instance from a source checkout. See docs/guides/09-packaging-and-deployment.md.
+    image: ${MACRORAG_IMAGE:-macrorag:latest}
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile
+    ports: ["8000:8000"]
+    depends_on: [redis, otel-collector]
+    environment:
+      - MACRORAG_DEPLOY_MODE=aws
+      # Corpus S3 bucket/prefix (creds via the instance IAM role — never here).
+      - MACRORAG_S3_BUCKET=${MACRORAG_S3_BUCKET:?set the corpus bucket}
+      - MACRORAG_S3_PREFIX=${MACRORAG_S3_PREFIX:-corpus}
+      # - MACRORAG_S3_REGION=us-east-1
+      # External in-VPC services (separate hosts):
+      - MACRORAG_QDRANT_URL=${MACRORAG_QDRANT_URL:-http://qdrant.internal:6333}
+      - RAGINFER_URL=${RAGINFER_URL:-http://raginference.internal:8799}
+      - MACRORAG_REDIS_URL=redis://redis:6379/0
+      - MACRORAG_OTEL_ENDPOINT=http://otel-collector:4317
+      - RAGINFER_TIMEOUT_S=${RAGINFER_TIMEOUT_S:-1800}      
+    # Secrets (OPENAI_API_KEY etc.), rendered from Secrets Manager at instance boot.
+    # Compose FAILS TO START if this file is absent — that is deliberate (fail fast
+    # rather than run a keyless service). The bootstrap must create it first.
+    env_file: ["${MACRORAG_ENV_FILE:-/opt/macrorag/.env}"]
+    volumes:
+      - ../config/rag.aws.yaml:/app/configs/rag.yaml:ro
+      - /mnt/macrorag-data:/app/data      # EBS volume: timeseries.sqlite, ingest cache, traces, eval
+    restart: unless-stopped
+
+  ui:
+    image: ${MACRORAG_UI_IMAGE:-macrorag-ui:latest}   # ECR URI in the normal AWS flow
+    build:
+      context: ../..
+      dockerfile: ui/Dockerfile
+    ports: ["8080:8080"]                  # front door (ALB target): SPA + /api reverse proxy
+    depends_on: [app]
+    environment:
+      - API_UPSTREAM=app:8000
+    restart: unless-stopped
+
+volumes:
+  redis_data:

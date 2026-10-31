@@ -1,0 +1,67 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-12",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-analog-quality/test_saq_c1_unit_scale.py::test_spec_oracle_examples",
+      "test/spec/synth-analog-quality/test_saq_c1_unit_scale.py::test_unit_token_variants",
+      "test/spec/synth-analog-quality/test_saq_c1_unit_scale.py::test_masking_and_citation_scope",
+      "test/spec/synth-analog-quality/test_saq_c1_unit_scale.py::test_flag_iff_a_and_b"
+    ],
+    "C2": [
+      "test/spec/synth-analog-quality/test_saq_c2_fx_proxy.py::test_spec_oracle_rationales",
+      "test/spec/synth-analog-quality/test_saq_c2_fx_proxy.py::test_scope_and_matching_rules",
+      "test/spec/synth-analog-quality/test_saq_c2_fx_proxy.py::test_flag_iff_rule"
+    ],
+    "C3": [
+      "test/spec/synth-analog-quality/test_saq_c3_pipeline.py::test_live_case_annotated_in_response",
+      "test/spec/synth-analog-quality/test_saq_c3_pipeline.py::test_drop_invalid_removes_unit_slip_keeps_fx_proxy",
+      "test/spec/synth-analog-quality/test_saq_c3_pipeline.py::test_numeric_validation_switch_gates_both_codes"
+    ]
+  },
+  "files": {
+    "test/spec/synth-analog-quality/conftest.py": "e623d43b099fc96391c633bab728165e6f2e9eb21fbd408a2d4b738ea3a98c38",
+    "test/spec/synth-analog-quality/test_saq_c1_unit_scale.py": "d31c900043b0dbb6b1f00aeceb237e98def1659f530f076b704368d6b64d9ed7",
+    "test/spec/synth-analog-quality/test_saq_c2_fx_proxy.py": "a559c3ef6114a18d3502d51dabcc166988ef1b9d608f4eebcde9d1847ae59b6b",
+    "test/spec/synth-analog-quality/test_saq_c3_pipeline.py": "d0e280ca7193708d406f39012dbca583b7c4b7aac5e635348df9c886b6f6e6f2"
+  },
+  "id": "synth-analog-quality",
+  "interface": [
+    {
+      "file": "src/synthesis/validate.py",
+      "module": "synthesis.validate",
+      "qualname": "check_analog_quality",
+      "signature": "def check_analog_quality(fields: dict[str, ShockField], chunks: list[RetrievedChunk], *, diag: SynthesisDiagnostics | None=None) -> None"
+    }
+  ],
+  "nodes": [
+    "test/spec/synth-analog-quality/test_saq_c1_unit_scale.py::test_flag_iff_a_and_b",
+    "test/spec/synth-analog-quality/test_saq_c1_unit_scale.py::test_masking_and_citation_scope",
+    "test/spec/synth-analog-quality/test_saq_c1_unit_scale.py::test_spec_oracle_examples",
+    "test/spec/synth-analog-quality/test_saq_c1_unit_scale.py::test_unit_token_variants",
+    "test/spec/synth-analog-quality/test_saq_c2_fx_proxy.py::test_flag_iff_rule",
+    "test/spec/synth-analog-quality/test_saq_c2_fx_proxy.py::test_scope_and_matching_rules",
+    "test/spec/synth-analog-quality/test_saq_c2_fx_proxy.py::test_spec_oracle_rationales",
+    "test/spec/synth-analog-quality/test_saq_c3_pipeline.py::test_drop_invalid_removes_unit_slip_keeps_fx_proxy",
+    "test/spec/synth-analog-quality/test_saq_c3_pipeline.py::test_live_case_annotated_in_response",
+    "test/spec/synth-analog-quality/test_saq_c3_pipeline.py::test_numeric_validation_switch_gates_both_codes"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-analog-quality.md",
+    "sha256": "84c891a7ef9ebb2bcfaafeaf437e706e3c33aac968a5c2c55252c27710baa266"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-macro-rag
+  labels: { app: macro-rag }
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels: { app: macro-rag }
+  template:
+    metadata:
+      labels: { app: macro-rag }
+    spec:
+      containers:
+        - name: macro-rag
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef: { name: {{ .Values.secretName }}, key: OPENAI_API_KEY, optional: true }
+            # Optional: only needed when llm.provider=anthropic. Marked optional so
+            # an OpenAI-only deployment's secret need not carry this key.
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef: { name: {{ .Values.secretName }}, key: ANTHROPIC_API_KEY, optional: true }
+            - name: MACRORAG_QDRANT_URL
+              value: {{ .Values.qdrant.url | quote }}
+            - name: MACRORAG_REDIS_URL
+              value: {{ .Values.redis.url | quote }}
+            - name: MACRORAG_OTEL_ENDPOINT
+              value: {{ .Values.otel.endpoint | quote }}
+            # Embedder + reranker are hosted out-of-process by the sister project
+            # RagInference (not part of this chart). The backend image ships no
+            # torch, so this URL must resolve for retrieval to work.
+            - name: RAGINFER_URL
+              value: {{ .Values.raginferUrl | quote }}
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+          readinessProbe:
+            httpGet: { path: /healthz, port: {{ .Values.service.port }} }
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          livenessProbe:
+            httpGet: { path: /healthz, port: {{ .Values.service.port }} }
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          {{- if .Values.configOverride }}
+          # Full rag.yaml override (e.g. to force inference.fallback_local: false).
+          volumeMounts:
+            - name: rag-config
+              mountPath: /app/configs/rag.yaml
+              subPath: rag.yaml
+          {{- end }}
+      {{- if .Values.configOverride }}
+      volumes:
+        - name: rag-config
+          configMap:
+            name: {{ .Release.Name }}-macro-rag-config
+      {{- end }}

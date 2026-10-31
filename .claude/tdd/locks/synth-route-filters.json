@@ -1,0 +1,45 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-15",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-route-filters/test_srf_c1_synthesize.py::test_synthesize_uses_normal_retrieval_with_filters_and_card",
+      "test/spec/synth-route-filters/test_srf_c1_synthesize.py::test_property_synthesize_chunks_always_inside_the_filter"
+    ],
+    "C2": [
+      "test/spec/synth-route-filters/test_srf_c2_answer.py::test_answer_agent_route_applies_the_filter",
+      "test/spec/synth-route-filters/test_srf_c2_answer.py::test_unfiltered_answer_unchanged_filtered_is_a_subset"
+    ]
+  },
+  "files": {
+    "test/spec/synth-route-filters/conftest.py": "98ab042048ff6b08f34eb548f4c8dbb97bacb2b01b727bdfba046e44355219a9",
+    "test/spec/synth-route-filters/test_srf_c1_synthesize.py": "5237314c31f71f52c8f68b740d6c210f5b06ec5923f3b2cae05d96e719567a1a",
+    "test/spec/synth-route-filters/test_srf_c2_answer.py": "d486120e2448ee5133d0e9af691622f267eb626c20fcd9bf4047da89e3879aba"
+  },
+  "id": "synth-route-filters",
+  "interface": [],
+  "nodes": [
+    "test/spec/synth-route-filters/test_srf_c1_synthesize.py::test_property_synthesize_chunks_always_inside_the_filter",
+    "test/spec/synth-route-filters/test_srf_c1_synthesize.py::test_synthesize_uses_normal_retrieval_with_filters_and_card",
+    "test/spec/synth-route-filters/test_srf_c2_answer.py::test_answer_agent_route_applies_the_filter",
+    "test/spec/synth-route-filters/test_srf_c2_answer.py::test_unfiltered_answer_unchanged_filtered_is_a_subset"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-route-filters.md",
+    "sha256": "158f0867bb312c39f278931c81ae93657ef85c3edcc895b4865b7ac138bb2696"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

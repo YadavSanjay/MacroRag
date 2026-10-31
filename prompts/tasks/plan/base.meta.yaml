@@ -1,0 +1,11 @@
+# Provenance metadata for the 'plan' task's base (provider/model-agnostic) prompt.
+# The resolver falls back to this variant when no provider/model-series variant
+# matches. See src/llm/registry.py and docs/design/Macro_RAG_LLM_Harness.md.
+task: plan
+variant_id: base
+provider: null          # base = provider-agnostic
+model_series: null
+version: 1
+status: active          # active | deprecated | experimental
+system: strict-json      # -> prompts/system/strict-json.md
+notes: "Migrated from prompt/plan.txt (Phase 1); byte-identical."

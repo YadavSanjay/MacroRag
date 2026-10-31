@@ -1,0 +1,8 @@
+{
+  "files": {
+    "tdd.py": "dc87a3779b67840d336af4cacb3206431a7ffafc715f3e0288aee853bfb11d3e",
+    "tdd_plugin.py": "8340b5508b982c9c19ab2337772d21c9390a9c1bac97682cb32e7b35c2b49805",
+    "tddlib.py": "815379328d5f4faad13baa03be62620b606349919e39c2ad803dfed51af36eb0"
+  },
+  "version": "0.4.1"
+}

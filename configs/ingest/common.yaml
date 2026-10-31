@@ -1,0 +1,42 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — common ingestion settings (shared across all tiers)
+#
+# These defaults implement the cross-cutting "Ingestion Operational Notes"
+# (Ingestion Design §2.8): polite identification, rate limiting, conditional-GET
+# caching, and provenance/storage layout. Tier configs (tier*.yaml) may override
+# `http.rate_limit_per_sec` and `poll_cadence` per endpoint.
+# ─────────────────────────────────────────────────────────────────────────────
+
+http:
+  # Every request identifies itself; the Fed/IEA/SIA silently rate-limit anon UAs.
+  # The contact address is the operator's own: set MACRORAG_CONTACT_EMAIL in .env.
+  user_agent: "MacroRAG/1.0 (+macro-stress-testing; contact: ${MACRORAG_CONTACT_EMAIL:-unset})"
+  rate_limit_per_sec: 1.0        # default 1 req/sec/host; tier configs can tighten
+  timeout_seconds: 30.0
+  max_retries: 3
+  backoff_factor: 1.5            # exponential backoff base for tenacity
+  retry_statuses: [429, 500, 502, 503, 504]
+
+storage:
+  # Paths are relative to the repo root (data/ is gitignored). Raw bytes are
+  # persisted verbatim BEFORE parsing, per the raw-bytes-then-parse discipline.
+  data_dir: "data"
+  raw_subdir: "raw/ingest"           # data/raw/ingest/<tier>/<source>/...
+  processed_subdir: "processed/ingest" # data/processed/ingest/<tier>/<source>/...
+  cache_db: "cache/ingest_cache.sqlite" # (url, etag, last_modified, hash, fetched_at)
+
+chunking:
+  # Section-aware chunker budget. FOMC statements stay whole; long minutes /
+  # PDFs sub-chunk on section headings then fall back to a token budget.
+  max_tokens: 1000
+  overlap_tokens: 80
+  # Rough chars-per-token used for the cheap pre-embed length estimate.
+  chars_per_token: 4
+
+provenance:
+  # Allowed licence flags stamped on every chunk (Ingestion Design §2.8).
+  licence_values:
+    - public_domain_us_gov
+    - cc_by_4_0
+    - free_account_required
+    - entitled

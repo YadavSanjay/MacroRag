@@ -1,0 +1,14 @@
+{{- if .Values.configOverride }}
+# Optional full rag.yaml override, mounted at /app/configs/rag.yaml on the API
+# pod (see deployment.yaml). REPLACES the image's baked config, so supply a
+# COMPLETE config — the typical reason is to set inference.fallback_local: false
+# (which cannot come from an env var), and/or qdrant/redis URLs via config.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-macro-rag-config
+  labels: { app: macro-rag }
+data:
+  rag.yaml: |
+{{ .Values.configOverride | indent 4 }}
+{{- end }}

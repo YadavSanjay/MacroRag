@@ -1,0 +1,11 @@
+# Provenance metadata for the 'discover_factors' task's base (provider/model-agnostic) prompt.
+# The resolver falls back to this variant when no provider/model-series variant
+# matches. See src/llm/registry.py and docs/design/Macro_RAG_LLM_Harness.md.
+task: discover_factors
+variant_id: base
+provider: null          # base = provider-agnostic
+model_series: null
+version: 1
+status: active          # active | deprecated | experimental
+system: macro-risk-analyst      # -> prompts/system/macro-risk-analyst.md
+notes: "Migrated from prompt/discover_factors.txt (Phase 1); byte-identical."

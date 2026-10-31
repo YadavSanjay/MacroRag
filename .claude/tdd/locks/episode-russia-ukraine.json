@@ -1,0 +1,47 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-14",
+  "criteria": {
+    "C1": [
+      "test/spec/episode-russia-ukraine/test_ru_c1_config.py::test_russia_ukraine_entry_is_exactly_as_specified",
+      "test/spec/episode-russia-ukraine/test_ru_c1_config.py::test_russia_ukraine_tags_are_vocabulary_tags",
+      "test/spec/episode-russia-ukraine/test_ru_c1_config.py::test_removing_russia_ukraine_leaves_the_graduated_list"
+    ],
+    "C2": [
+      "test/spec/episode-russia-ukraine/test_ru_c2_card.py::test_card_from_the_notes_rows",
+      "test/spec/episode-russia-ukraine/test_ru_c2_card.py::test_property_vix_moves_follow_the_definitions"
+    ]
+  },
+  "files": {
+    "test/spec/episode-russia-ukraine/conftest.py": "03d27f28fa7f514466672afed455dc4f2683c700f8d5a2dd4d4b9dc3d438f869",
+    "test/spec/episode-russia-ukraine/test_ru_c1_config.py": "a17b7eb004da3af340bf9eb08ea30fe34b546fffbc9b056eae5e4980cf30a8a4",
+    "test/spec/episode-russia-ukraine/test_ru_c2_card.py": "7fb3ade2291a576cffa812f9b04600d4a6af819dfa0e86c4016f5807399c0a12"
+  },
+  "id": "episode-russia-ukraine",
+  "interface": [],
+  "nodes": [
+    "test/spec/episode-russia-ukraine/test_ru_c1_config.py::test_removing_russia_ukraine_leaves_the_graduated_list",
+    "test/spec/episode-russia-ukraine/test_ru_c1_config.py::test_russia_ukraine_entry_is_exactly_as_specified",
+    "test/spec/episode-russia-ukraine/test_ru_c1_config.py::test_russia_ukraine_tags_are_vocabulary_tags",
+    "test/spec/episode-russia-ukraine/test_ru_c2_card.py::test_card_from_the_notes_rows",
+    "test/spec/episode-russia-ukraine/test_ru_c2_card.py::test_property_vix_moves_follow_the_definitions"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/episode-russia-ukraine.md",
+    "sha256": "eafe5c574f533ea2b1a8adbb4d7dd821314bd12100d2e88a9f39bb705e8ab916"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

@@ -1,0 +1,147 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — Tier 6A ingestion catalog: Power & Data-Center Electricity
+#
+# Implements Ingestion Design §2.7 (6A) and §9A. The AI buildout's binding physical
+# constraint. faultline already pulls EIA hourly region-data (the REALIZED signal);
+# this sub-tier adds the FORWARD trajectory (EIA AEO/STEO + IEA) and the
+# binding-constraint visibility (FERC 714 forecast, PJM interconnection queue).
+# Do NOT re-ingest hourly region-data here.
+# ─────────────────────────────────────────────────────────────────────────────
+
+tier: 6
+name: "Power & Data-Center Electricity (6A)"
+publisher: "Power / Energy Sources"
+licence: "public_domain_us_gov"
+base_url: "https://api.eia.gov"
+
+defaults:
+  poll_cadence: "weekly"
+  rate_limit_per_sec: 1.0
+
+endpoints:
+
+  # ── EIA AEO — Annual Energy Outlook (long-term forecast) ───────────────────
+  - id: "eia_aeo"
+    handler: "eia"
+    title: "EIA Annual Energy Outlook (data-center load forecast)"
+    enabled: true
+    publisher: "U.S. Energy Information Administration"
+    bucket: "B"
+    discovery:
+      type: "api"
+      url: "https://api.eia.gov"
+    release_schedule:
+      frequency: "annual"
+      months: ["December", "January"]
+      note: "data-center load is the dominant driver of long-term US electricity growth"
+    factor_tags: ["data_center_power", "electricity_demand"]
+    entity_tags: ["ai", "data_center"]
+    trades: ["#1", "#3", "#4", "#16-19"]
+    content:
+      api_key_env: "EIA_API_KEY"
+      route_pattern: "/v2/aeo/{year}/data/"
+      year_candidates: [2025, 2023]      # newest-first; HEAD-probe to pick latest
+      vintage_prefix: "AEO"
+      params:
+        frequency: "annual"
+        "data[0]": "value"
+        # Electricity Demand: Total Sales (data-center load lives in this series).
+        "facets[seriesId][]": ["cnsm_NA_elep_NA_elc_NA_NA_blnkwh"]
+        length: "5000"
+
+  # ── EIA STEO — Short-Term Energy Outlook (monthly forecast) ────────────────
+  - id: "eia_steo"
+    handler: "eia"
+    title: "EIA Short-Term Energy Outlook"
+    enabled: true
+    publisher: "U.S. Energy Information Administration"
+    bucket: "B"
+    discovery:
+      type: "api"
+      url: "https://api.eia.gov"
+    release_schedule:
+      frequency: "monthly"
+      note: "~2nd Tuesday; near-term electricity demand growth tied to data centers"
+    factor_tags: ["data_center_power", "electricity_demand"]
+    entity_tags: ["ai", "data_center"]
+    trades: ["#1", "#3", "#4"]
+    content:
+      api_key_env: "EIA_API_KEY"
+      route_pattern: "/v2/steo/data/"
+      vintage_prefix: "STEO"
+      params:
+        frequency: "monthly"
+        "data[0]": "value"
+        "facets[seriesId][]": ["EPEOPUS", "EXTCP_ESC"]   # generation + retail sales
+        start: "2024-01"
+        length: "5000"
+
+  # ── IEA — Energy and AI report + Observatory ───────────────────────────────
+  - id: "iea"
+    handler: "iea"
+    title: "IEA Energy and AI report"
+    enabled: true
+    publisher: "International Energy Agency"
+    licence: "free_account_required"
+    bucket: "B"
+    discovery:
+      type: "html_index"
+      url: "https://www.iea.org/reports/energy-and-ai"
+    release_schedule:
+      frequency: "annual"
+      note: "global data-center electricity ~doubling to ~945 TWh by 2030; PDFs may be account-gated"
+    factor_tags: ["data_center_power"]
+    entity_tags: ["ai", "data_center"]
+    trades: ["#1", "#3", "#4"]
+    content:
+      pdf_link_pattern: "iea\\.blob\\.core\\.windows\\.net/.+\\.pdf|\\.pdf$"
+      section_headings:
+        - "Executive summary"
+        - "Drivers of data centre electricity demand"
+        - "Implications"
+        - "Policy considerations"
+      max_pdfs: 2
+
+  # ── FERC Form 714 — annual demand + forecast (binding-constraint layer) ────
+  - id: "ferc_714"
+    handler: "ferc_714"
+    title: "FERC Form 714 (annual electric demand + forecast)"
+    enabled: true
+    publisher: "Federal Energy Regulatory Commission"
+    bucket: "B"
+    discovery:
+      type: "html_index"
+      url: "https://www.ferc.gov/industries-data/electric/general-information/electric-industry-forms/form-no-714-annual-electric"
+    release_schedule:
+      frequency: "annual"
+      months: ["May", "June", "July"]
+      note: "XBRL since 2021 (CSV before); annual demand FORECAST is the unique add vs EIA"
+    factor_tags: ["data_center_power", "interconnection_constraint"]
+    entity_tags: ["data_center"]
+    trades: ["methodology_b_early_bust"]
+    content:
+      zip_link_pattern: "\\.zip$"
+      max_zips: 1
+      note: "XBRL parsing deferred to PUDL (catalyst.coop); this stage stores raw + indexes"
+
+  # ── PJM Data Miner 2 — DOM (Data Center Alley) load + queue ────────────────
+  - id: "pjm"
+    handler: "pjm"
+    title: "PJM Data Miner 2 (Data Center Alley)"
+    enabled: true
+    publisher: "PJM Interconnection"
+    licence: "free_account_required"
+    bucket: "C"
+    discovery:
+      type: "api"
+      url: "https://api.pjm.com/api/v1"
+    release_schedule:
+      frequency: "hourly_to_quarterly"
+      note: "DOM zone = N. Virginia Data Center Alley; needs free account Ocp-Apim-Subscription-Key"
+    factor_tags: ["data_center_power"]
+    entity_tags: ["data_center"]
+    trades: ["#1", "#3", "#4"]
+    content:
+      api_key_env: "PJM_API_KEY"        # not in .env by default -> graceful skip
+      feeds:
+        - {feed: "hrl_load_metered", load_area: "DOM"}

@@ -1,0 +1,133 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — Tier 2 ingestion catalog: U.S. Treasury
+#
+# Implements Ingestion Design §2.3 (endpoint catalog) and §5 (per-endpoint
+# blueprint). Primary channel: long-end supply -> term-premium shock on the
+# 27-28Y corporate bonds (#17 ORCL 2053, #18 META 2054), UST 10Y (#20), and the
+# 5y10y payer swaption (#23).
+#
+# Same §4.0 two-stage pattern as Tier 1, but the artifacts differ: Treasury
+# releases are mixed-format BUNDLES (XML schedules + PDF reports), one endpoint
+# (OISP) is Federal-Register-driven, and TIC uses a predictable monthly URL.
+# ─────────────────────────────────────────────────────────────────────────────
+
+tier: 2
+name: "U.S. Treasury"
+publisher: "U.S. Treasury"
+licence: "public_domain_us_gov"
+base_url: "https://home.treasury.gov"
+
+defaults:
+  poll_cadence: "daily"
+  rate_limit_per_sec: 1.0          # 1 req/sec for home.treasury.gov across endpoints
+
+endpoints:
+
+  # ── Endpoint 1 — TIC (Treasury International Capital) — implement first ─────
+  - id: "tic"
+    handler: "tic"
+    title: "Treasury International Capital (TIC)"
+    enabled: true
+    bucket: "C"                    # monthly time series; trend matters
+    poll_cadence: "daily"
+    discovery:
+      type: "predictable_url"
+      url: "https://home.treasury.gov/data/treasury-international-capital-tic-system-home-page"
+    landing_url: "https://home.treasury.gov/data/treasury-international-capital-tic-system-home-page"
+    release_schedule:
+      frequency: "monthly"
+      note: "reports data ~6 weeks prior; embargo ~4:00 PM ET on the scheduled date"
+    factor_tags: ["term_premium", "fx", "usd_funding", "foreign_demand"]
+    entity_tags: ["china"]
+    trades: ["#26", "#27", "#17", "#18", "#20", "#23"]
+    content:
+      # Predictable monthly press-notice URL: {MMM} = abbreviated RELEASE month.
+      press_notice_dir: "https://home.treasury.gov/system/files/136/"
+      press_notice_pattern: "Press-notice-TIC-for-{MMM}-{YYYY}.pdf"
+      # How many recent release months to probe backwards from "today".
+      probe_months_back: 4
+      archive_index: "https://home.treasury.gov/archives-of-tic-monthly-data-releases"
+      data_file_pattern: "\\.zip$"
+
+  # ── Endpoint 2 — OISP (Outbound Investment Security Program) ────────────────
+  - id: "oisp"
+    handler: "oisp"
+    title: "Outbound Investment Security Program (OISP)"
+    enabled: true
+    bucket: "A"                    # event-driven Taiwan-tail catalyst; never expire
+    poll_cadence: "daily"
+    discovery:
+      type: "api"
+      url: "https://www.federalregister.gov/api/v1/documents.json"
+    landing_url: "https://home.treasury.gov/policy-issues/international/outbound-investment-program"
+    release_schedule:
+      frequency: "event_driven"
+      note: "2-6 substantive items/yr; COINS Act implementing regs due ~March 2027 (calendar)"
+    factor_tags: ["export_controls", "china_taiwan_tail"]
+    entity_tags: ["china", "semiconductors", "ai", "quantum"]
+    trades: ["#2", "#3", "#4", "#26"]
+    content:
+      # Federal Register filter — Treasury Office of Investment Security.
+      federal_register_agency: "investment-security-office"
+      federal_register_term: "outbound investment"
+      max_documents: 25
+      # treasury.gov secondary watchers.
+      program_regulations_url: "https://home.treasury.gov/policy-issues/international/outbound-investment-program/program-regulations"
+      faq_pdf_url: "https://home.treasury.gov/system/files/206/Outbound-Investment-Security-Program-FAQs.pdf"
+      # Sub-chunk rules on §850.XXX section headings.
+      rule_section_pattern: "(?:§|Sec\\.?)\\s?850\\.\\d+"
+
+  # ── Endpoint 3 — Quarterly Refunding + TBAC — implement last (most complex) ─
+  - id: "quarterly_refunding"
+    handler: "quarterly_refunding"
+    title: "Quarterly Refunding + TBAC"
+    enabled: true
+    bucket: "A"                    # each refunding repositions the long-end view
+    poll_cadence: "daily"
+    discovery:
+      type: "html_index"
+      url: "https://home.treasury.gov/policy-issues/financing-the-government/quarterly-refunding/most-recent-quarterly-refunding-documents"
+    landing_url: "https://home.treasury.gov/policy-issues/financing-the-government/quarterly-refunding"
+    release_schedule:
+      frequency: "quarterly"
+      months: ["February", "May", "August", "November"]
+      note: "3-wave bundle over ~3 days; treat as a single logical release event"
+    factor_tags: ["term_premium", "discount_rate"]
+    entity_tags: []
+    trades: ["#17", "#18", "#20", "#23"]
+    # Anchor-text routing for the mixed-artifact bundle (XML schedules preferred
+    # over PDF mirrors per §5.4).
+    doc_type_rules:
+      - match: "Financing Estimate"
+        type: "financing_estimate"
+        chunking: "pdf_sections"
+        priority: 1
+      - match: "Policy Statement"
+        type: "policy_statement"
+        chunking: "whole"
+        priority: 1
+      - match: "Report to the Secretary|TBAC Report"
+        type: "tbac_report"
+        chunking: "sections"
+        priority: 1
+      - match: "Minutes"
+        type: "tbac_minutes"
+        chunking: "sections"
+        priority: 2
+      - match: "Charts|Presentation"
+        type: "tbac_charts"
+        chunking: "pdf_sections"
+        priority: 3
+      - match: "Auction Schedule"
+        type: "auction_schedule"
+        chunking: "whole"
+        priority: 2
+      - match: "Buyback Schedule"
+        type: "buyback_schedule"
+        chunking: "whole"
+        priority: 2
+    content:
+      prefer_xml: true            # use XML schedules over PDF mirrors
+      max_artifacts: 14
+      # TBAC Report is sub-chunked on its numbered "Charge" sections.
+      section_headings: ["Charge 1", "Charge 2", "Charge 3", "Charge 4"]

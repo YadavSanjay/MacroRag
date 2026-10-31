@@ -1,0 +1,61 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-15",
+  "criteria": {
+    "C1": [
+      "test/spec/vocab-rates-decomp/test_vr_c1_vocab.py::test_new_fields_specified_and_accepted",
+      "test/spec/vocab-rates-decomp/test_vr_c1_vocab.py::test_schema_lists_nineteen_and_old_seventeen_unchanged"
+    ],
+    "C2": [
+      "test/spec/vocab-rates-decomp/test_vr_c2_limits.py::test_spec_examples",
+      "test/spec/vocab-rates-decomp/test_vr_c2_limits.py::test_property_limit_is_cap_times_floored_factor"
+    ],
+    "C3": [
+      "test/spec/vocab-rates-decomp/test_vr_c3_cards.py::test_moves_map_to_the_new_fields",
+      "test/spec/vocab-rates-decomp/test_vr_c3_cards.py::test_reader_unions_both_stores_and_handler_card_has_both_lines",
+      "test/spec/vocab-rates-decomp/test_vr_c3_cards.py::test_property_later_retrieval_wins_across_stores"
+    ]
+  },
+  "files": {
+    "test/spec/vocab-rates-decomp/conftest.py": "9e6e1792bd246ea64328d1f00c90801b2b800d093f81130bc8124f6a060f9251",
+    "test/spec/vocab-rates-decomp/test_vr_c1_vocab.py": "aef86b66c5a5a844c7fb213bc27821f1af29f67ddc394433ac4894f4d20d394d",
+    "test/spec/vocab-rates-decomp/test_vr_c2_limits.py": "6247491604404e2703c1796734066ca42da5c118406aea78a428dda1cd79babe",
+    "test/spec/vocab-rates-decomp/test_vr_c3_cards.py": "c1a2cce55b65c1c34f8b27638195ec9c897ae4eecba8b186008bd827f3c965cd"
+  },
+  "id": "vocab-rates-decomp",
+  "interface": [
+    {
+      "file": "src/ingest/usstats/episodes.py",
+      "module": "ingest.usstats.episodes",
+      "qualname": "read_episode_rows",
+      "signature": "def read_episode_rows(store: ObjectStore) -> list[dict[str, Any]]"
+    }
+  ],
+  "nodes": [
+    "test/spec/vocab-rates-decomp/test_vr_c1_vocab.py::test_new_fields_specified_and_accepted",
+    "test/spec/vocab-rates-decomp/test_vr_c1_vocab.py::test_schema_lists_nineteen_and_old_seventeen_unchanged",
+    "test/spec/vocab-rates-decomp/test_vr_c2_limits.py::test_property_limit_is_cap_times_floored_factor",
+    "test/spec/vocab-rates-decomp/test_vr_c2_limits.py::test_spec_examples",
+    "test/spec/vocab-rates-decomp/test_vr_c3_cards.py::test_moves_map_to_the_new_fields",
+    "test/spec/vocab-rates-decomp/test_vr_c3_cards.py::test_property_later_retrieval_wins_across_stores",
+    "test/spec/vocab-rates-decomp/test_vr_c3_cards.py::test_reader_unions_both_stores_and_handler_card_has_both_lines"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/vocab-rates-decomp.md",
+    "sha256": "c3e5a4e05ae6800060e8c54db796ef4838594c98d4678850ccef1082a6a1eb77"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

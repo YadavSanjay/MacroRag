@@ -1,0 +1,381 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — golden set · Viewpoint B: stress-testing backend (shock-vector synth)
+#
+# Two evaluation layers apply here (see the companion note in
+# scripts/questions_stress_testing_backend.md):
+#
+#  1. RETRIEVAL layer (scored by `pipelines.cli eval` → src/eval/harness.py:evaluate_retrieval):
+#     did the synthesizer's retrieval surface the sources/factors a shock leg
+#     must be GROUNDED in?  Scored on `match_field` + `expected` (hit@k/recall@k/MRR)
+#     exactly like the user-facing set.
+#
+#  2. SYNTHESIS layer (NOT scored by the retrieval harness; run it end to end with
+#     scripts/run_questions_live.py --mode synthesize): does the emitted shock vector carry the expected
+#     FIELDS, with the right sign/unit and grounding_mode, and does the citation
+#     gate refuse ungrounded legs?  Documented per item via the free-text stubs
+#     `expected_fields`, `grounding`, and `expected_behavior`.  These are the
+#     "expected-answer stubs" — deliberately facet-level (fields/sign/grounding),
+#     NOT exact magnitudes, because magnitudes are corpus-vintage-dependent and
+#     would rot; the schema + sign convention are stable (src/synthesis/vocab.py).
+#
+# `mode` on each item says which layer it primarily targets:
+#     retrieval  — grounding-source coverage (the harness scores it directly)
+#     synthesis  — field/sign/grounding correctness of the emitted vector
+#     gate       — negative/gating test: expect an empty/partial vector + gap signal
+# Unknown keys (mode/expected_fields/grounding/expected_behavior/note) are ignored
+# by the retrieval harness, so every item still runs and is retrieval-scored.
+#
+# Shock fields: the 19 in src/synthesis/vocab.py (UST curve + parallel, real yield and term
+#   premium, IG/HY OAS, MOVE + expiry nodes, VIX, EQUITY_US, USDTWD, USDJPY, XCCY_BASIS),
+#   each with grounding_mode direct|analog
+#
+# Run (retrieval layer):  $env:PYTHONPATH="src"
+#   conda run -n py312 python -m pipelines.cli eval --k 8 \
+#       --golden configs/eval/golden_stress_backend.yaml
+# ─────────────────────────────────────────────────────────────────────────────
+
+questions:
+  # ── Single-channel shock proposals (direct grounding) ──────────────────────
+  - question: "Given the latest FOMC statement and SEP, propose signed shocks to UST_2Y, UST_5Y, UST_10Y for a 'Fed drops its easing bias' scenario (3-month horizon)."
+    mode: synthesis
+    match_field: source_id
+    expected: ["press_monetary"]
+    expected_fields: ["UST_2Y", "UST_5Y", "UST_10Y"]
+    grounding: "direct — SEP dot path / statement guidance quantify the rate move; signs positive (yields rise)."
+
+  - question: "From the latest Quarterly Refunding + TBAC materials, size a term-premium shock to UST_30Y (and UST_10Y) for a 'heavier-than-expected long-end issuance' scenario."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["term_premium"]
+    expected_fields: ["UST_30Y", "UST_10Y"]
+    grounding: "direct — financing estimates anchor the long-end move; positive; UST_30Y > UST_10Y (steepener)."
+
+  - question: "Using Fed FSR + IMF GFSR valuation-stretch language, propose a VIX shock for a 'valuations re-rate lower' scenario; state direct vs analog."
+    mode: synthesis
+    match_field: source_id
+    expected: ["financial_stability", "imf_reports"]
+    expected_fields: ["VIX"]
+    grounding: "likely analog — narrative frames stretch but rarely quantifies a VIX pts move; positive."
+
+  - question: "From SLOOS + IMF GFSR + house-view credit framing, propose IG_OAS and HY_OAS shocks for a 'credit tightens as AI issuance floods the market' scenario."
+    mode: synthesis
+    match_field: source_id
+    expected: ["sloos", "imf_reports"]
+    expected_fields: ["IG_OAS", "HY_OAS"]
+    grounding: "mixed — SLOOS/GFSR narrative + house-view sizing; positive (widen); HY move > IG."
+
+  - question: "Based on FOMC forward-guidance posture and Treasury issuance uncertainty, propose a MOVE (rates-vol) shock for a 'guidance-driven rate-vol spike' scenario."
+    mode: synthesis
+    match_field: source_id
+    expected: ["press_monetary"]
+    expected_fields: ["MOVE"]
+    grounding: "analog likely; unit 'rel' preferred; positive (rates vol rises)."
+
+  - question: "From the BoJ Outlook Report, propose a USDJPY shock for a 'BoJ normalizes faster than expected' scenario."
+    mode: synthesis
+    match_field: source_id
+    expected: ["boj_outlook"]
+    expected_fields: ["USDJPY"]
+    grounding: "direct/analog; unit pct; sign per convention (positive = JPY depreciates) — a faster hike likely APPRECIATES JPY (negative)."
+
+  - question: "From the BIS Quarterly/Annual funding narrative + Treasury TIC, propose an XCCY_BASIS shock for a 'USD funding squeeze' scenario."
+    mode: synthesis
+    match_field: source_id
+    expected: ["bis_quarterly", "tic"]
+    expected_fields: ["XCCY_BASIS"]
+    grounding: "analog; unit bp; basis widens more negative in a USD squeeze."
+
+  - question: "From the latest CPI/PCE surprise + FOMC reaction-function language, propose a front-end repricing shock to UST_2Y for an 'inflation reaccelerates, cuts priced out' scenario."
+    mode: synthesis
+    match_field: source_id
+    expected: ["bls", "bea"]
+    expected_fields: ["UST_2Y"]
+    grounding: "direct — inflation print drives the front-end reprice; positive."
+
+  - question: "Using a DFAST severely-adverse macro path as a template, express its implied rate/credit/equity moves as UST, IG_OAS, HY_OAS, VIX shock fields (Methodology A)."
+    mode: synthesis
+    match_field: source_id
+    expected: ["dfast"]
+    expected_fields: ["UST", "IG_OAS", "HY_OAS", "VIX"]
+    grounding: "direct — DFAST publishes a quantified adverse path; a ready-made shock template."
+
+  - question: "From SIA + TSMC foundry-demand deterioration, propose the VIX leg for an 'AI-hardware demand rolls over' scenario."
+    mode: synthesis
+    match_field: source_id
+    expected: ["sia", "tsmc"]
+    expected_fields: ["VIX"]
+    grounding: "analog; positive; demand proxies frame the equity-vol read, not a VIX number directly."
+
+  # ── Multi-factor / correlated joint scenarios ──────────────────────────────
+  - question: "Construct the full joint shock vector for the Taiwan invasion tail (6-month horizon): USDTWD, IG_OAS, HY_OAS, VIX, MOVE, UST — analog-ground any leg no dated chunk quantifies."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["china_taiwan_tail"]
+    expected_fields: ["USDTWD", "IG_OAS", "HY_OAS", "VIX", "MOVE", "UST"]
+    grounding: "analog for most legs via Tier-7 studies; USDTWD strongly positive; UST sign ambiguous (safe-haven vs supply)."
+
+  - question: "Build the 'AI-capex bust' joint scenario (Methodology B early-bust): tie a data-center-power/interconnection constraint to a hyperscaler-capex cut; propose VIX + IG_OAS + HY_OAS legs."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["ai_capex", "data_center_power"]
+    expected_fields: ["VIX", "IG_OAS", "HY_OAS"]
+    grounding: "analog; positive; credit widening from the financing-hump unwind."
+
+  - question: "For a 'hyperscaler profit disappointment (metaverse moment)' scenario, propose VIX + IG_OAS legs and explain the concentration channel."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["hyperscaler_concentration", "valuation_stretch"]
+    expected_fields: ["VIX", "IG_OAS"]
+    grounding: "analog; positive; concentration amplifies the index-vol response."
+
+  - question: "Assemble a 'stagflationary inflation surprise delays Fed cuts' scenario: UST_2Y/UST_5Y repricing, MOVE, VIX — grounded in latest CPI/PCE + FOMC reaction function."
+    mode: synthesis
+    match_field: source_id
+    expected: ["bls", "press_monetary"]
+    expected_fields: ["UST_2Y", "UST_5Y", "MOVE", "VIX"]
+    grounding: "direct front-end + analog vol; UST positive, MOVE positive, VIX positive."
+
+  - question: "Construct the export-control-escalation joint tail (USDTWD, VIX, IG_OAS, semis-equity read) triggered by a new BIS-Commerce rule or Section 232 step."
+    mode: synthesis
+    match_field: source_id
+    expected: ["federal_register"]
+    expected_fields: ["USDTWD", "VIX", "IG_OAS"]
+    grounding: "FR catalyst dates the trigger; magnitudes analog; USDTWD/VIX positive."
+
+  - question: "Build a 'global risk-off / flight-to-quality' scenario where UST RALLIES (negative UST) while VIX/IG_OAS/HY_OAS rise — get the signs right."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["flight_to_quality"]
+    expected_fields: ["UST", "VIX", "IG_OAS", "HY_OAS"]
+    grounding: "analog; UST NEGATIVE (yields fall, safe-haven), vol/credit POSITIVE — sign-discipline test."
+
+  - question: "Construct a 'term-premium blowout' bear-steepener that moves UST_10Y, UST_30Y and MOVE while leaving UST_2Y anchored — justify the pinned front end."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["term_premium"]
+    expected_fields: ["UST_10Y", "UST_30Y", "MOVE"]
+    grounding: "direct issuance-driven long-end; UST_2Y ~0 (policy-anchored); positive long end + MOVE."
+
+  - question: "Build a 'BoJ normalization spillover' scenario linking USDJPY, XCCY_BASIS and a modest UST back-up (foreign-demand/TIC channel)."
+    mode: synthesis
+    match_field: source_id
+    expected: ["boj_outlook", "tic"]
+    expected_fields: ["USDJPY", "XCCY_BASIS", "UST"]
+    grounding: "analog; JPY appreciates (negative USDJPY), basis moves, UST slight positive via reduced foreign demand."
+
+  - question: "Construct a combined 'power-constraint + export-control' double-hit on semis: how do USDTWD, VIX, IG_OAS compound when the grid and chip constraints bind together?"
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["data_center_power", "export_controls"]
+    expected_fields: ["USDTWD", "VIX", "IG_OAS"]
+    grounding: "analog; compounding (super-additive) rationale required; all positive."
+
+  - question: "Propose a 'credit-led' scenario where HY_OAS leads and IG_OAS follows with a smaller move — justify the IG/HY differential and note the #28–30 CDS impact."
+    mode: synthesis
+    match_field: source_id
+    expected: ["sloos", "imf_reports"]
+    expected_fields: ["HY_OAS", "IG_OAS"]
+    grounding: "HY move > IG move (positive both); SLOOS/GFSR justify the differential."
+
+  # ── Analog / official-scenario grounding (Tier 7) ──────────────────────────
+  - question: "Anchor a geopolitically-triggered global-stress vector to the EBA/ESRB EU-wide adverse scenario; map its quantified GDP/rate/equity/FX moves onto our fields and mark them analog."
+    mode: synthesis
+    match_field: source_id
+    expected: ["eba_esrb_stress"]
+    expected_fields: ["UST", "IG_OAS", "VIX", "USDTWD"]
+    grounding: "analog — official adverse path is the closest regulator analog; every mapped leg grounding_mode=analog."
+
+  - question: "Use the IMF GFSR 'geopolitical risks & asset prices' (Apr-2025 Ch.2) event-study to size the equity-drawdown and credit-spread legs of a military-conflict scenario."
+    mode: synthesis
+    match_field: source_id
+    expected: ["imf_gfsr_geopolitical"]
+    expected_fields: ["VIX", "IG_OAS", "HY_OAS"]
+    grounding: "analog — event-study elasticities anchor equity/credit legs."
+
+  - question: "For the Taiwan-conflict legs where no direct number exists, ground magnitudes in the St. Louis Fed / Rhodium / CSIS Tier-7 studies and explain why analog grounding is appropriate."
+    mode: synthesis
+    match_field: source_id
+    expected: ["stlouisfed_taiwan", "rhodium_taiwan_crisis", "csis_taiwan_impact"]
+    expected_fields: ["USDTWD", "IG_OAS", "VIX"]
+    grounding: "analog; each leg cites a Tier-7 chunk; explanation must justify proxy use."
+
+  - question: "Compare direct vs analog grounding for the same HY_OAS shock: what does a consumer's down-weighting look like, and which cited chunks support each mode?"
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["credit_spread"]
+    expected_fields: ["HY_OAS"]
+    grounding: "must return the SAME field twice-explained: a direct citation vs an analog citation, with the down-weight rationale."
+
+  - question: "When two Tier-7 analogs (EBA/ESRB vs IMF GFSR) imply different VIX magnitudes, how should the synthesizer present the range, and which is the closer Taiwan fit?"
+    mode: synthesis
+    match_field: source_id
+    expected: ["eba_esrb_stress", "imf_gfsr_geopolitical"]
+    expected_fields: ["VIX"]
+    grounding: "analog; present a range not a point; justify closer-analog selection."
+
+  - question: "For a Taiwan BLOCKADE (vs full invasion) sub-scenario, which Tier-7 study is the closest analog, and how would you scale USDTWD / IG_OAS down while keeping grounding cited?"
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["china_taiwan_tail"]
+    expected_fields: ["USDTWD", "IG_OAS"]
+    grounding: "analog; scaled-down magnitudes vs invasion; cite CSIS/HCSS blockade framing."
+
+  # ── Citation-gate / refusal / coverage-gap (negative tests) ────────────────
+  - question: "Request a shock vector for a scenario the corpus does NOT quantify (a niche single-name event) — confirm the citation gate returns an empty/partial vector with a coverage-gap signal, not fabricated fields."
+    mode: gate
+    match_field: factor_tags
+    expected: ["credit_spread"]
+    expected_behavior: "gate returns few/no grounded legs; coverage_gap flagged; NO invented magnitudes. Retrieval may surface loosely-related chunks (hence the loose gold)."
+
+  - question: "For a proposed shock vector, verify every field carries chunk_ids, a unit in its allowed set, and a sign matching the documented convention — flag any field that fails the contract."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["term_premium"]
+    expected_behavior: "schema-conformance audit: chunk_ids non-empty, unit ∈ SHOCK_FIELDS[field].units, sign per positive_means."
+
+  - question: "Deliberately trigger the historical §7bis failure: request 'Taiwan invasion, 6-month, rates/credit/vol/FX' and confirm Tier-7 analog grounding now fills legs that previously returned empty, each marked analog."
+    mode: gate
+    match_field: factor_tags
+    expected: ["china_taiwan_tail", "cross_asset_scenario"]
+    expected_behavior: "regression guard for the empty-vector bug: legs now populated with grounding_mode=analog and Tier-7 chunk_ids."
+
+  - question: "Ask for a shock field NOT in the controlled vocabulary (a commodity or single-stock beta) and confirm the synthesizer rejects it rather than coercing it into a canonical field."
+    mode: gate
+    match_field: factor_tags
+    expected: ["ai_capex"]
+    expected_behavior: "is_valid_field() rejects the unknown field; no silent remap to a canonical one."
+
+  - question: "Present a scenario where only some legs are grounded (FX cited, credit not) — confirm the gate returns the grounded legs and explicitly signals the coverage gap on the rest."
+    mode: gate
+    match_field: source_id
+    expected: ["boj_outlook"]
+    expected_behavior: "partial vector: grounded legs emitted, ungrounded legs reported as coverage gaps, not guessed."
+
+  - question: "Verify unit discipline: request the MOVE leg in both rel and pts and confirm the emitted unit is the preferred one and the value is internally consistent."
+    mode: synthesis
+    match_field: source_id
+    expected: ["press_monetary"]
+    expected_fields: ["MOVE"]
+    expected_behavior: "preferred unit 'rel' emitted; rel/pts mutually consistent; is_valid_unit enforced."
+
+  # ── Provenance / reproducibility / cadence ─────────────────────────────────
+  - question: "Request the same Taiwan-tail vector against two different world_view_id snapshots and confirm the magnitudes are frozen/reproducible against each snapshot's publications."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["china_taiwan_tail"]
+    expected_behavior: "same snapshot → identical vector; different snapshot → differences trace to added/removed chunks only."
+
+  - question: "For a term-premium shock, confirm the answer prefers the freshest primary source (latest Refunding) and surfaces any conflict with an older TBAC/CBO view rather than silently averaging."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["term_premium"]
+    expected_behavior: "recency-conflict handling; newest primary wins; conflict surfaced with citations."
+
+  - question: "Given a weekly refresh, identify which stored shock vectors should re-fire unchanged vs be re-synthesized because a new high-frequency catalyst materially changed a factor leg."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["forward_guidance", "export_controls"]
+    expected_behavior: "cadence logic: only legs touched by a new FOMC/BIS-rule/GPR/SIA/TSMC chunk are re-synthesized."
+
+  - question: "Simulate the quarterly-definition / weekly-application cadence: after a new Refunding + AEO + earnings-capex cycle, which scenario DEFINITIONS refresh and which legs merely re-apply stored vectors?"
+    mode: synthesis
+    match_field: source_id
+    expected: ["quarterly_refunding", "eia_aeo"]
+    expected_behavior: "definitions refresh on the quarterly cycle; weekly run re-applies unchanged legs."
+
+  - question: "For a scenario synthesized last quarter, check whether any citation chunk has since been superseded by a newer primary release, and describe how the vector should be re-grounded."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["term_premium"]
+    expected_behavior: "stale-citation detection → re-ground on the superseding chunk; note magnitude delta."
+
+  # ── Factor-channel decomposition & sizing rationale ────────────────────────
+  - question: "Decompose the discount-rate channel for the long-duration book: how do the FOMC path, Treasury issuance and CBO deficit trajectory each contribute (in bp) to a combined UST_10Y/UST_30Y shock, with per-source attribution?"
+    mode: synthesis
+    match_field: source_id
+    expected: ["press_monetary", "quarterly_refunding", "cbo"]
+    expected_fields: ["UST_10Y", "UST_30Y"]
+    grounding: "direct; per-source bp attribution must sum to the combined leg."
+
+  - question: "For the credit channel, separate the market-priced spread move (IG_OAS/HY_OAS) from the survey-based credit-conditions signal (SLOOS) — how should each weight into the magnitude?"
+    mode: synthesis
+    match_field: source_id
+    expected: ["sloos", "imf_reports"]
+    expected_fields: ["IG_OAS", "HY_OAS"]
+    grounding: "SLOOS = leading survey signal; GFSR/market = level; explain the weighting."
+
+  - question: "Size the USDTWD leg three ways — OISP/Entity-List catalyst severity, GPR-Index level, and a Tier-7 Taiwan analog — and reconcile into a single cited magnitude with an uncertainty band."
+    mode: synthesis
+    match_field: source_id
+    expected: ["oisp", "gpr", "stlouisfed_taiwan"]
+    expected_fields: ["USDTWD"]
+    grounding: "three independent sizings reconciled; report a band, not a point."
+
+  - question: "For the power-constraint → capex → equity chain, quantify the transmission: what interconnection/AEO evidence moves the VIX leg from mild to severe, and cite the thresholds?"
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["interconnection_constraint", "data_center_power"]
+    expected_fields: ["VIX"]
+    grounding: "analog; threshold-conditioned magnitude; cite FERC/AEO evidence."
+
+  - question: "Run iterative multi-hop causal decomposition on 'a new Section 232 chip tariff': hop1 foundry/semis demand → hop2 AI-capex cut → hop3 power-demand easing → hop4 credit/equity; attach the shock field(s) each hop implies."
+    mode: synthesis
+    match_field: source_id
+    expected: ["federal_register"]
+    expected_fields: ["USDTWD", "VIX", "IG_OAS"]
+    grounding: "exercises multi_hop decomposition; each hop cites its own chunk and maps to a field."
+
+  - question: "Horizon sensitivity on the Taiwan tail: how do USDTWD / VIX / IG_OAS magnitudes differ between a 1-month acute-shock and a 6-month sustained-stress horizon, and which evidence supports each?"
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["china_taiwan_tail"]
+    expected_fields: ["USDTWD", "VIX", "IG_OAS"]
+    grounding: "analog; two horizon variants with distinct cited magnitudes."
+
+  - question: "Sign-convention correctness on an easing scenario ('Fed cuts faster than expected'): confirm UST legs go NEGATIVE (yields fall), VIX may fall, and the USDJPY direction — each against the documented convention."
+    mode: synthesis
+    match_field: source_id
+    expected: ["press_monetary"]
+    expected_fields: ["UST_2Y", "UST_10Y", "VIX", "USDJPY"]
+    grounding: "sign-discipline test: easing → UST negative; positive_means references from vocab.py."
+
+  - question: "Reconcile a conflict where the Fed FSR implies a larger VIX/valuation shock than a house-view positioning read — how should the synthesizer weight official vs sell-side sources?"
+    mode: synthesis
+    match_field: source_id
+    expected: ["financial_stability", "blackrock"]
+    expected_fields: ["VIX"]
+    grounding: "source-weighting policy: official primary vs sell-side narrative; surface both."
+
+  - question: "For the #26 USD/TWD CCS and #27 USD/JPY forward, produce USDTWD, USDJPY plus XCCY_BASIS for a joint 'Asia funding stress' scenario and map each to the trade it revalues."
+    mode: synthesis
+    match_field: source_id
+    expected: ["boj_outlook", "tic", "bis_quarterly"]
+    expected_fields: ["USDTWD", "USDJPY", "XCCY_BASIS"]
+    grounding: "analog; each FX/basis leg tied to its specific trade (#26/#27)."
+
+  - question: "Cross-check internal consistency of a full vector: if MOVE is shocked sharply higher, is the proposed UST term-structure move consistent (a big UST_30Y with tiny MOVE should be flagged incoherent)?"
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["rates_vol", "term_premium"]
+    expected_fields: ["MOVE", "UST_30Y"]
+    expected_behavior: "coherence check across correlated legs; flag rates-move / rates-vol mismatch."
+
+  - question: "For the Methodology-A historical replay, retrieve contemporaneous Fed FSR / IMF GFSR narrative to qualitatively anchor a COVID-2020 or 2022 credit-episode IG_OAS/HY_OAS magnitude FRED no longer serves free — mark grounding analog."
+    mode: synthesis
+    match_field: source_id
+    expected: ["financial_stability", "imf_reports"]
+    expected_fields: ["IG_OAS", "HY_OAS"]
+    grounding: "analog by design — narrative backfill for deferred numeric OAS history."
+
+  - question: "Produce a 'minimum-viable vs full' version of the same scenario: smallest set of high-confidence direct-grounded legs vs the fuller vector including analog legs, so the consumer can pick a coverage/confidence trade-off."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["china_taiwan_tail"]
+    expected_behavior: "two vectors returned: direct-only (fewer legs) and direct+analog (full), each leg labeled by grounding_mode."
+
+  - question: "Stress the coverage-gap signal end to end: assemble a scenario spanning all 12 fields and, per field, report direct / analog / gated-out with the governing citation count — a single audit view of the vector's grounding quality."
+    mode: synthesis
+    match_field: factor_tags
+    expected: ["cross_asset_scenario", "china_taiwan_tail"]
+    expected_fields: ["UST_2Y", "UST_5Y", "UST_10Y", "UST_30Y", "UST", "IG_OAS", "HY_OAS", "MOVE", "VIX", "USDTWD", "USDJPY", "XCCY_BASIS"]
+    expected_behavior: "full-vector grounding audit: each field tagged direct|analog|gated with its citation count."

@@ -1,0 +1,119 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-14",
+  "criteria": {
+    "C1": [
+      "test/spec/market-episodes/test_me_c1_moves.py::test_covid_case_all_classes_staleness_and_short_windows",
+      "test/spec/market-episodes/test_me_c1_moves.py::test_baa_standin_only_where_ice_ig_has_no_move",
+      "test/spec/market-episodes/test_me_c1_moves.py::test_ties_latest_anchor_row_and_seven_day_boundary",
+      "test/spec/market-episodes/test_me_c1_moves.py::test_property_end_and_peak_closed_form",
+      "test/spec/market-episodes/test_me_c1_moves.py::test_property_ties_go_to_the_earliest",
+      "test/spec/market-episodes/test_me_c1_moves.py::test_property_row_order_and_irrelevant_rows_change_nothing",
+      "test/spec/market-episodes/test_me_c1_moves.py::test_property_baa_field_depends_only_on_ice_ig_move"
+    ],
+    "C2": [
+      "test/spec/market-episodes/test_me_c2_document.py::test_lehman_card",
+      "test/spec/market-episodes/test_me_c2_document.py::test_five_day_only_card_existing_tag_and_none_cases",
+      "test/spec/market-episodes/test_me_c2_document.py::test_property_card_shape_closed_form",
+      "test/spec/market-episodes/test_me_c2_document.py::test_property_same_inputs_same_document_any_row_order"
+    ],
+    "C3": [
+      "test/spec/market-episodes/test_me_c3_reading_handler.py::test_read_fred_rows_prefix_suffix_and_later_retrieval_wins",
+      "test/spec/market-episodes/test_me_c3_reading_handler.py::test_property_union_with_latest_retrieval_winning",
+      "test/spec/market-episodes/test_me_c3_reading_handler.py::test_handler_reads_local_store_and_returns_the_card",
+      "test/spec/market-episodes/test_me_c3_reading_handler.py::test_property_one_item_per_episode_and_no_rows_no_card"
+    ],
+    "C4": [
+      "test/spec/market-episodes/test_me_c4_corpus_horizon.py::test_card_payload_carries_horizon_and_check_rates_it",
+      "test/spec/market-episodes/test_me_c4_corpus_horizon.py::test_property_payload_only_gains_the_key_and_check_follows_ratio"
+    ],
+    "C5": [
+      "test/spec/market-episodes/test_me_c5_config.py::test_market_episodes_endpoint_and_triples",
+      "test/spec/market-episodes/test_me_c5_config.py::test_episode_tags_come_from_the_vocabulary",
+      "test/spec/market-episodes/test_me_c5_config.py::test_registry_resolves_episodes_to_handler",
+      "test/spec/market-episodes/test_me_c5_config.py::test_property_committed_config_drives_the_handler"
+    ]
+  },
+  "files": {
+    "test/spec/market-episodes/conftest.py": "3092a3a5f261c175a4460e1737e1fa2f86f9c315699387ffb61847e0e0dc239e",
+    "test/spec/market-episodes/test_me_c1_moves.py": "6d28668b0b306b13366c014581253278fc417c8a5dabbc1b27d81d7648d8d03c",
+    "test/spec/market-episodes/test_me_c2_document.py": "9bc482bf59ea73bf72c8ed8b0e9274fbe5645619bbb07cfbc39f8804462ca3c8",
+    "test/spec/market-episodes/test_me_c3_reading_handler.py": "0972d7a8b072dd1cb3976bead0bf92f1baf0e3dd789fd9e27b577c37c23f1869",
+    "test/spec/market-episodes/test_me_c4_corpus_horizon.py": "5e065c3ff5272c95755bc9ac1ba427a2cb04cda3fe00697c044c46ca4c12905d",
+    "test/spec/market-episodes/test_me_c5_config.py": "8265dcf4473ff6bbaef71fc2ffdea9062583f892acee6700f68d09a809d6ce02"
+  },
+  "id": "market-episodes",
+  "interface": [
+    {
+      "file": "src/ingest/usstats/episodes.py",
+      "module": "ingest.usstats.episodes",
+      "qualname": "episode_moves",
+      "signature": "def episode_moves(rows: list[dict[str, Any]], *, anchor: date, horizon: int) -> dict[str, dict[str, Any]]"
+    },
+    {
+      "file": "src/ingest/usstats/episodes.py",
+      "module": "ingest.usstats.episodes",
+      "qualname": "build_episode_document",
+      "signature": "def build_episode_document(episode: dict[str, Any], rows: list[dict[str, Any]], *, today: date) -> ParsedDocument | None"
+    },
+    {
+      "file": "src/ingest/usstats/episodes.py",
+      "module": "ingest.usstats.episodes",
+      "qualname": "read_fred_rows",
+      "signature": "def read_fred_rows(store: ObjectStore) -> list[dict[str, Any]]"
+    },
+    {
+      "file": "src/ingest/usstats/handlers/episodes.py",
+      "module": "ingest.usstats.handlers.episodes",
+      "qualname": "MarketEpisodeHandler.discover",
+      "signature": "def discover(self) -> list[DiscoveredItem]"
+    },
+    {
+      "file": "src/ingest/usstats/handlers/episodes.py",
+      "module": "ingest.usstats.handlers.episodes",
+      "qualname": "MarketEpisodeHandler.fetch",
+      "signature": "def fetch(self, item: DiscoveredItem) -> list[ParsedDocument]"
+    }
+  ],
+  "nodes": [
+    "test/spec/market-episodes/test_me_c1_moves.py::test_baa_standin_only_where_ice_ig_has_no_move",
+    "test/spec/market-episodes/test_me_c1_moves.py::test_covid_case_all_classes_staleness_and_short_windows",
+    "test/spec/market-episodes/test_me_c1_moves.py::test_property_baa_field_depends_only_on_ice_ig_move",
+    "test/spec/market-episodes/test_me_c1_moves.py::test_property_end_and_peak_closed_form",
+    "test/spec/market-episodes/test_me_c1_moves.py::test_property_row_order_and_irrelevant_rows_change_nothing",
+    "test/spec/market-episodes/test_me_c1_moves.py::test_property_ties_go_to_the_earliest",
+    "test/spec/market-episodes/test_me_c1_moves.py::test_ties_latest_anchor_row_and_seven_day_boundary",
+    "test/spec/market-episodes/test_me_c2_document.py::test_five_day_only_card_existing_tag_and_none_cases",
+    "test/spec/market-episodes/test_me_c2_document.py::test_lehman_card",
+    "test/spec/market-episodes/test_me_c2_document.py::test_property_card_shape_closed_form",
+    "test/spec/market-episodes/test_me_c2_document.py::test_property_same_inputs_same_document_any_row_order",
+    "test/spec/market-episodes/test_me_c3_reading_handler.py::test_handler_reads_local_store_and_returns_the_card",
+    "test/spec/market-episodes/test_me_c3_reading_handler.py::test_property_one_item_per_episode_and_no_rows_no_card",
+    "test/spec/market-episodes/test_me_c3_reading_handler.py::test_property_union_with_latest_retrieval_winning",
+    "test/spec/market-episodes/test_me_c3_reading_handler.py::test_read_fred_rows_prefix_suffix_and_later_retrieval_wins",
+    "test/spec/market-episodes/test_me_c4_corpus_horizon.py::test_card_payload_carries_horizon_and_check_rates_it",
+    "test/spec/market-episodes/test_me_c4_corpus_horizon.py::test_property_payload_only_gains_the_key_and_check_follows_ratio",
+    "test/spec/market-episodes/test_me_c5_config.py::test_episode_tags_come_from_the_vocabulary",
+    "test/spec/market-episodes/test_me_c5_config.py::test_market_episodes_endpoint_and_triples",
+    "test/spec/market-episodes/test_me_c5_config.py::test_property_committed_config_drives_the_handler",
+    "test/spec/market-episodes/test_me_c5_config.py::test_registry_resolves_episodes_to_handler"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/market-episodes.md",
+    "sha256": "d29feef5953860b221b78827440ac1c3b0eca7a441ab0dfb58ac04191ae4fe5d"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

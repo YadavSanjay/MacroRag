@@ -1,0 +1,82 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-14",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-direction/test_sd_c1_check.py::test_live_case_flags_only_the_contradicted_field",
+      "test/spec/synth-direction/test_sd_c1_check.py::test_down_contradiction_zero_and_ignored_names",
+      "test/spec/synth-direction/test_sd_c1_check.py::test_existing_code_not_duplicated_and_no_diag_ok",
+      "test/spec/synth-direction/test_sd_c1_check.py::test_property_flags_exactly_the_contradictions",
+      "test/spec/synth-direction/test_sd_c1_check.py::test_running_twice_equals_running_once_and_empty_is_inert"
+    ],
+    "C2": [
+      "test/spec/synth-direction/test_sd_c2_hard.py::test_code_is_hard_and_dropped_with_drop_invalid",
+      "test/spec/synth-direction/test_sd_c2_hard.py::test_kept_and_annotated_without_drop_invalid",
+      "test/spec/synth-direction/test_sd_c2_hard.py::test_property_drop_set_is_the_flagged_set"
+    ],
+    "C3": [
+      "test/spec/synth-direction/test_sd_c3_pipeline.py::test_live_case_drops_usdtwd",
+      "test/spec/synth-direction/test_sd_c3_pipeline.py::test_live_case_annotated_without_drop_invalid",
+      "test/spec/synth-direction/test_sd_c3_pipeline.py::test_switch_off_or_no_directions_equals_today",
+      "test/spec/synth-direction/test_sd_c3_pipeline.py::test_property_dropped_set_is_the_contradicted_set"
+    ],
+    "C4": [
+      "test/spec/synth-direction/test_sd_c4_surfaces.py::test_rest_lowercase_keys_reach_the_check",
+      "test/spec/synth-direction/test_sd_c4_surfaces.py::test_rest_rejects_unknown_key_400_and_bad_value_422",
+      "test/spec/synth-direction/test_sd_c4_surfaces.py::test_mcp_passes_directions_and_rejects_bad_ones",
+      "test/spec/synth-direction/test_sd_c4_surfaces.py::test_property_key_case_does_not_matter"
+    ]
+  },
+  "files": {
+    "test/spec/synth-direction/conftest.py": "02fbcab8ec1931fb9b62b229197eec073ee16351b3a5273296935249cb7dd3b2",
+    "test/spec/synth-direction/test_sd_c1_check.py": "a76fb28789377180de3a5b84c5b5fa5501309c2b02d4cdbbcc9fd6502ce0d812",
+    "test/spec/synth-direction/test_sd_c2_hard.py": "b96d8df000f119cc5d18feca266e5ec7305bed4b1ee11429a696b087670e3560",
+    "test/spec/synth-direction/test_sd_c3_pipeline.py": "92bf3f88d2f7c2d8d8c0ee56dad2fea506d7d651b3b19413aa3a6631549bb584",
+    "test/spec/synth-direction/test_sd_c4_surfaces.py": "be106684e2e9e55cbae39b56a849de144be1a5b0d8613bfb6fc43a6e8e1c917b"
+  },
+  "id": "synth-direction",
+  "interface": [
+    {
+      "file": "src/synthesis/validate.py",
+      "module": "synthesis.validate",
+      "qualname": "check_direction",
+      "signature": "def check_direction(fields: dict[str, ShockField], directions: dict[str, str] | None, *, diag: SynthesisDiagnostics | None=None) -> None"
+    }
+  ],
+  "nodes": [
+    "test/spec/synth-direction/test_sd_c1_check.py::test_down_contradiction_zero_and_ignored_names",
+    "test/spec/synth-direction/test_sd_c1_check.py::test_existing_code_not_duplicated_and_no_diag_ok",
+    "test/spec/synth-direction/test_sd_c1_check.py::test_live_case_flags_only_the_contradicted_field",
+    "test/spec/synth-direction/test_sd_c1_check.py::test_property_flags_exactly_the_contradictions",
+    "test/spec/synth-direction/test_sd_c1_check.py::test_running_twice_equals_running_once_and_empty_is_inert",
+    "test/spec/synth-direction/test_sd_c2_hard.py::test_code_is_hard_and_dropped_with_drop_invalid",
+    "test/spec/synth-direction/test_sd_c2_hard.py::test_kept_and_annotated_without_drop_invalid",
+    "test/spec/synth-direction/test_sd_c2_hard.py::test_property_drop_set_is_the_flagged_set",
+    "test/spec/synth-direction/test_sd_c3_pipeline.py::test_live_case_annotated_without_drop_invalid",
+    "test/spec/synth-direction/test_sd_c3_pipeline.py::test_live_case_drops_usdtwd",
+    "test/spec/synth-direction/test_sd_c3_pipeline.py::test_property_dropped_set_is_the_contradicted_set",
+    "test/spec/synth-direction/test_sd_c3_pipeline.py::test_switch_off_or_no_directions_equals_today",
+    "test/spec/synth-direction/test_sd_c4_surfaces.py::test_mcp_passes_directions_and_rejects_bad_ones",
+    "test/spec/synth-direction/test_sd_c4_surfaces.py::test_property_key_case_does_not_matter",
+    "test/spec/synth-direction/test_sd_c4_surfaces.py::test_rest_lowercase_keys_reach_the_check",
+    "test/spec/synth-direction/test_sd_c4_surfaces.py::test_rest_rejects_unknown_key_400_and_bad_value_422"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-direction.md",
+    "sha256": "67bf3eefac467c44d2a50b11c8d0ac4c30793286a0287e22c5fc17d85d318ab8"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

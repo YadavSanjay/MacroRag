@@ -1,0 +1,63 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-15",
+  "criteria": {
+    "C1": [
+      "test/spec/fomc-minutes-follow/test_fm_c1_link.py::test_release_page_link_resolved_and_pdf_ignored",
+      "test/spec/fomc-minutes-follow/test_fm_c1_link.py::test_no_link_and_absolute_link",
+      "test/spec/fomc-minutes-follow/test_fm_c1_link.py::test_property_first_html_minutes_link_after_decoys"
+    ],
+    "C2": [
+      "test/spec/fomc-minutes-follow/test_fm_c2_fetch.py::test_minutes_document_from_the_minutes_page",
+      "test/spec/fomc-minutes-follow/test_fm_c2_fetch.py::test_property_release_date_and_ids_follow_the_urls"
+    ],
+    "C3": [
+      "test/spec/fomc-minutes-follow/test_fm_c3_fallback.py::test_missing_link_or_failed_fetch_stores_nothing",
+      "test/spec/fomc-minutes-follow/test_fm_c3_fallback.py::test_statement_makes_one_request_and_keeps_its_url",
+      "test/spec/fomc-minutes-follow/test_fm_c3_fallback.py::test_property_never_a_notice_document"
+    ]
+  },
+  "files": {
+    "test/spec/fomc-minutes-follow/conftest.py": "57a71e981f7260bae926444ad00c2500196c0b1c3844acf3071e0d12a10ab8f9",
+    "test/spec/fomc-minutes-follow/test_fm_c1_link.py": "603aa729855e7bca810397c4226e13e28d78ffb18aa3e4f3ba2aaae5f942939c",
+    "test/spec/fomc-minutes-follow/test_fm_c2_fetch.py": "27597d905ecf2084a895f8b8ba2b7e0f98ff810121c50a77aeea8009b36dc36c",
+    "test/spec/fomc-minutes-follow/test_fm_c3_fallback.py": "5988cfefdeffe20a3fb9cffd1bd6c49c577b14ce5831f18aa70fe10c3bb382e9"
+  },
+  "id": "fomc-minutes-follow",
+  "interface": [
+    {
+      "file": "src/ingest/fed/handlers/press_monetary.py",
+      "module": "ingest.fed.handlers.press_monetary",
+      "qualname": "minutes_page_url",
+      "signature": "def minutes_page_url(html: bytes | str, page_url: str) -> str | None"
+    }
+  ],
+  "nodes": [
+    "test/spec/fomc-minutes-follow/test_fm_c1_link.py::test_no_link_and_absolute_link",
+    "test/spec/fomc-minutes-follow/test_fm_c1_link.py::test_property_first_html_minutes_link_after_decoys",
+    "test/spec/fomc-minutes-follow/test_fm_c1_link.py::test_release_page_link_resolved_and_pdf_ignored",
+    "test/spec/fomc-minutes-follow/test_fm_c2_fetch.py::test_minutes_document_from_the_minutes_page",
+    "test/spec/fomc-minutes-follow/test_fm_c2_fetch.py::test_property_release_date_and_ids_follow_the_urls",
+    "test/spec/fomc-minutes-follow/test_fm_c3_fallback.py::test_missing_link_or_failed_fetch_stores_nothing",
+    "test/spec/fomc-minutes-follow/test_fm_c3_fallback.py::test_property_never_a_notice_document",
+    "test/spec/fomc-minutes-follow/test_fm_c3_fallback.py::test_statement_makes_one_request_and_keeps_its_url"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/fomc-minutes-follow.md",
+    "sha256": "277294392a4fae525eaec4f9c469db83e82f2b60fa635b2dd325a4d509a88ee9"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

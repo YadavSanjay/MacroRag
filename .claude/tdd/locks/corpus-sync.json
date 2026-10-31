@@ -1,0 +1,70 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-16",
+  "criteria": {
+    "C1": [
+      "test/spec/corpus-sync/test_cs_c1_c2_copy.py::test_missing_keys_copied_byte_exact_identical_skipped",
+      "test/spec/corpus-sync/test_cs_c1_c2_copy.py::test_property_empty_destination_receives_exact_copy"
+    ],
+    "C2": [
+      "test/spec/corpus-sync/test_cs_c1_c2_copy.py::test_conflict_kept_without_overwrite_replaced_with_it",
+      "test/spec/corpus-sync/test_cs_c1_c2_copy.py::test_property_matches_hand_model"
+    ],
+    "C3": [
+      "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_destination_only_keys_kept_and_counted",
+      "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_property_no_deletes_and_dst_keys_preserved"
+    ],
+    "C4": [
+      "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_dry_run_writes_nothing_and_counts_match_real_run",
+      "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_property_dry_run_predicts_real_run"
+    ],
+    "C5": [
+      "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_prefix_limits_keys_considered_and_counted",
+      "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_property_second_sync_changes_nothing"
+    ]
+  },
+  "files": {
+    "test/spec/corpus-sync/conftest.py": "427dcf979512a674251f0ef88b2125058c7d3f08f0043b09a5e54cd096ca01fb",
+    "test/spec/corpus-sync/test_cs_c1_c2_copy.py": "2d60f61704f753eec9ff30d86a147db4e9325f6288f552a10d18a91e0d2437f9",
+    "test/spec/corpus-sync/test_cs_c3_c5_safety.py": "c175c5cd06965f1ad5505bf79f46312830edaeb822c29440b6a18866ca8e63fb"
+  },
+  "id": "corpus-sync",
+  "interface": [
+    {
+      "file": "src/utils/corpus_sync.py",
+      "module": "utils.corpus_sync",
+      "qualname": "sync_objects",
+      "signature": "def sync_objects(src: ObjectStore, dst: ObjectStore, *, prefix: str='', dry_run: bool=False, overwrite: bool=False) -> dict[str, int]"
+    }
+  ],
+  "nodes": [
+    "test/spec/corpus-sync/test_cs_c1_c2_copy.py::test_conflict_kept_without_overwrite_replaced_with_it",
+    "test/spec/corpus-sync/test_cs_c1_c2_copy.py::test_missing_keys_copied_byte_exact_identical_skipped",
+    "test/spec/corpus-sync/test_cs_c1_c2_copy.py::test_property_empty_destination_receives_exact_copy",
+    "test/spec/corpus-sync/test_cs_c1_c2_copy.py::test_property_matches_hand_model",
+    "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_destination_only_keys_kept_and_counted",
+    "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_dry_run_writes_nothing_and_counts_match_real_run",
+    "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_prefix_limits_keys_considered_and_counted",
+    "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_property_dry_run_predicts_real_run",
+    "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_property_no_deletes_and_dst_keys_preserved",
+    "test/spec/corpus-sync/test_cs_c3_c5_safety.py::test_property_second_sync_changes_nothing"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/corpus-sync.md",
+    "sha256": "5da6f95435ab219bf1291c98cb63166d1ff77100f846cc26320495cb707cb558"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

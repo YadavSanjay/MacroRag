@@ -1,0 +1,31 @@
+{{- if .Values.ingress.enabled }}
+# Single-backend ingress: the UI Service is the only public entrypoint. It serves
+# the SPA and reverse-proxies /api/* to the API Service in-cluster, so the API is
+# never exposed directly and no /api ingress route is needed.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-macro-rag
+  labels: { app: macro-rag-ui }
+  {{- with .Values.ingress.annotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  {{- with .Values.ingress.tls }}
+  tls: {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.host | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-macro-rag-ui
+                port:
+                  number: {{ .Values.ui.service.port }}
+{{- end }}

@@ -1,0 +1,90 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-18",
+  "criteria": {
+    "C1": [
+      "test/spec/answer-cache-bypass/test_acb_c1_refusals.py::test_refusal_is_not_cached_by_either_level",
+      "test/spec/answer-cache-bypass/test_acb_c1_refusals.py::test_refusal_does_not_outlive_a_lowered_floor",
+      "test/spec/answer-cache-bypass/test_acb_c1_refusals.py::test_property_repeated_refusals_are_never_cached"
+    ],
+    "C2": [
+      "test/spec/answer-cache-bypass/test_acb_c2_answer.py::test_no_cache_does_not_read",
+      "test/spec/answer-cache-bypass/test_acb_c2_answer.py::test_no_cache_does_not_write",
+      "test/spec/answer-cache-bypass/test_acb_c2_answer.py::test_no_cache_false_is_the_same_as_omitting_it",
+      "test/spec/answer-cache-bypass/test_acb_c2_answer.py::test_property_cached_follows_the_bypass_model"
+    ],
+    "C3": [
+      "test/spec/answer-cache-bypass/test_acb_c3_synthesize.py::test_synthesize_no_cache_neither_reads_nor_writes",
+      "test/spec/answer-cache-bypass/test_acb_c3_synthesize.py::test_synthesize_bypass_leaves_the_shock_vector_alone",
+      "test/spec/answer-cache-bypass/test_acb_c3_synthesize.py::test_property_synthesize_cached_follows_the_bypass_model"
+    ],
+    "C4": [
+      "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_query_no_cache_neither_reads_nor_writes[answer]",
+      "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_query_no_cache_neither_reads_nor_writes[synthesize]",
+      "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_stream_no_cache_after_identical_query",
+      "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_no_cache_must_be_a_bool",
+      "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_stream_without_flag_is_cached_but_with_flag_is_not",
+      "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_property_rest_cached_follows_the_bypass_model",
+      "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_property_non_bool_strings_are_422"
+    ],
+    "C5": [
+      "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_tool_no_cache_after_identical_call[macro_query]",
+      "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_tool_no_cache_after_identical_call[macro_synthesize_shock_vector]",
+      "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_tool_default_matches_explicit_false[macro_query]",
+      "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_tool_default_matches_explicit_false[macro_synthesize_shock_vector]",
+      "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_property_mcp_cached_follows_the_bypass_model"
+    ]
+  },
+  "files": {
+    "test/spec/answer-cache-bypass/conftest.py": "2610d8e7bdb9e428beda8eaae323f8620f7437cbe534e5561672b5dbc8ad3862",
+    "test/spec/answer-cache-bypass/test_acb_c1_refusals.py": "195909db640d1906a8676c98669d0cff61be0571678f4cbc56a51df64238c332",
+    "test/spec/answer-cache-bypass/test_acb_c2_answer.py": "3de57579adf6159c8a7e7771109b8e0eca9c2b5661ea087d97e17cbbb8ca69ee",
+    "test/spec/answer-cache-bypass/test_acb_c3_synthesize.py": "1a96e686dc0ca5db1a08e2502d003266ff7f6914924ba1ec01e4abcfcbd6d7e3",
+    "test/spec/answer-cache-bypass/test_acb_c4_rest.py": "554048eac1520db5ef16cee19eb870c40538adc5b34b70a803259a427b70ef58",
+    "test/spec/answer-cache-bypass/test_acb_c5_mcp.py": "1c61cbd7ae22d21aed6f4bfdb04ba4d470af327e3f4521c2756e8e18943f8d59"
+  },
+  "id": "answer-cache-bypass",
+  "interface": [],
+  "nodes": [
+    "test/spec/answer-cache-bypass/test_acb_c1_refusals.py::test_property_repeated_refusals_are_never_cached",
+    "test/spec/answer-cache-bypass/test_acb_c1_refusals.py::test_refusal_does_not_outlive_a_lowered_floor",
+    "test/spec/answer-cache-bypass/test_acb_c1_refusals.py::test_refusal_is_not_cached_by_either_level",
+    "test/spec/answer-cache-bypass/test_acb_c2_answer.py::test_no_cache_does_not_read",
+    "test/spec/answer-cache-bypass/test_acb_c2_answer.py::test_no_cache_does_not_write",
+    "test/spec/answer-cache-bypass/test_acb_c2_answer.py::test_no_cache_false_is_the_same_as_omitting_it",
+    "test/spec/answer-cache-bypass/test_acb_c2_answer.py::test_property_cached_follows_the_bypass_model",
+    "test/spec/answer-cache-bypass/test_acb_c3_synthesize.py::test_property_synthesize_cached_follows_the_bypass_model",
+    "test/spec/answer-cache-bypass/test_acb_c3_synthesize.py::test_synthesize_bypass_leaves_the_shock_vector_alone",
+    "test/spec/answer-cache-bypass/test_acb_c3_synthesize.py::test_synthesize_no_cache_neither_reads_nor_writes",
+    "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_no_cache_must_be_a_bool",
+    "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_property_non_bool_strings_are_422",
+    "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_property_rest_cached_follows_the_bypass_model",
+    "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_query_no_cache_neither_reads_nor_writes[answer]",
+    "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_query_no_cache_neither_reads_nor_writes[synthesize]",
+    "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_stream_no_cache_after_identical_query",
+    "test/spec/answer-cache-bypass/test_acb_c4_rest.py::test_stream_without_flag_is_cached_but_with_flag_is_not",
+    "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_property_mcp_cached_follows_the_bypass_model",
+    "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_tool_default_matches_explicit_false[macro_query]",
+    "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_tool_default_matches_explicit_false[macro_synthesize_shock_vector]",
+    "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_tool_no_cache_after_identical_call[macro_query]",
+    "test/spec/answer-cache-bypass/test_acb_c5_mcp.py::test_tool_no_cache_after_identical_call[macro_synthesize_shock_vector]"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/answer-cache-bypass.md",
+    "sha256": "ab346d65fe7a24d5c3ea8df9553e85463798964a35dec35ba1fe00515eb49c3c"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

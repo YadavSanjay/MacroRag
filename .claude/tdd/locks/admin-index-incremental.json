@@ -1,0 +1,68 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-21",
+  "criteria": {
+    "C1": [
+      "test/spec/admin-index-incremental/test_c1_request.py::test_accepted_request_records_all_three_flags[body0]",
+      "test/spec/admin-index-incremental/test_c1_request.py::test_accepted_request_records_all_three_flags[body1]",
+      "test/spec/admin-index-incremental/test_c1_request.py::test_accepted_request_records_all_three_flags[body2]",
+      "test/spec/admin-index-incremental/test_c1_request.py::test_invalid_combination_is_422_and_submits_nothing[body0]",
+      "test/spec/admin-index-incremental/test_c1_request.py::test_invalid_combination_is_422_and_submits_nothing[body1]",
+      "test/spec/admin-index-incremental/test_c1_request.py::test_second_request_while_first_runs_is_409",
+      "test/spec/admin-index-incremental/test_c1_request.py::test_any_flag_combination_is_accepted_iff_valid"
+    ],
+    "C2": [
+      "test/spec/admin-index-incremental/test_c2_default_runner.py::test_dry_run_job_reports_plan_and_writes_nothing",
+      "test/spec/admin-index-incremental/test_c2_default_runner.py::test_dry_run_scans_every_chunk_whatever_the_corpus"
+    ],
+    "C3": [
+      "test/spec/admin-index-incremental/test_c3_cancel.py::test_raising_cancel_on_dry_run_propagates_and_writes_nothing",
+      "test/spec/admin-index-incremental/test_c3_cancel.py::test_raising_cancel_on_real_run_stops_before_any_write",
+      "test/spec/admin-index-incremental/test_c3_cancel.py::test_non_raising_cancel_keeps_dry_run_stats",
+      "test/spec/admin-index-incremental/test_c3_cancel.py::test_raising_cancel_never_changes_state",
+      "test/spec/admin-index-incremental/test_c3_cancel.py::test_dry_run_stats_invariant_under_non_raising_cancel"
+    ]
+  },
+  "files": {
+    "test/spec/admin-index-incremental/conftest.py": "78d6e2a13d9fbfd6564b8e207ebe6c3189f0f0e59b8d69c5757de113e8e9822a",
+    "test/spec/admin-index-incremental/test_c1_request.py": "94e0bb683278692374442dd0ccf207b58336dc4cbe13d1587cb07cf567ef741d",
+    "test/spec/admin-index-incremental/test_c2_default_runner.py": "95c3f5d91c334dcb22a3c969018f4898ba52f430e2a53f7e28ebaf13164e19d0",
+    "test/spec/admin-index-incremental/test_c3_cancel.py": "fab8995f20af2f9dd76529f42d788b055d5979b5ed7a99400e2ea2ce39fd4cf5"
+  },
+  "id": "admin-index-incremental",
+  "interface": [],
+  "nodes": [
+    "test/spec/admin-index-incremental/test_c1_request.py::test_accepted_request_records_all_three_flags[body0]",
+    "test/spec/admin-index-incremental/test_c1_request.py::test_accepted_request_records_all_three_flags[body1]",
+    "test/spec/admin-index-incremental/test_c1_request.py::test_accepted_request_records_all_three_flags[body2]",
+    "test/spec/admin-index-incremental/test_c1_request.py::test_any_flag_combination_is_accepted_iff_valid",
+    "test/spec/admin-index-incremental/test_c1_request.py::test_invalid_combination_is_422_and_submits_nothing[body0]",
+    "test/spec/admin-index-incremental/test_c1_request.py::test_invalid_combination_is_422_and_submits_nothing[body1]",
+    "test/spec/admin-index-incremental/test_c1_request.py::test_second_request_while_first_runs_is_409",
+    "test/spec/admin-index-incremental/test_c2_default_runner.py::test_dry_run_job_reports_plan_and_writes_nothing",
+    "test/spec/admin-index-incremental/test_c2_default_runner.py::test_dry_run_scans_every_chunk_whatever_the_corpus",
+    "test/spec/admin-index-incremental/test_c3_cancel.py::test_dry_run_stats_invariant_under_non_raising_cancel",
+    "test/spec/admin-index-incremental/test_c3_cancel.py::test_non_raising_cancel_keeps_dry_run_stats",
+    "test/spec/admin-index-incremental/test_c3_cancel.py::test_raising_cancel_never_changes_state",
+    "test/spec/admin-index-incremental/test_c3_cancel.py::test_raising_cancel_on_dry_run_propagates_and_writes_nothing",
+    "test/spec/admin-index-incremental/test_c3_cancel.py::test_raising_cancel_on_real_run_stops_before_any_write"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/admin-index-incremental.md",
+    "sha256": "c904bd84e5426c0169f5333af5c3bb29e321c79ad6677f7e09102012968bb091"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

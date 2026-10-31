@@ -1,0 +1,81 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-14",
+  "criteria": {
+    "C1": [
+      "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_spec_oracle_examples",
+      "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_minimum_table_boundaries",
+      "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_exact_rating_bounds_and_precedence",
+      "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_non_int_horizon_payload_is_not_exact",
+      "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_rated_evidence_overrides_declared_and_unrated",
+      "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_analog_fields_existing_codes_and_no_diag",
+      "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_absent_or_nonpositive_horizon_changes_nothing",
+      "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_decision_matches_definitions",
+      "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_declared_horizon_property"
+    ],
+    "C2": [
+      "test/spec/synth-analog-horizon/test_sah_c2_parse.py::test_listed_forms_map_by_hand",
+      "test/spec/synth-analog-horizon/test_sah_c2_parse.py::test_to_dict_emits_key_only_when_set",
+      "test/spec/synth-analog-horizon/test_sah_c2_parse.py::test_parse_property",
+      "test/spec/synth-analog-horizon/test_sah_c2_parse.py::test_declaration_does_not_change_other_attributes"
+    ],
+    "C3": [
+      "test/spec/synth-analog-horizon/test_sah_c3_pipeline.py::test_live_case_annotated_in_response",
+      "test/spec/synth-analog-horizon/test_sah_c3_pipeline.py::test_drop_invalid_removes_mismatch_keeps_unknown",
+      "test/spec/synth-analog-horizon/test_sah_c3_pipeline.py::test_tolerance_comes_from_settings",
+      "test/spec/synth-analog-horizon/test_sah_c3_pipeline.py::test_switches_gate_both_codes"
+    ]
+  },
+  "files": {
+    "test/spec/synth-analog-horizon/conftest.py": "6ebd99aea2bbece57a995108a07fa894b04779b624828df757102576cd18bdc8",
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py": "f1738b855c87a048b838551ce8fe8a1bc2b271c9ef87783ade65f8c2271358e9",
+    "test/spec/synth-analog-horizon/test_sah_c2_parse.py": "a640141644a77bf5e3d711ca0de39630289cf628aea65162517c67adb844e942",
+    "test/spec/synth-analog-horizon/test_sah_c3_pipeline.py": "03c90c3a42c58d0b9b4a267560f4120522fae752c54e0e7edc7f776f74ea2481"
+  },
+  "id": "synth-analog-horizon",
+  "interface": [
+    {
+      "file": "src/synthesis/validate.py",
+      "module": "synthesis.validate",
+      "qualname": "check_source_horizon",
+      "signature": "def check_source_horizon(fields: dict[str, ShockField], chunks: list[RetrievedChunk], *, horizon_days: int | None, tolerance: float, diag: SynthesisDiagnostics | None=None) -> None"
+    }
+  ],
+  "nodes": [
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_absent_or_nonpositive_horizon_changes_nothing",
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_analog_fields_existing_codes_and_no_diag",
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_decision_matches_definitions",
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_declared_horizon_property",
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_exact_rating_bounds_and_precedence",
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_minimum_table_boundaries",
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_non_int_horizon_payload_is_not_exact",
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_rated_evidence_overrides_declared_and_unrated",
+    "test/spec/synth-analog-horizon/test_sah_c1_check.py::test_spec_oracle_examples",
+    "test/spec/synth-analog-horizon/test_sah_c2_parse.py::test_declaration_does_not_change_other_attributes",
+    "test/spec/synth-analog-horizon/test_sah_c2_parse.py::test_listed_forms_map_by_hand",
+    "test/spec/synth-analog-horizon/test_sah_c2_parse.py::test_parse_property",
+    "test/spec/synth-analog-horizon/test_sah_c2_parse.py::test_to_dict_emits_key_only_when_set",
+    "test/spec/synth-analog-horizon/test_sah_c3_pipeline.py::test_drop_invalid_removes_mismatch_keeps_unknown",
+    "test/spec/synth-analog-horizon/test_sah_c3_pipeline.py::test_live_case_annotated_in_response",
+    "test/spec/synth-analog-horizon/test_sah_c3_pipeline.py::test_switches_gate_both_codes",
+    "test/spec/synth-analog-horizon/test_sah_c3_pipeline.py::test_tolerance_comes_from_settings"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/synth-analog-horizon.md",
+    "sha256": "657633df753796c13df0c929dc0309996e928b14e2b06a5e7ff5b031aec552b9"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

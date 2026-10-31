@@ -1,0 +1,7 @@
+node_modules
+dist
+dist-ssr
+*.local
+.vite
+*.tsbuildinfo
+src/api/schema.gen.ts

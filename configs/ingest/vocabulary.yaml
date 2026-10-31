@@ -1,0 +1,158 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — controlled vocabulary registry (cross-tier)
+#
+# Single source of truth for the metadata facets used as Qdrant payload filters.
+# `factor_tags` and `entity_tags` are authored in the per-tier endpoint catalogs;
+# `doc_type` is emitted by handlers / doc_type_rules. Keeping them closed here
+# means a query filter (e.g. factor_tags=credit_spread, entity_tags=ai) catches
+# every tier instead of missing a synonym or a casing variant.
+#
+# Convention: all tags are lower_snake_case. Add a new term here FIRST, then use
+# it in a tier config — config load warns on any tag absent from this registry.
+# `aliases` maps a legacy/variant term to its canonical form; both the config
+# loader and the data-migration apply it so old references self-heal.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Factor tags — macro shock channels (the primary analytical filter) ────────
+factor_tags:
+  # rates / monetary
+  - discount_rate              # policy rate level
+  - term_premium               # long-end term premium
+  - rates_vol                  # rate volatility
+  - forward_guidance           # central-bank communication / stance signalling
+  - monetary_policy            # broad non-US monetary stance (e.g. BoJ)
+  # credit / funding
+  - credit_spread              # market-priced credit risk
+  - credit_conditions          # survey-based lending conditions (SLOOS)
+  - usd_funding                # USD funding / cross-currency basis
+  - foreign_demand             # foreign demand for USD assets (TIC)
+  # growth / inflation / fiscal / fx
+  - growth
+  - inflation
+  - labor
+  - fiscal
+  - fx
+  - systemic                   # systemic financial-stability risk
+  # equity / valuation
+  - equity_vol
+  - valuation_stretch
+  - hyperscaler_concentration  # mega-cap / hyperscaler concentration risk
+  # AI buildout — demand & spend
+  - ai_capex                   # AI infrastructure spend (incl. AI investment)
+  - ai_adoption                # AI diffusion / firm-level adoption
+  - ai_productivity_risk       # productivity-disappointment risk
+  # AI buildout — power / physical constraint
+  - data_center_power          # data-center power availability as a constraint
+  - electricity_demand         # grid load growth (demand side)
+  - interconnection_constraint # grid interconnection-queue bottleneck
+  # semis / supply chain / geopolitics
+  - semi_sales                 # semiconductor billings (SIA)
+  - foundry_demand             # foundry utilization (TSMC)
+  - export_controls            # chip / tech export-control regime
+  - china_taiwan_tail          # Taiwan-conflict tail risk
+  - geopolitical_risk          # GPR index family
+  - policy_uncertainty         # EPU index family
+  # cross-asset scenario / stress (Tier 7 — quantified shock studies)
+  - cross_asset_scenario       # study mapping an event to joint asset moves
+  - stress_scenario            # regulator / official adverse stress scenario
+  - supply_chain_disruption    # trade / semiconductor supply-chain disruption
+  - sanctions_regime           # sanctions / financial-flow restriction scenario
+  - flight_to_quality          # safe-haven / risk-off flow (rally, not sell-off)
+
+# ── Entity tags — themes / actors (secondary filter) ──────────────────────────
+entity_tags:
+  - ai
+  - china
+  - data_center
+  - hyperscaler
+  - semiconductors
+  - quantum
+
+# ── Aliases — legacy/variant -> canonical (applied at load + in migration) ────
+aliases:
+  # casing normalisation
+  AI: ai
+  China: china
+  # synonym merges
+  ai_investment: ai_capex            # AI investment == AI capex
+  power_constraint: data_center_power # same power-availability channel
+  # faultline scenario-synthesis facet tokens -> MacroRAG canonical entity tags
+  # (the corpus tags Taiwan-tail risk under `china` + the `china_taiwan_tail`
+  # factor; TSMC/Nvidia are tagged at the `semiconductors` theme level).
+  hyperscalers: hyperscaler
+  tsmc: semiconductors
+  nvidia: semiconductors
+  taiwan: china
+
+# ── Document types — per-source identifiers (validated, not merged) ───────────
+# Naturally a per-source enum; listed so the migration can flag any value that
+# falls outside the known set (and so `unknown` surfaces a classification gap).
+doc_types:
+  tier1_fed:
+    - fomc_statement
+    - fomc_minutes
+    - sep_projections
+    - framework_reaffirmation
+    - discount_rate_minutes
+    - financial_stability_report
+    - sloos_release
+    - dfast_scenarios
+    - dfast_scenario_data
+    - dfast_results
+    - dfast_methodology
+    - fed_speech
+  tier2_treasury:
+    - policy_statement
+    - financing_estimate
+    - auction_schedule
+    - buyback_schedule
+    - tbac_report
+    - tbac_charts
+    - tbac_minutes
+    - tic_press_notice
+    - oisp_rule
+    - oisp_faq
+    - oisp_guidance
+  tier3_usstats:
+    - bea_table
+    - bls_series
+    - fred_daily_series
+    - market_episode
+  tier4_intl:
+    - weo_foreword
+    - weo_execsum
+    - weo_ch1
+    - weo_ch2
+    - weo_ch3
+    - gfsr_text
+    - gfsr_ch1
+    - boj_outlook_report
+    - imf_sdmx_series
+    - bis_annual_report
+    - bis_quarterly_full
+    - bis_quarterly_article
+  tier5_house:
+    - apollo_daily_spark
+    - gs_top_of_mind
+    - ms_totm_episode
+    - jpm_eotm
+    - bii_weekly
+    - bii_perspective
+  tier6_ai:
+    - bis_export_rule
+    - presidential_proclamation
+    - bis_entity_list
+    - sia_monthly
+    - eia_aeo
+    - eia_steo
+    - iea_report
+    - gpr_index
+    - epu_index
+    - stanford_ai_index
+  tier7_scenarios:
+    - eba_esrb_adverse_scenario
+    - imf_gfsr_geopolitical
+    - stlouisfed_taiwan_conflict
+    - rhodium_taiwan_sanctions
+    - hcss_taiwan_cost
+    - csis_taiwan_impact

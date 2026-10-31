@@ -1,0 +1,118 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Macro RAG — Tier 6B ingestion catalog: Semiconductors, Export Controls & Trade
+#
+# Implements Ingestion Design §2.7 (6B) and §9B. The single most important sub-tier
+# for the Taiwan-tail scenario (#2 TSM ADR, #3 AVGO, #4 MU, #26 USD/TWD CCS).
+# The Federal Register API is THE dominant catalyst feed for the whole macro RAG;
+# everything else here is corroboration.
+# Hosts that 403 the identified MacroRAG User-Agent skip gracefully.
+# ─────────────────────────────────────────────────────────────────────────────
+
+tier: 6
+name: "Semiconductors, Export Controls & Trade Policy (6B)"
+publisher: "Semiconductor / Trade Policy Sources"
+licence: "public_domain_us_gov"
+base_url: "https://www.federalregister.gov"
+
+defaults:
+  poll_cadence: "daily"
+  rate_limit_per_sec: 1.0
+
+endpoints:
+
+  # ── Federal Register API — BIS rules + Presidential Proclamations ──────────
+  - id: "federal_register"
+    handler: "federal_register"
+    title: "Federal Register — BIS-Commerce rules + Section 232 Proclamations"
+    enabled: true
+    publisher: "U.S. Federal Register"
+    licence: "public_domain_us_gov"
+    bucket: "A"                    # the highest-priority catalyst feed; never expire
+    poll_cadence: "daily"
+    discovery:
+      type: "api"
+      url: "https://www.federalregister.gov/api/v1/documents.json"
+    release_schedule:
+      frequency: "daily_event_driven"
+      note: "every BIS export rule + Section 232 tariff proclamation lands here <24h"
+    factor_tags: ["export_controls", "china_taiwan_tail"]
+    entity_tags: ["ai", "semiconductors", "china"]
+    trades: ["#2", "#3", "#4", "#26"]
+    content:
+      per_page: 50
+      queries:
+        - label: "BIS-Commerce export rules"
+          doc_type: "bis_export_rule"
+          conditions: {agencies: ["industry-and-security-bureau"]}
+        - label: "Section 232 semiconductor proclamations"
+          doc_type: "presidential_proclamation"
+          conditions: {presidential_document_type: "proclamation", term: "semiconductor"}
+      # Named hardware/firms to flag in covered_entities (extend as rules evolve).
+      named_entities: ["Nvidia", "H200", "H100", "AMD", "MI325X", "MI300",
+                       "TSMC", "SMIC", "Huawei", "Ascend"]
+
+  # ── BIS-Commerce Entity List ───────────────────────────────────────────────
+  - id: "bis_entity_list"
+    handler: "bis_entity_list"
+    title: "BIS-Commerce Entity List"
+    enabled: true
+    publisher: "Bureau of Industry and Security"
+    bucket: "A"
+    poll_cadence: "weekly"
+    discovery:
+      type: "html_index"
+      url: "https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list"
+    release_schedule:
+      frequency: "weekly"
+      note: "cumulative state, not event stream — store snapshot + diff log"
+    factor_tags: ["export_controls", "china_taiwan_tail"]
+    entity_tags: ["china", "semiconductors"]
+    trades: ["#2", "#3", "#4"]
+    content:
+      export_link_pattern: "\\.(csv|xml|xlsx?)$"
+
+  # ── TSMC monthly sales + quarterly capex ───────────────────────────────────
+  - id: "tsmc"
+    handler: "tsmc"
+    title: "TSMC monthly sales + quarterly capex"
+    enabled: true
+    publisher: "TSMC"
+    licence: "public_with_attribution_required"
+    bucket: "C"
+    poll_cadence: "weekly"
+    discovery:
+      type: "html_index"
+      # Press releases moved to pr.tsmc.com in 2026 (the old tsmc.com path 404s).
+      url: "https://pr.tsmc.com/english/latest-news"
+    release_schedule:
+      frequency: "monthly+quarterly"
+      note: "highest-frequency foundry-demand proxy; leads EDGAR capex by weeks (Taipei UTC+8)"
+    factor_tags: ["ai_capex", "foundry_demand"]
+    entity_tags: ["ai", "semiconductors"]
+    trades: ["#2", "#3", "#4"]
+    content:
+      release_link_pattern: "/english/news/[0-9]+$"
+      body_selectors: ["article", "main"]
+      max_releases: 6
+
+  # ── SIA monthly global semiconductor sales ─────────────────────────────────
+  - id: "sia"
+    handler: "sia"
+    title: "SIA monthly global semiconductor sales"
+    enabled: true
+    publisher: "Semiconductor Industry Association"
+    licence: "public_with_attribution_required"
+    bucket: "C"
+    poll_cadence: "weekly"
+    discovery:
+      type: "html_index"
+      url: "https://www.semiconductors.org/policies/tax/market-data/?type=post"
+    release_schedule:
+      frequency: "monthly"
+      note: "~6-week lag (June release reports April); regional breakdown free"
+    factor_tags: ["ai_capex", "semi_sales"]
+    entity_tags: ["semiconductors"]
+    trades: ["#1", "#3", "#4"]
+    content:
+      release_link_pattern: "global-semiconductor-sales"
+      max_releases: 4

@@ -1,0 +1,47 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-21",
+  "criteria": {
+    "C1": [
+      "test/spec/episode-card-fields/test_ecf_c1_card_field.py::test_new_fields_not_emitted_and_dropped",
+      "test/spec/episode-card-fields/test_ecf_c1_card_field.py::test_whole_vocabulary_lower_case",
+      "test/spec/episode-card-fields/test_ecf_c1_card_field.py::test_property_card_field_matches_spec_set"
+    ],
+    "C2": [
+      "test/spec/episode-card-fields/test_ecf_c2_set.py::test_set_equals_canonical_and_spec_literal",
+      "test/spec/episode-card-fields/test_ecf_c2_set.py::test_property_card_flags_follow_canonical"
+    ]
+  },
+  "files": {
+    "test/spec/episode-card-fields/conftest.py": "c45f25bca96b572e8c7117e302b8ed7950725678ba360001e4d109c84164ae0c",
+    "test/spec/episode-card-fields/test_ecf_c1_card_field.py": "7f6d65a6903881985fa91ecec47385fb0b6e359681cb5c919ed24a98ca0065f8",
+    "test/spec/episode-card-fields/test_ecf_c2_set.py": "d23bbdd5ded236c6d0f1227c2b84809a9209a2df153a80410bb4404c6f86ba40"
+  },
+  "id": "episode-card-fields",
+  "interface": [],
+  "nodes": [
+    "test/spec/episode-card-fields/test_ecf_c1_card_field.py::test_new_fields_not_emitted_and_dropped",
+    "test/spec/episode-card-fields/test_ecf_c1_card_field.py::test_property_card_field_matches_spec_set",
+    "test/spec/episode-card-fields/test_ecf_c1_card_field.py::test_whole_vocabulary_lower_case",
+    "test/spec/episode-card-fields/test_ecf_c2_set.py::test_property_card_flags_follow_canonical",
+    "test/spec/episode-card-fields/test_ecf_c2_set.py::test_set_equals_canonical_and_spec_literal"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/episode-card-fields.md",
+    "sha256": "67776df0eddf6b72eeeb15aefd3bf4626f760d51256cb8052945a6249c4a9c08"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}

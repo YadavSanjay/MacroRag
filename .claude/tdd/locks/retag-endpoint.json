@@ -1,0 +1,63 @@
+{
+  "absent": [
+    "conftest.py",
+    "sitecustomize.py",
+    "src/sitecustomize.py",
+    "src/usercustomize.py",
+    "usercustomize.py"
+  ],
+  "created": "2026-10-15",
+  "criteria": {
+    "C1": [
+      "test/spec/retag-endpoint/test_rt_c1_retag.py::test_retags_every_chunk_and_keeps_everything_else",
+      "test/spec/retag-endpoint/test_rt_c1_retag.py::test_written_format_and_partial_change",
+      "test/spec/retag-endpoint/test_rt_c1_retag.py::test_property_counts_and_content_preserved"
+    ],
+    "C2": [
+      "test/spec/retag-endpoint/test_rt_c2_scope.py::test_dry_run_counts_and_writes_nothing",
+      "test/spec/retag-endpoint/test_rt_c2_scope.py::test_second_run_is_a_no_op_and_other_keys_untouched",
+      "test/spec/retag-endpoint/test_rt_c2_scope.py::test_property_dry_run_then_real_run_agree"
+    ],
+    "C3": [
+      "test/spec/retag-endpoint/test_rt_c3_config.py::test_fed_endpoints_carry_the_macro_tags",
+      "test/spec/retag-endpoint/test_rt_c3_config.py::test_tags_are_vocabulary_and_typed_config_agrees"
+    ]
+  },
+  "files": {
+    "test/spec/retag-endpoint/conftest.py": "543d369b59bedd9b67acf4c4112464370884aef76577828667ed13ca8733ddc8",
+    "test/spec/retag-endpoint/test_rt_c1_retag.py": "babb6eae3f304f0600adebd5efffcdd4ba9e118c5b9d932273324574f3b80595",
+    "test/spec/retag-endpoint/test_rt_c2_scope.py": "ee0a23f795a5d169bb4199dc9c1808e13a8b9b8a97ea4463fa5d8da2295c4c8b",
+    "test/spec/retag-endpoint/test_rt_c3_config.py": "17a4275b7dce9bfaf27a33c39fdd3680b3edfacfa2088339789845f491fc26d7"
+  },
+  "id": "retag-endpoint",
+  "interface": [
+    {
+      "file": "src/ingest/common/retag.py",
+      "module": "ingest.common.retag",
+      "qualname": "retag_documents",
+      "signature": "def retag_documents(store: ObjectStore, *, tier: int, source_id: str, factor_tags: list[str], entity_tags: list[str], dry_run: bool=False) -> dict[str, int]"
+    }
+  ],
+  "nodes": [
+    "test/spec/retag-endpoint/test_rt_c1_retag.py::test_property_counts_and_content_preserved",
+    "test/spec/retag-endpoint/test_rt_c1_retag.py::test_retags_every_chunk_and_keeps_everything_else",
+    "test/spec/retag-endpoint/test_rt_c1_retag.py::test_written_format_and_partial_change",
+    "test/spec/retag-endpoint/test_rt_c2_scope.py::test_dry_run_counts_and_writes_nothing",
+    "test/spec/retag-endpoint/test_rt_c2_scope.py::test_property_dry_run_then_real_run_agree",
+    "test/spec/retag-endpoint/test_rt_c2_scope.py::test_second_run_is_a_no_op_and_other_keys_untouched",
+    "test/spec/retag-endpoint/test_rt_c3_config.py::test_fed_endpoints_carry_the_macro_tags",
+    "test/spec/retag-endpoint/test_rt_c3_config.py::test_tags_are_vocabulary_and_typed_config_agrees"
+  ],
+  "red_exempt": [],
+  "retired": {
+    "date": "2026-10-31",
+    "record": "legacy: completed in the private development repository"
+  },
+  "schema": "tdd-lock/1",
+  "spec": {
+    "path": "docs/specs/retag-endpoint.md",
+    "sha256": "9ada0f69a22f4461162cc93962988936bcbe30bc276c006297e4658d78e949fa"
+  },
+  "status": "retired",
+  "tool_version": "0.4.0"
+}
